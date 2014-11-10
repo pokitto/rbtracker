@@ -43,6 +43,9 @@ class rbtrackerFrame: public wxFrame
         void OnGrid1CellLeftClick(wxGridEvent& event);
         void OnPlaySongClick(wxCommandEvent& event);
         void OnPauseClick(wxCommandEvent& event);
+        void OnCh1Click(wxCommandEvent& event);
+        void OnCh2Click(wxCommandEvent& event);
+        void OnCh3Click(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)

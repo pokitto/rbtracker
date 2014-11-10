@@ -184,7 +184,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Tracks = new wxPanel(this, ID_PANEL2, wxPoint(328,8), wxSize(480,576), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
     Grid = new wxGrid(Tracks, ID_GRID1, wxPoint(0,0), wxSize(472,575), 0, _T("ID_GRID1"));
     Grid->CreateGrid(64,3);
-    wxFont GridFont(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxNORMAL,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+    wxFont GridFont(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxBOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
     Grid->SetFont(GridFont);
     Grid->EnableEditing(false);
     Grid->EnableGridLines(true);
@@ -257,6 +257,9 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnGrid1CellLeftClick);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPauseClick);
+    Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh1Click);
+    Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh3Click);
+    Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh2Click);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnAbout);
     //*)
@@ -267,6 +270,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
         Grid->SetCellValue(row,0,wxString("--- 00"));
         Grid->SetCellValue(row,1,wxString("--- 00"));
         Grid->SetCellValue(row,2,wxString("--- 00"));
+        if (!(row%4)) {
+            Grid->SetCellBackgroundColour(row,0,wxColor(200,200,255));
+            Grid->SetCellBackgroundColour(row,1,wxColor(200,200,255));
+            Grid->SetCellBackgroundColour(row,2,wxColor(200,200,255));
+        }
     }
 
     timer = new wxTimer(this, 1);
@@ -292,6 +300,7 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 
 void rbtrackerFrame::OnGrid1CellLeftClick(wxGridEvent& event)
 {
+    Grid->SetGridCursor(event.GetRow(),event.GetCol());
 }
 
 void rbtrackerFrame::OnTimer(wxTimerEvent& event)
@@ -300,7 +309,8 @@ void rbtrackerFrame::OnTimer(wxTimerEvent& event)
     p++;
     if (p>64) p=1;
     Position->SetValue(p);
-    Grid->MakeCellVisible(p-1,0);
+    if (p==1) Grid->MakeCellVisible(0,0);
+    if (p==32) Grid->MakeCellVisible(63,0);
     Grid->SelectRow(p-1);
 }
 
@@ -315,4 +325,25 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
 void rbtrackerFrame::OnPauseClick(wxCommandEvent& event)
 {
     timer->Stop();
+}
+
+void rbtrackerFrame::OnCh1Click(wxCommandEvent& event)
+{
+    if (Ch1->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,0,wxColor(0,0,0));
+    else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,0,wxColor(170,170,170));
+    Grid->Refresh();
+}
+
+void rbtrackerFrame::OnCh2Click(wxCommandEvent& event)
+{
+    if (Ch2->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,1,wxColor(0,0,0));
+    else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,1,wxColor(170,170,170));
+    Grid->Refresh();
+}
+
+void rbtrackerFrame::OnCh3Click(wxCommandEvent& event)
+{
+    if (Ch3->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,2,wxColor(0,0,0));
+    else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,2,wxColor(170,170,170));
+    Grid->Refresh();
 }
