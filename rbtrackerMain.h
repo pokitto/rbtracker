@@ -24,6 +24,8 @@
 #include <wx/statusbr.h>
 //*)
 
+#include <wx/timer.h>
+
 class rbtrackerFrame: public wxFrame
 {
     public:
@@ -33,10 +35,14 @@ class rbtrackerFrame: public wxFrame
 
     private:
 
+        void OnTimer(wxTimerEvent& event);
+
         //(*Handlers(rbtrackerFrame)
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnGrid1CellLeftClick(wxGridEvent& event);
+        void OnPlaySongClick(wxCommandEvent& event);
+        void OnPauseClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -165,6 +171,7 @@ class rbtrackerFrame: public wxFrame
         wxCheckBox* Loop;
         //*)
 
+        wxTimer* timer;
         DECLARE_EVENT_TABLE()
 };
 

@@ -879,7 +879,7 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\univ\theme.h
 	"wx/string.h"
 
-1415619764 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+1415623305 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
 	<wx/stattext.h>
 	<wx/radiobox.h>
 	<wx/menu.h>
@@ -891,6 +891,7 @@
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
+	<wx/timer.h>
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\stattext.h
 	"wx/defs.h"
@@ -1350,7 +1351,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1415617912 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1415622839 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/settings.h>
@@ -1408,4 +1409,20 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\generic\msgdlgg.h
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\msgdlg.h
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\timer.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/longlong.h"
+	"wx/event.h"
+	"wx/stopwatch.h"
+	"wx/utils.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\stopwatch.h
+	"wx/defs.h"
+	"wx/longlong.h"
+	"wx/time.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\time.h
+	"wx/longlong.h"
 

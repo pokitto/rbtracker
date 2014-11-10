@@ -211,8 +211,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     NumInstruments->SetValue(_T("1"));
     NumPatterns = new wxSpinCtrl(Control, ID_SPINCTRL16, _T("1"), wxPoint(232,40), wxSize(64,21), 0, 1, 10, 1, _T("ID_SPINCTRL16"));
     NumPatterns->SetValue(_T("1"));
-    Tempo = new wxSpinCtrl(Control, ID_SPINCTRL14, _T("1"), wxPoint(232,64), wxSize(64,21), 0, 1, 10, 1, _T("ID_SPINCTRL14"));
-    Tempo->SetValue(_T("1"));
+    Tempo = new wxSpinCtrl(Control, ID_SPINCTRL14, _T("120"), wxPoint(232,64), wxSize(64,21), 0, 1, 300, 120, _T("ID_SPINCTRL14"));
+    Tempo->SetValue(_T("120"));
     StaticText16 = new wxStaticText(Control, ID_STATICTEXT16, _("Patterns"), wxPoint(176,40), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
     Save = new wxButton(Control, ID_BUTTON6, _("SAVE"), wxPoint(8,104), wxSize(64,23), 0, wxDefaultValidator, _T("ID_BUTTON6"));
     New = new wxButton(Control, ID_BUTTON8, _("NEW"), wxPoint(152,104), wxSize(64,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
@@ -255,6 +255,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Center();
 
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnGrid1CellLeftClick);
+    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
+    Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPauseClick);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnAbout);
     //*)
@@ -266,6 +268,9 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
         Grid->SetCellValue(row,1,wxString("--- 00"));
         Grid->SetCellValue(row,2,wxString("--- 00"));
     }
+
+    timer = new wxTimer(this, 1);
+    Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -287,4 +292,27 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 
 void rbtrackerFrame::OnGrid1CellLeftClick(wxGridEvent& event)
 {
+}
+
+void rbtrackerFrame::OnTimer(wxTimerEvent& event)
+{
+    int p = Position->GetValue();
+    p++;
+    if (p>64) p=1;
+    Position->SetValue(p);
+    Grid->MakeCellVisible(p-1,0);
+    Grid->SelectRow(p-1);
+}
+
+void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
+{
+    long period = 1000*60; // ms per minute
+    period /= Tempo->GetValue(); // beats per minute
+    period /= 4; // 4 ticks per beat
+    timer->Start(period); // 1000 ms * 60 (for minute) / tempo in BPM / 4 (4 ticks per bar)
+}
+
+void rbtrackerFrame::OnPauseClick(wxCommandEvent& event)
+{
+    timer->Stop();
 }

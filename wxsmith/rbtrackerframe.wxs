@@ -252,9 +252,9 @@
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Tempo" member="yes">
-				<value>1</value>
+				<value>120</value>
 				<min>1</min>
-				<max>10</max>
+				<max>300</max>
 				<pos>232,64</pos>
 				<size>64,21</size>
 			</object>
@@ -292,6 +292,7 @@
 				<label>Play SONG</label>
 				<pos>8,8</pos>
 				<size>71,23</size>
+				<handler function="OnPlaySongClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON2" variable="PlayPattern" member="yes">
 				<label>Play PTN</label>
@@ -307,6 +308,7 @@
 				<label>PAUSE</label>
 				<pos>8,40</pos>
 				<size>71,23</size>
+				<handler function="OnPauseClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
 				<label>PATTERN</label>
