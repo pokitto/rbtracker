@@ -182,6 +182,7 @@
 			<pos>328,8</pos>
 			<size>480,576</size>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
+			<handler function="OnTracksKeyDown" entry="EVT_KEY_DOWN" />
 			<object class="wxGrid" name="ID_GRID1" variable="Grid" member="yes">
 				<cols>3</cols>
 				<rows>64</rows>
@@ -208,7 +209,7 @@
 				<size>472,575</size>
 				<font>
 					<size>10</size>
-					<weight>normal</weight>
+					<weight>bold</weight>
 					<family>teletype</family>
 				</font>
 				<handler function="OnGrid1CellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
@@ -229,13 +230,23 @@
 				<label>SONG</label>
 				<pos>8,8</pos>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
+			<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
 				<label>Instruments</label>
 				<pos>8,40</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
+				<label>&quot;C&quot; at octave</label>
+				<pos>8,64</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
 				<label>Tempo</label>
 				<pos>176,64</pos>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Octave" member="yes">
+				<value>3</value>
+				<max>7</max>
+				<pos>80,64</pos>
+				<size>72,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="NumInstruments" member="yes">
 				<value>1</value>
@@ -336,16 +347,19 @@
 				<label>CHANNEL 1</label>
 				<checked>1</checked>
 				<pos>16,88</pos>
+				<handler function="OnCh1Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="Ch3" member="yes">
 				<label>CHANNEL 3</label>
 				<checked>1</checked>
 				<pos>208,88</pos>
+				<handler function="OnCh3Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="Ch2" member="yes">
 				<label>CHANNEL 2</label>
 				<checked>1</checked>
 				<pos>112,88</pos>
+				<handler function="OnCh2Click" entry="EVT_CHECKBOX" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">

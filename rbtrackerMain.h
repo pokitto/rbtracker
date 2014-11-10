@@ -46,6 +46,7 @@ class rbtrackerFrame: public wxFrame
         void OnCh1Click(wxCommandEvent& event);
         void OnCh2Click(wxCommandEvent& event);
         void OnCh3Click(wxCommandEvent& event);
+        void OnTracksKeyDown(wxKeyEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -84,8 +85,10 @@ class rbtrackerFrame: public wxFrame
         static const long ID_PANEL2;
         static const long ID_TEXTCTRL2;
         static const long ID_STATICTEXT14;
+        static const long ID_STATICTEXT19;
         static const long ID_STATICTEXT17;
         static const long ID_STATICTEXT15;
+        static const long ID_SPINCTRL18;
         static const long ID_SPINCTRL15;
         static const long ID_SPINCTRL16;
         static const long ID_SPINCTRL14;
@@ -127,6 +130,7 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText6;
         wxSpinCtrl* InstTune;
         wxSpinCtrl* InstBend;
+        wxStaticText* StaticText19;
         wxSpinCtrl* Position;
         wxStaticText* StaticText8;
         wxStaticText* StaticText11;
@@ -164,6 +168,7 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText4;
         wxSpinCtrl* Attack;
         wxButton* Export;
+        wxSpinCtrl* Octave;
         wxGrid* Grid;
         wxButton* Test;
         wxPanel* Control;
@@ -175,6 +180,7 @@ class rbtrackerFrame: public wxFrame
         //*)
 
         wxTimer* timer;
+
         DECLARE_EVENT_TABLE()
 };
 

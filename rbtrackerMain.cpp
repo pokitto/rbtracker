@@ -79,8 +79,10 @@ const long rbtrackerFrame::ID_GRID1 = wxNewId();
 const long rbtrackerFrame::ID_PANEL2 = wxNewId();
 const long rbtrackerFrame::ID_TEXTCTRL2 = wxNewId();
 const long rbtrackerFrame::ID_STATICTEXT14 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT19 = wxNewId();
 const long rbtrackerFrame::ID_STATICTEXT17 = wxNewId();
 const long rbtrackerFrame::ID_STATICTEXT15 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL18 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL15 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL16 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL14 = wxNewId();
@@ -205,8 +207,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SongName = new wxTextCtrl(Control, ID_TEXTCTRL2, _("Song name"), wxPoint(64,8), wxSize(232,24), 0, wxDefaultValidator, _T("ID_TEXTCTRL2"));
     SongName->SetMaxLength(20);
     StaticText14 = new wxStaticText(Control, ID_STATICTEXT14, _("SONG"), wxPoint(8,8), wxDefaultSize, 0, _T("ID_STATICTEXT14"));
-    StaticText17 = new wxStaticText(Control, ID_STATICTEXT17, _("Instruments"), wxPoint(8,40), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
+    StaticText19 = new wxStaticText(Control, ID_STATICTEXT19, _("Instruments"), wxPoint(8,40), wxDefaultSize, 0, _T("ID_STATICTEXT19"));
+    StaticText17 = new wxStaticText(Control, ID_STATICTEXT17, _("\"C\" at octave"), wxPoint(8,64), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
     StaticText15 = new wxStaticText(Control, ID_STATICTEXT15, _("Tempo"), wxPoint(176,64), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
+    Octave = new wxSpinCtrl(Control, ID_SPINCTRL18, _T("3"), wxPoint(80,64), wxSize(72,21), 0, 0, 7, 3, _T("ID_SPINCTRL18"));
+    Octave->SetValue(_T("3"));
     NumInstruments = new wxSpinCtrl(Control, ID_SPINCTRL15, _T("1"), wxPoint(80,40), wxSize(72,21), 0, 1, 15, 1, _T("ID_SPINCTRL15"));
     NumInstruments->SetValue(_T("1"));
     NumPatterns = new wxSpinCtrl(Control, ID_SPINCTRL16, _T("1"), wxPoint(232,40), wxSize(64,21), 0, 1, 10, 1, _T("ID_SPINCTRL16"));
@@ -255,6 +260,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Center();
 
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnGrid1CellLeftClick);
+    Tracks->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&rbtrackerFrame::OnTracksKeyDown,0,this);
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
     Connect(ID_BUTTON1,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPauseClick);
     Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh1Click);
@@ -279,6 +285,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
+
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -312,6 +319,9 @@ void rbtrackerFrame::OnTimer(wxTimerEvent& event)
     if (p==1) Grid->MakeCellVisible(0,0);
     if (p==32) Grid->MakeCellVisible(63,0);
     Grid->SelectRow(p-1);
+    if (wxGetKeyState(wxKeyCode('C'))) {
+		//playNote(NOTE_C3);
+	}
 }
 
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
@@ -347,3 +357,95 @@ void rbtrackerFrame::OnCh3Click(wxCommandEvent& event)
     else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,2,wxColor(170,170,170));
     Grid->Refresh();
 }
+
+void rbtrackerFrame::OnTracksKeyDown(wxKeyEvent& event)
+{
+    wxString iText; int8_t oct=0;
+    if (event.GetKeyCode()==WXK_LEFT) { Grid->MoveCursorLeft(false); return; }
+    if (event.GetKeyCode()==WXK_RIGHT) { Grid->MoveCursorRight(false); return; }
+    if (event.GetKeyCode()==WXK_UP) { Grid->MoveCursorUp(false); return; }
+    if (event.GetKeyCode()==WXK_DOWN) { Grid->MoveCursorDown(false); return; }
+    iText = event.GetUnicodeKey();
+    iText = iText.Upper();
+    switch (iText[0].GetValue()) {
+    case 'X':
+        iText = "B-"; oct-- ; break;
+    case 'S':
+        iText = "A#"; oct-- ; break;
+    case 'Z':
+        iText = "A-"; oct-- ; break;
+    case 'A':
+        iText = "G#"; oct-- ; break;
+    case 'C':
+        iText = "C-"; break;
+    case 'F':
+        iText = "C#"; break;
+    case 'V':
+        iText = "D-"; break;
+    case 'G':
+        iText = "D#"; break;
+    case 'B':
+        iText = "E-"; break;
+    case 'N':
+        iText = "F-"; break;
+    case 'J':
+        iText = "F#"; break;
+    case 'M':
+        iText = "G-"; break;
+    case 'K':
+        iText = "G#"; break;
+    case ',':
+        iText = "A-"; break;
+    case 'L':
+        iText = "A#"; break;
+    case '.':
+        iText = "B-"; break;
+    case 'Q':
+        iText = "C-"; oct++; break;
+    case '2':
+        iText = "C#"; oct++; break;
+    case 'W':
+        iText = "D-"; oct++; break;
+    case '3':
+        iText = "D#"; oct++; break;
+    case 'E':
+        iText = "E-"; oct++; break;
+    case 'R':
+        iText = "F-"; oct++; break;
+    case '5':
+        iText = "F#"; oct++; break;
+    case 'T':
+        iText = "G-"; oct++; break;
+    case '6':
+        iText = "G#"; oct++; break;
+    case 'Y':
+        iText = "A-"; oct++; break;
+    case '7':
+        iText = "A#"; oct++; break;
+    case 'U':
+        iText = "B-"; oct++; break;
+    case 'I':
+        iText = "C-"; oct++; oct++; break;
+    case '9':
+        iText = "C#"; oct++; oct++; break;
+    case 'O':
+        iText = "D-"; oct++; oct++; break;
+    case '0':
+        iText = "D#"; oct++; oct++; break;
+    case 'P':
+        iText = "E-"; oct++; oct++; break;
+    case '+':
+        iText = "F-"; oct++; oct++; break;
+    case 'Å':
+        iText = "G-"; oct++; oct++; break;
+    default :
+        iText = "--- 00";
+        Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
+        return;
+    }
+    if (InstNum->GetValue() < 10) iText << Octave->GetValue() + oct << " 0" << InstNum->GetValue();
+    else iText << Octave->GetValue() + oct << " " << InstNum->GetValue();
+    Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
+}
+
+
