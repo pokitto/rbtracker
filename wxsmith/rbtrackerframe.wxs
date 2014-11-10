@@ -10,14 +10,28 @@
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL1" variable="Instrument" member="yes">
 			<pos>8,288</pos>
-			<size>304,296</size>
+			<size>304,328</size>
 			<bg>wxSYS_COLOUR_MENU</bg>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
+			<object class="wxRadioBox" name="ID_RADIOBOX1" variable="Wave" member="yes">
+				<label></label>
+				<content>
+					<item>OFF</item>
+					<item>SQUARE</item>
+					<item>SAW</item>
+					<item>TRIANGLE</item>
+					<item>NOISE</item>
+				</content>
+				<default>-1</default>
+				<pos>10,24</pos>
+				<size>128,135</size>
+				<style>wxNO_BORDER</style>
+			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="InstTune" member="yes">
 				<value>0</value>
 				<min>-10</min>
 				<max>10</max>
-				<pos>232,72</pos>
+				<pos>232,64</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="InstVol" member="yes">
@@ -45,7 +59,7 @@
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
 				<label>Tuning</label>
-				<pos>144,72</pos>
+				<pos>144,64</pos>
 				<size>64,16</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="InstName" member="yes">
@@ -55,132 +69,153 @@
 				<size>152,24</size>
 				<style>wxTE_NO_VSCROLL</style>
 			</object>
-			<object class="wxRadioBox" name="ID_RADIOBOX1" variable="Wave" member="yes">
-				<label>Wave type</label>
-				<content>
-					<item>SQUARE</item>
-					<item>SAW</item>
-					<item>TRIANGLE</item>
-					<item>NOISE</item>
-				</content>
-				<default>-1</default>
-				<pos>8,40</pos>
-				<size>128,101</size>
-			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="Loop" member="yes">
 				<label>Loop</label>
-				<pos>16,152</pos>
+				<pos>16,192</pos>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="Echo" member="yes">
 				<label>Echo</label>
-				<pos>104,152</pos>
+				<pos>96,192</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="VibAmount" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>96,208</pos>
+				<pos>96,240</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL12" variable="Arp1" member="yes">
 				<value>0</value>
 				<min>-10</min>
 				<max>10</max>
-				<pos>96,232</pos>
+				<pos>96,264</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="Arp2" member="yes">
 				<value>0</value>
 				<min>-10</min>
 				<max>10</max>
-				<pos>96,256</pos>
+				<pos>96,288</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText11" member="yes">
 				<label>Vibrato amount</label>
-				<pos>16,208</pos>
+				<pos>16,240</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
 				<label>Arpeggio 1</label>
-				<pos>16,232</pos>
+				<pos>16,264</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText4" member="yes">
 				<label>Arpeggio 2</label>
-				<pos>16,256</pos>
+				<pos>16,288</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="StaticText5" member="yes">
 				<label>Vibrato speed</label>
-				<pos>16,184</pos>
+				<pos>16,216</pos>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL19" variable="Pitch" member="yes">
+				<value>100</value>
+				<min>1</min>
+				<max>3000</max>
+				<pos>200,120</pos>
+				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="InstBend" member="yes">
 				<value>0</value>
 				<min>-127</min>
 				<max>127</max>
-				<pos>232,104</pos>
+				<pos>232,88</pos>
 				<size>64,21</size>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+			<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
 				<label>Pitch bend</label>
-				<pos>144,104</pos>
+				<pos>144,88</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
+				<label>Note</label>
+				<pos>152,152</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText20" member="yes">
+				<label>Hz</label>
+				<pos>270,124</pos>
+				<size>13,22</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="VibSpeed" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>96,184</pos>
+				<pos>96,216</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
 				<label>Attack</label>
-				<pos>184,184</pos>
+				<pos>184,216</pos>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="ADSR" member="yes">
 				<label>ADSR</label>
-				<pos>184,152</pos>
+				<pos>184,192</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="Attack" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,184</pos>
+				<pos>232,216</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="Decay" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,208</pos>
+				<pos>232,240</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Sustain" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,232</pos>
+				<pos>232,264</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="Release" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,256</pos>
+				<pos>232,288</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Decay</label>
-				<pos>184,208</pos>
+				<pos>184,240</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 				<label>Sustain</label>
-				<pos>184,232</pos>
+				<pos>184,264</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Release</label>
-				<pos>184,256</pos>
+				<pos>184,288</pos>
 			</object>
 			<object class="wxButton" name="ID_BUTTON9" variable="Test" member="yes">
 				<label>TEST</label>
-				<pos>244,148</pos>
+				<pos>144,119</pos>
 				<size>47,23</size>
+				<handler function="OnTestClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxPanel" name="ID_PANEL5" variable="Panel2" member="yes">
+				<pos>201,152</pos>
+				<size>62,20</size>
+				<object class="wxGrid" name="ID_GRID2" variable="TestGrid" member="yes">
+					<cols>1</cols>
+					<rows>1</rows>
+					<gridlines>0</gridlines>
+					<labelrowheight>0</labelrowheight>
+					<labelcolwidth>0</labelcolwidth>
+					<defaultcolsize>60</defaultcolsize>
+					<pos>-80,-32</pos>
+					<size>158,72</size>
+					<handler function="OnTestGridCellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
+					<handler function="OnTestGridKeyDown" entry="EVT_KEY_DOWN" />
+				</object>
 			</object>
 		</object>
 		<object class="wxPanel" name="ID_PANEL2" variable="Tracks" member="yes">
 			<pos>328,8</pos>
-			<size>480,576</size>
+			<size>480,608</size>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
 			<handler function="OnTracksKeyDown" entry="EVT_KEY_DOWN" />
 			<object class="wxGrid" name="ID_GRID1" variable="Grid" member="yes">
@@ -206,7 +241,7 @@
 					<item>--- 00</item>
 				</celltext>
 				<pos>0,0</pos>
-				<size>472,575</size>
+				<size>472,595</size>
 				<font>
 					<size>10</size>
 					<weight>bold</weight>
@@ -234,19 +269,9 @@
 				<label>Instruments</label>
 				<pos>8,40</pos>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
-				<label>&quot;C&quot; at octave</label>
-				<pos>8,64</pos>
-			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
-				<label>Tempo</label>
+				<label>BPM</label>
 				<pos>176,64</pos>
-			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Octave" member="yes">
-				<value>3</value>
-				<max>7</max>
-				<pos>80,64</pos>
-				<size>72,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="NumInstruments" member="yes">
 				<value>1</value>
@@ -325,15 +350,25 @@
 				<label>PATTERN</label>
 				<pos>176,8</pos>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
+			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
 				<label>POSITION</label>
-				<pos>176,40</pos>
+				<pos>176,32</pos>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
+				<label>OCTAVE</label>
+				<pos>176,56</pos>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Octave" member="yes">
+				<value>3</value>
+				<max>7</max>
+				<pos>240,56</pos>
+				<size>49,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="Position" member="yes">
 				<value>1</value>
 				<min>1</min>
 				<max>64</max>
-				<pos>240,40</pos>
+				<pos>240,32</pos>
 				<size>49,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL13" variable="Pattern" member="yes">
@@ -381,11 +416,6 @@
 					<handler function="OnAbout" entry="EVT_MENU" />
 				</object>
 			</object>
-		</object>
-		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
-			<fields>1</fields>
-			<widths>-1</widths>
-			<styles>wxSB_NORMAL</styles>
 		</object>
 	</object>
 </wxsmith>

@@ -18,6 +18,9 @@ IMPLEMENT_APP(rbtrackerApp);
 
 bool rbtrackerApp::OnInit()
 {
+    testOsc();
+    initSound();
+
     //(*AppInitialize
     bool wxsOK = true;
     wxInitAllImageHandlers();

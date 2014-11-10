@@ -11,6 +11,7 @@
 #define RBTRACKERAPP_H
 
 #include <wx/app.h>
+#include "synth.h"
 
 class rbtrackerApp : public wxApp
 {
