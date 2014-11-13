@@ -64,6 +64,7 @@ struct OSC {
   uint16_t wcycle;
 
   uint16_t vol;
+  uint16_t cinc; // how much to add per cycle
   uint16_t output; // output is stored as  16 bit value and shifted before its put in OCR2B
 
   ADSR adsr;

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "oscillator.h"
+#include "notes.h"
 
 #define ADDMIX  0
 #define AMMIX   1
@@ -11,7 +12,7 @@
 
 #define NUM_SECONDS   (5)
 #define SAMPLE_RATE   (57000)
-#define NUMFRAMES 5700 //100 ms before refresh
+#define NUMFRAMES 570/2 //100 ms before refresh
 #define PWMLEVELS 32
 
 
@@ -22,27 +23,13 @@ extern void initSound();
 extern void killSound();
 extern void playSound(uint8_t, uint16_t);
 extern void stopSound();
-extern void setOSC(OSC*,byte, byte,int,byte);
-extern void setADSR(OSC* o, ADSR adsr);
-extern void setPITCHENV(OSC* o, PITCHENV adsr);
+extern void setOSC(OSC*,byte, byte,uint8_t,byte);
 extern void output2file();
 extern void outputADSR(uint16_t);
 
 extern OSC osc1,osc2;
 extern boolean PWMemulation;
 
-
-
-class Synth {
-public:
-
-	void begin();
-
-
-private:
-
-
-};
 
 class Instrument {
 public:

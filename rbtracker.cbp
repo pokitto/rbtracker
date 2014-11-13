@@ -44,6 +44,11 @@
 			<Add option="-mthreads" />
 			<Add library="C:\dev\portaudio\lib\.libs\libportaudio.dll.a" />
 		</Linker>
+		<Unit filename="Synth.cpp" />
+		<Unit filename="Synth.h" />
+		<Unit filename="fastdiv.cpp" />
+		<Unit filename="fastdiv.h" />
+		<Unit filename="oscillator.h" />
 		<Unit filename="rbtrackerApp.cpp" />
 		<Unit filename="rbtrackerApp.h" />
 		<Unit filename="rbtrackerMain.cpp" />
@@ -51,6 +56,9 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="utilities.cpp" />
+		<Unit filename="utilities.h" />
+		<Unit filename="wxKeyEventExample.txt" />
 		<Unit filename="wxsmith/rbtrackerframe.wxs" />
 		<Extensions>
 			<code_completion />

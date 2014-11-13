@@ -31,7 +31,7 @@ class rbtrackerFrame: public wxFrame
 
         rbtrackerFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~rbtrackerFrame();
-        void playNote(uint16_t);
+        void playNote(uint8_t);
 
     private:
 
@@ -106,6 +106,7 @@ class rbtrackerFrame: public wxFrame
         static const long ID_BUTTON8;
         static const long ID_BUTTON7;
         static const long ID_BUTTON4;
+        static const long ID_CHECKBOX7;
         static const long ID_PANEL3;
         static const long ID_BUTTON5;
         static const long ID_BUTTON2;
@@ -131,6 +132,7 @@ class rbtrackerFrame: public wxFrame
         wxButton* Pause;
         wxStaticText* StaticText20;
         wxCheckBox* Echo;
+        wxCheckBox* InstAudible;
         wxSpinCtrl* VibAmount;
         wxCheckBox* Ch3;
         wxSpinCtrl* Arp2;

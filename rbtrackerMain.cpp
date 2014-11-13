@@ -13,7 +13,6 @@
 #include "led.h"
 #include "Synth.h"
 #include "oscillator.h"
-#include "notes.h"
 #include "utilities.h"
 
 //(*InternalHeaders(rbtrackerFrame)
@@ -100,6 +99,7 @@ const long rbtrackerFrame::ID_BUTTON6 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON8 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON7 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON4 = wxNewId();
+const long rbtrackerFrame::ID_CHECKBOX7 = wxNewId();
 const long rbtrackerFrame::ID_PANEL3 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON5 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON2 = wxNewId();
@@ -219,9 +219,9 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Grid->SetDefaultColSize(140, true);
     wxFont GridLabelFont_2(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxBOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
     Grid->SetLabelFont(GridLabelFont_2);
-    Grid->SetColLabelValue(0, _("Channel 1"));
-    Grid->SetColLabelValue(1, _("Channel 2"));
-    Grid->SetColLabelValue(2, _("Channel 3"));
+    Grid->SetColLabelValue(0, _("Track 1"));
+    Grid->SetColLabelValue(1, _("Track 2"));
+    Grid->SetColLabelValue(2, _("Track 3"));
     Grid->SetCellValue(0, 0, _("--- 00"));
     Grid->SetDefaultCellFont( Grid->GetFont() );
     Grid->SetDefaultCellTextColour( Grid->GetForegroundColour() );
@@ -243,6 +243,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     New = new wxButton(Control, ID_BUTTON8, _("NEW"), wxPoint(152,104), wxSize(64,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
     Export = new wxButton(Control, ID_BUTTON7, _("EXPORT"), wxPoint(224,104), wxSize(64,23), 0, wxDefaultValidator, _T("ID_BUTTON7"));
     Load = new wxButton(Control, ID_BUTTON4, _("LOAD"), wxPoint(80,104), wxSize(64,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
+    InstAudible = new wxCheckBox(Control, ID_CHECKBOX7, _("Audible in track editor"), wxPoint(8,72), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
+    InstAudible->SetValue(true);
     Panel1 = new wxPanel(this, ID_PANEL4, wxPoint(8,8), wxSize(304,120), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
     PlaySong = new wxButton(Panel1, ID_BUTTON5, _("Play SONG"), wxPoint(8,8), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON5"));
@@ -254,15 +256,15 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("OCTAVE"), wxPoint(176,56), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
     Octave = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("3"), wxPoint(240,56), wxSize(49,21), 0, 0, 7, 3, _T("ID_SPINCTRL18"));
     Octave->SetValue(_T("3"));
-    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("1"), wxPoint(240,32), wxSize(49,21), 0, 1, 64, 1, _T("ID_SPINCTRL17"));
+    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("1"), wxPoint(240,32), wxSize(49,21), 0, 0, 64, 1, _T("ID_SPINCTRL17"));
     Position->SetValue(_T("1"));
     Pattern = new wxSpinCtrl(Panel1, ID_SPINCTRL13, _T("1"), wxPoint(240,8), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL13"));
     Pattern->SetValue(_T("1"));
-    Ch1 = new wxCheckBox(Panel1, ID_CHECKBOX5, _("CHANNEL 1"), wxPoint(16,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
+    Ch1 = new wxCheckBox(Panel1, ID_CHECKBOX5, _("TRACK 1"), wxPoint(16,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
     Ch1->SetValue(true);
-    Ch3 = new wxCheckBox(Panel1, ID_CHECKBOX6, _("CHANNEL 3"), wxPoint(208,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
+    Ch3 = new wxCheckBox(Panel1, ID_CHECKBOX6, _("TRACK 3"), wxPoint(208,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
     Ch3->SetValue(true);
-    Ch2 = new wxCheckBox(Panel1, ID_CHECKBOX4, _("CHANNEL 2"), wxPoint(112,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
+    Ch2 = new wxCheckBox(Panel1, ID_CHECKBOX4, _("TRACK 2"), wxPoint(112,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
     Ch2->SetValue(true);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
@@ -293,9 +295,9 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Grid->SetDefaultCellAlignment (wxALIGN_CENTER,wxALIGN_CENTER);
     for (int row = 0; row <= 63 ; row ++)
     {
-        Grid->SetCellValue(row,0,wxString("--- 00"));
-        Grid->SetCellValue(row,1,wxString("--- 00"));
-        Grid->SetCellValue(row,2,wxString("--- 00"));
+        Grid->SetCellValue(row,0,wxString("--- 00 --"));
+        Grid->SetCellValue(row,1,wxString("--- 00 --"));
+        Grid->SetCellValue(row,2,wxString("--- 00 --"));
         if (!(row%4)) {
             Grid->SetCellBackgroundColour(row,0,wxColor(200,200,255));
             Grid->SetCellBackgroundColour(row,1,wxColor(200,200,255));
@@ -305,7 +307,6 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
-
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -327,6 +328,7 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 
 void rbtrackerFrame::OnTimer(wxTimerEvent& event)
 {
+    wxString nTxt;
     int p = Position->GetValue();
     p++;
     if (p>64) p=1;
@@ -334,9 +336,9 @@ void rbtrackerFrame::OnTimer(wxTimerEvent& event)
     if (p==1) Grid->MakeCellVisible(0,0);
     if (p==32) Grid->MakeCellVisible(63,0);
     Grid->SelectRow(p-1);
-    if (wxGetKeyState(wxKeyCode('C'))) {
-		//playNote(NOTE_C3);
-	}
+    nTxt = Grid->GetCellValue(p-1,0);
+    nTxt = nTxt.Left(3);
+    if (nTxt != "---") playNote(NoteToFreq(nTxt));
 }
 
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
@@ -345,6 +347,7 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
     period /= Tempo->GetValue(); // beats per minute
     period /= 4; // 4 ticks per beat
     timer->Start(period); // 1000 ms * 60 (for minute) / tempo in BPM / 4 (4 ticks per bar)
+    Position->SetValue(0);
 }
 
 void rbtrackerFrame::OnPauseClick(wxCommandEvent& event)
@@ -380,21 +383,26 @@ void rbtrackerFrame::OnGrid1CellLeftClick(wxGridEvent& event)
 
 void rbtrackerFrame::OnTracksKeyDown(wxKeyEvent& event)
 {
-    wxString iText;
+    wxString iText; int num=0;
     if (event.GetKeyCode()==WXK_LEFT) { Grid->MoveCursorLeft(false); return; }
     if (event.GetKeyCode()==WXK_RIGHT) { Grid->MoveCursorRight(false); return; }
     if (event.GetKeyCode()==WXK_UP) { Grid->MoveCursorUp(false); return; }
     if (event.GetKeyCode()==WXK_DOWN) { Grid->MoveCursorDown(false); return; }
     iText = event.GetUnicodeKey();
     iText = iText.Upper();
+    num = KeyToNumber(iText, Octave->GetValue());
     iText = KeyToNote(iText, Octave->GetValue());
-    if (iText == "") {
-        iText = "--- 00";
+
+    if (iText == "" || num == 255) {
+        iText = "--- 00 --";
         Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
         return;
     }
+    if (InstAudible->IsChecked()) playNote(num);
     if (InstNum->GetValue() < 10) iText << " 0" << InstNum->GetValue();
     else iText << " " << InstNum->GetValue();
+    if (num < 10) iText << " 0" << num;
+    else iText << " " << num;
     Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
 }
 
@@ -415,14 +423,14 @@ void rbtrackerFrame::OnTestGridKeyDown(wxKeyEvent& event)
 
 void rbtrackerFrame::OnTestClick(wxCommandEvent& event)
 {
-    setOSC(&osc1,1,Wave->GetSelection(),Pitch->GetValue(),InstVol->GetValue());
+    setOSC(&osc1,1,Wave->GetSelection(),30,InstVol->GetValue());
     playSound(0, 15000);
 }
 
-void rbtrackerFrame::playNote(uint16_t freq)
+void rbtrackerFrame::playNote(uint8_t notenum)
 {
     stopSound();
-    Pitch->SetValue(freq);
-    setOSC(&osc1,1,Wave->GetSelection(),freq,InstVol->GetValue());
+    Pitch->SetValue(freqs[notenum]);
+    setOSC(&osc1,1,Wave->GetSelection(),notenum,InstVol->GetValue());
     playSound(Loop->GetValue(), 15000);
 }

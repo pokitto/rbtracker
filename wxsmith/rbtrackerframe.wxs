@@ -232,10 +232,9 @@
 					<family>teletype</family>
 				</labelfont>
 				<collabels>
-					<item>Channel 1</item>
-					<item>Channel 2</item>
-					<item>Channel 3</item>
-					<item>Channel 4</item>
+					<item>Track 1</item>
+					<item>Track 2</item>
+					<item>Track 3</item>
 				</collabels>
 				<celltext>
 					<item>--- 00</item>
@@ -318,6 +317,11 @@
 				<pos>80,104</pos>
 				<size>64,23</size>
 			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="InstAudible" member="yes">
+				<label>Audible in track editor</label>
+				<checked>1</checked>
+				<pos>8,72</pos>
+			</object>
 		</object>
 		<object class="wxPanel" name="ID_PANEL4" variable="Panel1" member="yes">
 			<pos>8,8</pos>
@@ -366,7 +370,6 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="Position" member="yes">
 				<value>1</value>
-				<min>1</min>
 				<max>64</max>
 				<pos>240,32</pos>
 				<size>49,21</size>
@@ -379,19 +382,19 @@
 				<size>49,21</size>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="Ch1" member="yes">
-				<label>CHANNEL 1</label>
+				<label>TRACK 1</label>
 				<checked>1</checked>
 				<pos>16,88</pos>
 				<handler function="OnCh1Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="Ch3" member="yes">
-				<label>CHANNEL 3</label>
+				<label>TRACK 3</label>
 				<checked>1</checked>
 				<pos>208,88</pos>
 				<handler function="OnCh3Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="Ch2" member="yes">
-				<label>CHANNEL 2</label>
+				<label>TRACK 2</label>
 				<checked>1</checked>
 				<pos>112,88</pos>
 				<handler function="OnCh2Click" entry="EVT_CHECKBOX" />
