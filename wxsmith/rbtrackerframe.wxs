@@ -120,7 +120,7 @@
 				<pos>200,120</pos>
 				<size>64,21</size>
 			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="InstBend" member="yes">
+			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="PitchBend" member="yes">
 				<value>0</value>
 				<min>-127</min>
 				<max>127</max>

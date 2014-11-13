@@ -176,8 +176,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText5 = new wxStaticText(Instrument, ID_STATICTEXT5, _("Vibrato speed"), wxPoint(16,216), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
     Pitch = new wxSpinCtrl(Instrument, ID_SPINCTRL19, _T("100"), wxPoint(200,120), wxSize(64,21), 0, 1, 3000, 100, _T("ID_SPINCTRL19"));
     Pitch->SetValue(_T("100"));
-    InstBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -127, 127, 0, _T("ID_SPINCTRL5"));
-    InstBend->SetValue(_T("0"));
+    PitchBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -127, 127, 0, _T("ID_SPINCTRL5"));
+    PitchBend->SetValue(_T("0"));
     StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend"), wxPoint(144,88), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
     StaticText6 = new wxStaticText(Instrument, ID_STATICTEXT6, _("Note"), wxPoint(152,152), wxDefaultSize, 0, _T("ID_STATICTEXT6"));
     StaticText20 = new wxStaticText(Instrument, ID_STATICTEXT20, _("Hz"), wxPoint(270,124), wxSize(13,22), 0, _T("ID_STATICTEXT20"));
@@ -413,24 +413,25 @@ void rbtrackerFrame::OnTestGridCellLeftClick(wxGridEvent& event)
 
 void rbtrackerFrame::OnTestGridKeyDown(wxKeyEvent& event)
 {
-    wxString iText;
+    wxString iText; int num;
     iText = event.GetUnicodeKey();
-    iText = iText.Upper();
+    num = KeyToNumber(iText, Octave->GetValue());
     iText = KeyToNote(iText, Octave->GetValue());
-    TestGrid->SetCellValue(TestGrid->GetCursorRow(),TestGrid->GetCursorColumn(),iText);
-    playNote(NoteToFreq(iText));
+    TestGrid->SetCellValue(0,0,iText);
+    playNote(num);
 }
 
 void rbtrackerFrame::OnTestClick(wxCommandEvent& event)
 {
-    setOSC(&osc1,1,Wave->GetSelection(),30,InstVol->GetValue());
-    playSound(0, 15000);
+    setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
+           25,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
+           Release->GetValue(), PitchBend->GetValue());
 }
 
 void rbtrackerFrame::playNote(uint8_t notenum)
 {
-    stopSound();
     Pitch->SetValue(freqs[notenum]);
-    setOSC(&osc1,1,Wave->GetSelection(),notenum,InstVol->GetValue());
-    playSound(Loop->GetValue(), 15000);
+    setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
+           notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
+           Release->GetValue(), PitchBend->GetValue());
 }

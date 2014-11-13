@@ -10,34 +10,37 @@
 
 /** Sound Variables **/
 
+
 uint8_t data[NUMFRAMES]; //portaudio
 
-uint8_t snddatanext=1; // which array sound data comes from next
-uint8_t volume=255; //portaudio
+
 PaStream *paStream;
 PaError paErr;
-uint8_t fakeOCR2B, fakeCount=0;
-uint16_t skipstep = 0;
-boolean PWMemulation = true;
-uint8_t isLoop = true;
+uint8_t fakeOCR2B;
 
-
-int pitch = 440, pitch2 = 100;
-long count = 0;
-long halfcycle = 0;
-long sercheck=0;
-boolean sertoggle = false;
-int osc2inc = 10;
-int pitchbend = 16;
 
 OSC osc1,osc2;
 Instrument patch;
-OSC* oscptr;
-boolean osc12Lock = false;
-char tick=0;
 
+#define VOLTICK 10
+uint8_t tick=3; // loops between 3 channels. Tick 3 is used to calculate volume envelopes
+char voltick=VOLTICK; // i need to make volume changes even slower
 
 typedef void (*waveFunction)(OSC*);
+typedef void (*envFunction)(OSC*);
+typedef void (*mixFunction)();
+
+#define NUMWAVES 5
+#define NUMENVELOPES 3
+#define NUMMIXES 4
+
+void waveoff(OSC* o); void sqwave(OSC* o); void sawwave(OSC* o); void triwave(OSC* o); void noise(OSC* o); void sample(OSC* o);
+void noADSR(OSC* o); void attackFunc(OSC* o); void decayFunc(OSC* o); void releaseFunc(OSC* o);
+void mix1(); void mix2(); void mix3(); void updateEnvelopes();
+
+waveFunction Farr []  = {waveoff, sqwave, sawwave, triwave, noise, sample};
+envFunction Earr [] = {noADSR, attackFunc, decayFunc, releaseFunc};
+mixFunction Marr [] = {mix1, mix2, mix3, updateEnvelopes};
 
 // Arduino compatibility
 
@@ -82,13 +85,21 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
     return paContinue; /** THIS IS VERY IMPORTANT !!!! **/
 }
 
-void stopSound() {
-    patch.playing = false;
-    patch.count=0;
+void emptyOscillators()
+{
+    osc1.on = false; osc1.wave = 0; osc1.echo = 0; osc1.count = 0; osc1.cinc =0;
+    osc1.attack = 0; osc1.loop = 0; osc1.adsrphase = 0; osc1.adsr = 0; osc1.decay = 0;
+    osc1.pitchbend = 0; osc1.bendrate = 0; osc1.maxbend = 0; osc1.sustain = 0; osc1.release = 0;
+
+    osc2.on = false; osc2.wave = 0; osc2.echo = 0; osc2.count = 0; osc2.cinc =0;
+    osc2.attack = 0; osc2.loop = 0; osc2.adsrphase = 0; osc2.adsr = 0; osc2.decay = 0;
+    osc2.pitchbend = 0; osc2.bendrate = 0; osc2.maxbend = 0; osc2.sustain = 0; osc2.release = 0;
 }
 
 
 void initSound() {
+
+    emptyOscillators();
 
     paErr = Pa_Initialize();
     if( paErr != paNoError ) goto error;
@@ -125,14 +136,6 @@ error:
     return;
 }
 
-void playSound(uint8_t loop, uint16_t length) {
-
-    patch.loop = loop;
-    patch.length = length;
-    patch.playing = true;
-    patch.count = 0;
-    return;
-}
 
 /** SOUND FUNCTIONS **/
 
@@ -165,50 +168,117 @@ void noise(OSC* o){
 
 void sample(OSC* o) {
 
-    if (o->samplepos > o->samplelength ) o->samplepos = 0;
+    /*if (o->samplepos > o->samplelength ) o->samplepos = 0;
 
     if (o->count > o->wcycle) {
         o->count=0;
         if (o->output) o->output = 0;
         //else o->output = o->output=pgm_read_byte((uint32_t)(sfxBike) + o->inccount);
+    }*/
+}
+
+/** ENVELOPE FUNCTIONS **/
+
+void noADSR(OSC* o){
+}
+
+void attackFunc(OSC* o){
+    int16_t oldvol = o->vol;
+    o->vol += o->attack;
+    if (oldvol > o->vol) {
+        o->vol = 0xFFFF;
+        o->adsrphase = 2;
     }
 }
 
-#define NUMWAVES 5
-waveFunction Farr []  = {waveoff, sqwave, sawwave, triwave, noise, sample};
+void decayFunc(OSC* o){
+    o->vol -= o->decay;
+    if (o->vol < o->sustain) {
+        o->vol = o->sustain;
+        o->adsrphase = 3;
+    }
+}
+
+void releaseFunc(OSC* o){
+    uint16_t oldvol = o->vol;
+    o->vol -= o->sustain;
+    if (oldvol < o->vol) {
+        o->vol = 0;
+        if (o->loop) o->adsrphase = 1;
+        else o->adsrphase = 0;
+    }
+}
+
+
+/** MIXING FUNCTIONS **/
+
+void mix1(){
+    // Track 1
+    Farr[osc1.wave](&osc1);
+    fakeOCR2B = ((osc1.output>>8) * (osc1.vol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    tick = 4;
+}
+
+void mix2(){
+    // Track 2
+}
+
+void mix3(){
+    // Track 3
+}
+
+void updateEnvelopes(){
+    //calculate volume envelopes, I do this to save cpu power
+    if (voltick) --voltick;
+    else {
+
+            if (osc1.pitchbend > osc1.maxbend) osc1.pitchbend += osc1.bendrate;
+            voltick = VOLTICK;
+    }
+}
+
+
 
 void fakeISR(){
 
-  osc1.count += osc1.cinc; // counts to 65535 and overflows to zero
-  osc2.count++;
+  osc1.count += osc1.cinc + (osc1.pitchbend >> 8); // counts to 65535 and overflows to zero
+  osc2.count += osc2.cinc + (osc2.pitchbend >> 8);; // counts to 65535 and overflows to zero
 
-  //if (tick==7) {
-    Farr[osc1.wave](&osc1);
-    Farr[osc2.wave](&osc2);
-
-    fakeOCR2B = osc1.output>>8; // To output, shift back to 8-bit
-    tick = 0;
-  //} else tick++;
+  Marr[tick](); // call mixing function
+  --tick;
 }
 
-void setOSC(OSC* o,byte on, byte wave,uint8_t notenumber, byte volume){
 
+void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0,
+            uint8_t notenumber=25, uint8_t volume=127,
+            uint16_t attack=0, uint16_t decay=0, uint16_t sustain=0, uint16_t release=0,
+            int16_t pitchbend=0)
+{
   o->on = on;
   o->wave = wave;
-  o->pitch = pitch;
+  o->loop = loop;
+  o->echo = echo;
+  o->adsr = adsr;
 
-  //o->wcycle = fastdiv(SAMPLE_RATE/2,pitch); // how many calls to ISR to complete a wave cycle
   o->cinc = cincs[notenumber]; // direct cinc from table, no calculation
   o->vol = volume << 8;//volume;
 
-  switch (wave) {
-    case WSAW:
-    o->wslope = fastdiv(o->vol, o->wcycle); // rate of increase for wave as 16 bit value
-    o->increment = 1;
-    break;
-    case WTRI:
-    o->wslope = fastdiv(o->vol, (o->wcycle)); // rate of increase for wave as 16 bit value
-    break;
+  if (adsr) {
+    o->adsrphase = 1;
+    o->adsrvol = 0;
+    o->attack = 20; // just a test value
+    o->decay = 20;
+    o->sustain = 50;
+    o->release = 1;
+  } else {
+    o->adsrphase = 1;
+    o->adsrvol = 0;
+  }
+
+  if (pitchbend != 0) {
+        o->bendrate = -100; // test value
+        o->pitchbend = 0;
+        o->maxbend = -30000;
   }
 }
 
@@ -227,9 +297,3 @@ void output2file() {
     myfile.close();
 }
 
-void testOsc(){
-
-  setOSC(&osc1,true,WOFF,100,127);
-  setOSC(&osc2,true,WSAW,100,240);
-
-}

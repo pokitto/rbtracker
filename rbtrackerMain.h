@@ -132,6 +132,7 @@ class rbtrackerFrame: public wxFrame
         wxButton* Pause;
         wxStaticText* StaticText20;
         wxCheckBox* Echo;
+        wxSpinCtrl* PitchBend;
         wxCheckBox* InstAudible;
         wxSpinCtrl* VibAmount;
         wxCheckBox* Ch3;
@@ -142,7 +143,6 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText14;
         wxStaticText* StaticText6;
         wxSpinCtrl* InstTune;
-        wxSpinCtrl* InstBend;
         wxStaticText* StaticText19;
         wxSpinCtrl* Position;
         wxStaticText* StaticText8;

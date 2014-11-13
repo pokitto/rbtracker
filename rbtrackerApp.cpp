@@ -18,7 +18,6 @@ IMPLEMENT_APP(rbtrackerApp);
 
 bool rbtrackerApp::OnInit()
 {
-    testOsc();
     initSound();
 
     //(*AppInitialize
