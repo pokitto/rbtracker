@@ -22,6 +22,34 @@
 #include <wx/string.h>
 //*)
 
+uint8_t ticks=0;
+uint16_t period=100, playerpos=1;
+boolean playing=false;
+
+Player::Player(wxSpinCtrl* Position, wxGrid* Grid) {
+	this->pos = Position;
+	this->grid = Grid;
+}
+
+void* Player::Entry() {
+    wxString nTxt;
+    wxStopWatch sw;
+    sw.Start(0);
+    while (true) {
+        //wxThread::Sleep(period/2);
+        if (playing) {
+            if (sw.Time() > period) {
+            //sw.Pause();
+            if (playerpos>64) playerpos=0;
+            pos->SetValue(playerpos);
+            playerpos++;
+            sw.Start(0);
+            }
+        }
+    }
+    return 0;
+}
+
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };
@@ -309,6 +337,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
+    Player* pl = new Player(Position, Grid); // construct our thread
+    pl->Create(); // we have to create a thread before we can run it
+    //pl->SetPriority(99);
+    pl->Run(); // run our thread
+    timer->Start(25);
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -330,31 +363,41 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 
 void rbtrackerFrame::OnTimer(wxTimerEvent& event)
 {
-    wxString nTxt;
-    int p = Position->GetValue();
-    p++;
-    if (p>64) p=1;
-    Position->SetValue(p);
-    if (p==1) Grid->MakeCellVisible(0,0);
-    if (p==32) Grid->MakeCellVisible(63,0);
-    Grid->SelectRow(p-1);
-    nTxt = Grid->GetCellValue(p-1,0);
-    nTxt = nTxt.Left(3);
-    if (nTxt != "---") playNote(NoteToFreq(nTxt));
+
+        /*wxString nTxt;
+        int p = Position->GetValue();
+        p++;
+        if (p>64) p=1;
+        Position->SetValue(p);
+        if (p==1) Grid->MakeCellVisible(0,0);
+        if (p==32) Grid->MakeCellVisible(63,0);
+        Grid->SelectRow(p-1);
+        nTxt = Grid->GetCellValue(p-1,0);
+        nTxt = nTxt.Right(2);
+        if (nTxt != "--") playNote(wxAtoi(nTxt));
+        ticks = 0;
+        timer->Start(-1,wxTIMER_ONE_SHOT);*/
+
+        if (playerpos==1) Grid->MakeCellVisible(0,0);
+        if (playerpos==32) Grid->MakeCellVisible(63,0);
+        Grid->SelectRow(playerpos-1);
 }
 
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
 {
-    long period = 1000*60; // ms per minute
-    period /= Tempo->GetValue(); // beats per minute
-    period /= 4; // 4 ticks per beat
-    timer->Start(period); // 1000 ms * 60 (for minute) / tempo in BPM / 4 (4 ticks per bar)
-    Position->SetValue(0);
+    if (!playing) {
+        long per = 1000*60; // ms per minute was 1000*60
+        per /= Tempo->GetValue(); // beats per minute
+        per /= 4; // 4 ticks per beat
+        period = (uint16_t) per;
+        playerpos=1;
+        playing = true;
+    } else playing = false;
 }
 
 void rbtrackerFrame::OnPauseClick(wxCommandEvent& event)
 {
-    timer->Stop();
+    //timer->Stop();
 }
 
 void rbtrackerFrame::OnCh1Click(wxCommandEvent& event)
