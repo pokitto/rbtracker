@@ -23,10 +23,11 @@
 //*)
 
 uint8_t ticks=0;
-uint16_t period=100, playerpos=1;
+uint16_t period=100, playerpos=0;
 boolean playing=false;
 
-Player::Player(wxSpinCtrl* Position, wxGrid* Grid) {
+Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
+	this->parent = Parent;
 	this->pos = Position;
 	this->grid = Grid;
 }
@@ -40,9 +41,19 @@ void* Player::Entry() {
         if (playing) {
             if (sw.Time() > period) {
             //sw.Pause();
-            if (playerpos>64) playerpos=0;
+            if (playerpos == 64) playerpos=0;
+            if (track[0].on) {
+                uint8_t i = track[0].instrument[playerpos];
+                if (i) {
+                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                    track[0].notenumber[playerpos],patch[i].vol,
+                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                    patch[i].pitchbend);
+                }
+            }
             pos->SetValue(playerpos);
             playerpos++;
+
             sw.Start(0);
             }
         }
@@ -182,11 +193,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     InstTune->SetValue(_T("0"));
     InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 224, 127, _T("ID_SPINCTRL3"));
     InstVol->SetValue(_T("127"));
-    InstNum = new wxSpinCtrl(Instrument, ID_SPINCTRL1, _T("1"), wxPoint(80,8), wxSize(56,21), 0, 1, 15, 1, _T("ID_SPINCTRL1"));
-    InstNum->SetValue(_T("1"));
-    StaticText2 = new wxStaticText(Instrument, ID_STATICTEXT2, _("Instrument"), wxPoint(8,8), wxSize(64,24), 0, _T("ID_STATICTEXT2"));
+    Patch = new wxSpinCtrl(Instrument, ID_SPINCTRL1, _T("1"), wxPoint(80,8), wxSize(56,21), 0, 1, 15, 1, _T("ID_SPINCTRL1"));
+    Patch->SetValue(_T("1"));
+    StaticText2 = new wxStaticText(Instrument, ID_STATICTEXT2, _("Patch"), wxPoint(8,8), wxSize(64,24), 0, _T("ID_STATICTEXT2"));
     StaticText3 = new wxStaticText(Instrument, ID_STATICTEXT3, _("Volume"), wxPoint(144,40), wxSize(64,16), 0, _T("ID_STATICTEXT3"));
-    StaticText1 = new wxStaticText(Instrument, ID_STATICTEXT1, _("Tuning"), wxPoint(144,64), wxSize(64,16), 0, _T("ID_STATICTEXT1"));
+    Pitchbendrate = new wxStaticText(Instrument, ID_STATICTEXT1, _("Pitch bend rate"), wxPoint(144,64), wxSize(87,16), 0, _T("ID_STATICTEXT1"));
     InstName = new wxTextCtrl(Instrument, ID_TEXTCTRL1, _("Description"), wxPoint(144,8), wxSize(152,24), wxTE_NO_VSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
     InstName->SetMaxLength(20);
     Loop = new wxCheckBox(Instrument, ID_CHECKBOX1, _("Loop"), wxPoint(16,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
@@ -207,7 +218,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Pitch->SetValue(_T("100"));
     PitchBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -127, 127, 0, _T("ID_SPINCTRL5"));
     PitchBend->SetValue(_T("0"));
-    StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend"), wxPoint(144,88), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
+    StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend max"), wxPoint(144,88), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
     StaticText6 = new wxStaticText(Instrument, ID_STATICTEXT6, _("Note"), wxPoint(152,152), wxDefaultSize, 0, _T("ID_STATICTEXT6"));
     StaticText20 = new wxStaticText(Instrument, ID_STATICTEXT20, _("Hz"), wxPoint(270,124), wxSize(13,22), 0, _T("ID_STATICTEXT20"));
     VibSpeed = new wxSpinCtrl(Instrument, ID_SPINCTRL6, _T("0"), wxPoint(96,216), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL6"));
@@ -285,8 +296,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("OCTAVE"), wxPoint(176,56), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
     Octave = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("3"), wxPoint(240,56), wxSize(49,21), 0, 0, 7, 3, _T("ID_SPINCTRL18"));
     Octave->SetValue(_T("3"));
-    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("1"), wxPoint(240,32), wxSize(49,21), 0, 0, 64, 1, _T("ID_SPINCTRL17"));
-    Position->SetValue(_T("1"));
+    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(240,32), wxSize(49,21), 0, 0, 63, 0, _T("ID_SPINCTRL17"));
+    Position->SetValue(_T("0"));
     Pattern = new wxSpinCtrl(Panel1, ID_SPINCTRL13, _T("1"), wxPoint(240,8), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL13"));
     Pattern->SetValue(_T("1"));
     Ch1 = new wxCheckBox(Panel1, ID_CHECKBOX5, _("TRACK 1"), wxPoint(16,88), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
@@ -307,7 +318,18 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SetMenuBar(MenuBar1);
     Center();
 
+    Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnWaveSelect);
+    Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstTuneChange);
+    Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstVolChange);
+    Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPatchChange);
+    Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoopClick);
+    Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnEchoClick);
+    Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPitchBendChange);
+    Connect(ID_CHECKBOX3,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnADSRClick);
     Connect(ID_SPINCTRL8,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
+    Connect(ID_SPINCTRL9,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
+    Connect(ID_SPINCTRL10,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
+    Connect(ID_SPINCTRL7,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
     Connect(ID_BUTTON9,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnTestClick);
     Connect(ID_GRID2,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnTestGridCellLeftClick);
     TestGrid->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&rbtrackerFrame::OnTestGridKeyDown,0,this);
@@ -337,11 +359,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
-    Player* pl = new Player(Position, Grid); // construct our thread
+    Player* pl = new Player(this, Position, Grid); // construct our thread
     pl->Create(); // we have to create a thread before we can run it
     //pl->SetPriority(99);
     pl->Run(); // run our thread
-    timer->Start(25);
+    timer->Start(25,wxTIMER_ONE_SHOT);
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -363,24 +385,12 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 
 void rbtrackerFrame::OnTimer(wxTimerEvent& event)
 {
-
-        /*wxString nTxt;
-        int p = Position->GetValue();
-        p++;
-        if (p>64) p=1;
-        Position->SetValue(p);
-        if (p==1) Grid->MakeCellVisible(0,0);
-        if (p==32) Grid->MakeCellVisible(63,0);
-        Grid->SelectRow(p-1);
-        nTxt = Grid->GetCellValue(p-1,0);
-        nTxt = nTxt.Right(2);
-        if (nTxt != "--") playNote(wxAtoi(nTxt));
-        ticks = 0;
-        timer->Start(-1,wxTIMER_ONE_SHOT);*/
-
-        if (playerpos==1) Grid->MakeCellVisible(0,0);
-        if (playerpos==32) Grid->MakeCellVisible(63,0);
-        Grid->SelectRow(playerpos-1);
+        if (playing) {
+            if (playerpos==0) Grid->MakeCellVisible(0,0);
+            if (playerpos==31) Grid->MakeCellVisible(63,0);
+            Grid->SelectRow(playerpos);
+        }
+        timer->Start(-1,wxTIMER_ONE_SHOT);
 }
 
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
@@ -390,14 +400,15 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
         per /= Tempo->GetValue(); // beats per minute
         per /= 4; // 4 ticks per beat
         period = (uint16_t) per;
-        playerpos=1;
+        playerpos=0;
         playing = true;
     } else playing = false;
 }
 
 void rbtrackerFrame::OnPauseClick(wxCommandEvent& event)
 {
-    //timer->Stop();
+    playing=false;
+    timer->Stop();
 }
 
 void rbtrackerFrame::OnCh1Click(wxCommandEvent& event)
@@ -429,6 +440,9 @@ void rbtrackerFrame::OnGrid1CellLeftClick(wxGridEvent& event)
 void rbtrackerFrame::OnTracksKeyDown(wxKeyEvent& event)
 {
     wxString iText; int num=0;
+    uint8_t tracknum = Grid->GetCursorColumn();
+    uint8_t trackpos = Grid->GetCursorRow();
+    int instrument = Patch->GetValue();
     if (event.GetKeyCode()==WXK_LEFT) { Grid->MoveCursorLeft(false); return; }
     if (event.GetKeyCode()==WXK_RIGHT) { Grid->MoveCursorRight(false); return; }
     if (event.GetKeyCode()==WXK_UP) { Grid->MoveCursorUp(false); return; }
@@ -440,15 +454,20 @@ void rbtrackerFrame::OnTracksKeyDown(wxKeyEvent& event)
 
     if (iText == "" || num == 255) {
         iText = "--- 00 --";
-        Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
+        Grid->SetCellValue(trackpos,tracknum,iText);
+
+        track[tracknum].notenumber[trackpos] = 255;
+        track[tracknum].instrument[trackpos] = 0;
         return;
     }
+    track[tracknum].notenumber[trackpos] = num;
+    track[tracknum].instrument[trackpos] = instrument;
     if (InstAudible->IsChecked()) playNote(num);
-    if (InstNum->GetValue() < 10) iText << " 0" << InstNum->GetValue();
-    else iText << " " << InstNum->GetValue();
+    if (instrument < 10) iText << " 0" << instrument;
+    else iText << " " << instrument;
     if (num < 10) iText << " 0" << num;
     else iText << " " << num;
-    Grid->SetCellValue(Grid->GetCursorRow(),Grid->GetCursorColumn(),iText);
+    Grid->SetCellValue(trackpos,tracknum,iText);
 }
 
 void rbtrackerFrame::OnTestGridCellLeftClick(wxGridEvent& event)
@@ -481,6 +500,61 @@ void rbtrackerFrame::playNote(uint8_t notenum)
            Release->GetValue(), PitchBend->GetValue());
 }
 
+
+void rbtrackerFrame::OnPatchChange(wxSpinEvent& event)
+{
+    int i = Patch->GetValue();
+    Wave->SetSelection(patch[i].wave);
+    Loop->SetValue(patch[i].loop);
+    Echo->SetValue(patch[i].echo);
+    ADSR->SetValue(patch[i].adsr);
+    InstVol->SetValue(patch[i].vol);
+    Attack->SetValue(patch[i].attack);
+    Decay->SetValue(patch[i].decay);
+    Sustain->SetValue(patch[i].sustain);
+    Release->SetValue(patch[i].release);
+    PitchBend->SetValue(patch[i].pitchbend);
+}
+
 void rbtrackerFrame::OnAttackChange(wxSpinEvent& event)
 {
+    patch[Patch->GetValue()].attack = Attack->GetValue();
+    patch[Patch->GetValue()].decay = Decay->GetValue();
+    patch[Patch->GetValue()].sustain = Sustain->GetValue();
+    patch[Patch->GetValue()].release = Release->GetValue();
+}
+
+void rbtrackerFrame::OnWaveSelect(wxCommandEvent& event)
+{
+    patch[Patch->GetValue()].wave = Wave->GetSelection();
+}
+
+void rbtrackerFrame::OnLoopClick(wxCommandEvent& event)
+{
+    patch[Patch->GetValue()].loop = Loop->IsChecked();
+}
+
+void rbtrackerFrame::OnEchoClick(wxCommandEvent& event)
+{
+    patch[Patch->GetValue()].echo = Echo->IsChecked();
+}
+
+void rbtrackerFrame::OnADSRClick(wxCommandEvent& event)
+{
+    patch[Patch->GetValue()].adsr = ADSR->IsChecked();
+}
+
+void rbtrackerFrame::OnInstVolChange(wxSpinEvent& event)
+{
+    patch[Patch->GetValue()].vol = InstVol->GetValue();
+}
+
+void rbtrackerFrame::OnPitchBendChange(wxSpinEvent& event)
+{
+    patch[Patch->GetValue()].maxbend = PitchBend->GetValue();
+}
+
+void rbtrackerFrame::OnInstTuneChange(wxSpinEvent& event)
+{
+    patch[Patch->GetValue()].bendrate = InstTune->GetValue();
 }

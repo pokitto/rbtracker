@@ -26,6 +26,7 @@
 				<pos>10,24</pos>
 				<size>128,135</size>
 				<style>wxNO_BORDER</style>
+				<handler function="OnWaveSelect" entry="EVT_RADIOBOX" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="InstTune" member="yes">
 				<value>0</value>
@@ -33,22 +34,25 @@
 				<max>10</max>
 				<pos>232,64</pos>
 				<size>64,21</size>
+				<handler function="OnInstTuneChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="InstVol" member="yes">
 				<value>127</value>
 				<max>224</max>
 				<pos>232,40</pos>
 				<size>64,21</size>
+				<handler function="OnInstVolChange" entry="EVT_SPINCTRL" />
 			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="InstNum" member="yes">
+			<object class="wxSpinCtrl" name="ID_SPINCTRL1" variable="Patch" member="yes">
 				<value>1</value>
 				<min>1</min>
 				<max>15</max>
 				<pos>80,8</pos>
 				<size>56,21</size>
+				<handler function="OnPatchChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label>Instrument</label>
+				<label>Patch</label>
 				<pos>8,8</pos>
 				<size>64,24</size>
 			</object>
@@ -57,10 +61,10 @@
 				<pos>144,40</pos>
 				<size>64,16</size>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT1" variable="StaticText1" member="yes">
-				<label>Tuning</label>
+			<object class="wxStaticText" name="ID_STATICTEXT1" variable="Pitchbendrate" member="yes">
+				<label>Pitch bend rate</label>
 				<pos>144,64</pos>
-				<size>64,16</size>
+				<size>87,16</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="InstName" member="yes">
 				<value>Description</value>
@@ -72,10 +76,12 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="Loop" member="yes">
 				<label>Loop</label>
 				<pos>16,192</pos>
+				<handler function="OnLoopClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="Echo" member="yes">
 				<label>Echo</label>
 				<pos>96,192</pos>
+				<handler function="OnEchoClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="VibAmount" member="yes">
 				<value>0</value>
@@ -126,9 +132,10 @@
 				<max>127</max>
 				<pos>232,88</pos>
 				<size>64,21</size>
+				<handler function="OnPitchBendChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
-				<label>Pitch bend</label>
+				<label>Pitch bend max</label>
 				<pos>144,88</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText6" member="yes">
@@ -153,6 +160,7 @@
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="ADSR" member="yes">
 				<label>ADSR</label>
 				<pos>184,192</pos>
+				<handler function="OnADSRClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="Attack" member="yes">
 				<value>20</value>
@@ -166,18 +174,21 @@
 				<max>255</max>
 				<pos>232,240</pos>
 				<size>64,21</size>
+				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Sustain" member="yes">
 				<value>50</value>
 				<max>255</max>
 				<pos>232,264</pos>
 				<size>64,21</size>
+				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="Release" member="yes">
 				<value>5</value>
 				<max>255</max>
 				<pos>232,288</pos>
 				<size>64,21</size>
+				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Decay</label>
@@ -370,8 +381,8 @@
 				<size>49,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="Position" member="yes">
-				<value>1</value>
-				<max>64</max>
+				<value>0</value>
+				<max>63</max>
 				<pos>240,32</pos>
 				<size>49,21</size>
 			</object>

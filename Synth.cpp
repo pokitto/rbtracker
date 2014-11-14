@@ -20,7 +20,8 @@ uint8_t fakeOCR2B;
 
 
 OSC osc1,osc2;
-Instrument patch;
+TRACK track[3];
+OSC patch[16];
 
 #define VOLTICK 10
 uint8_t tick=3; // loops between 3 channels. Tick 3 is used to calculate volume envelopes
@@ -96,10 +97,32 @@ void emptyOscillators()
     osc2.pitchbend = 0; osc2.bendrate = 0; osc2.maxbend = 0; osc2.sustain = 0; osc2.release = 0;
 }
 
+void emptyPatches()
+{
+    for (int i=0; i<16; i++) {
+    patch[i].vol = 127;
+    patch[i].on = true; patch[i].wave = 1; patch[i].echo = 0; patch[i].count = 0; patch[i].cinc =0;
+    patch[i].attack = 0; patch[i].loop = 0; patch[i].adsrphase = 0; patch[i].adsr = 0; patch[i].decay = 20;
+    patch[i].pitchbend = 0; patch[i].bendrate = 0; patch[i].maxbend = 0; patch[i].sustain = 0; patch[i].release = 0;
+    }
+}
+
+void emptyTracks()
+{
+    track[0].on = track[1].on = track[2].on = true;
+    for (int i=0; i<64; i++) {
+        track[0].instrument[i] = 0; track[0].notenumber[i] = 255;
+        track[1].instrument[i] = 0; track[1].notenumber[i] = 255;
+        track[2].instrument[i] = 0; track[2].notenumber[i] = 255;
+    }
+}
+
 
 void initSound() {
 
     emptyOscillators();
+    emptyTracks();
+    emptyPatches();
 
     paErr = Pa_Initialize();
     if( paErr != paNoError ) goto error;
@@ -308,7 +331,6 @@ void output2file() {
     std::ofstream myfile;
     uint16_t j;
     myfile.open ("output.txt");
-    patch.count=0;
 
     /** create sound buffer by using the ISR **/
     for (j=0;j<NUMFRAMES;j++) {

@@ -29,8 +29,9 @@
 
 class Player : public wxThread {
 	public:
-		Player(wxSpinCtrl*, wxGrid* grid);
+		Player(wxFrame*, wxSpinCtrl*, wxGrid* grid);
 	private:
+	    wxFrame* parent;
 	    wxSpinCtrl* pos;
 	    wxGrid* grid;
 		void* Entry(); // the entry point to the thread
@@ -67,6 +68,14 @@ class rbtrackerFrame: public wxFrame
         void OnTestGridLeftDown(wxMouseEvent& event);
         void OnTestGridCellLeftClick(wxGridEvent& event);
         void OnAttackChange(wxSpinEvent& event);
+        void OnPatchChange(wxSpinEvent& event);
+        void OnWaveSelect(wxCommandEvent& event);
+        void OnLoopClick(wxCommandEvent& event);
+        void OnEchoClick(wxCommandEvent& event);
+        void OnADSRClick(wxCommandEvent& event);
+        void OnInstVolChange(wxSpinEvent& event);
+        void OnPitchBendChange(wxSpinEvent& event);
+        void OnInstTuneChange(wxSpinEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -153,10 +162,10 @@ class rbtrackerFrame: public wxFrame
         wxSpinCtrl* Arp2;
         wxStaticText* StaticText13;
         wxStaticText* StaticText2;
-        wxSpinCtrl* InstNum;
         wxStaticText* StaticText14;
         wxStaticText* StaticText6;
         wxSpinCtrl* InstTune;
+        wxStaticText* Pitchbendrate;
         wxStaticText* StaticText19;
         wxSpinCtrl* Position;
         wxStaticText* StaticText8;
@@ -164,7 +173,6 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText18;
         wxCheckBox* Ch2;
         wxPanel* Panel1;
-        wxStaticText* StaticText1;
         wxButton* PlayPattern;
         wxStaticText* StaticText3;
         wxButton* Save;
@@ -174,6 +182,7 @@ class rbtrackerFrame: public wxFrame
         wxRadioBox* Wave;
         wxButton* Rewind;
         wxSpinCtrl* NumInstruments;
+        wxSpinCtrl* Patch;
         wxSpinCtrl* Decay;
         wxCheckBox* Ch1;
         wxStaticText* StaticText5;

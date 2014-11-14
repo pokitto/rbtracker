@@ -15,6 +15,12 @@ extern void fakeISR();
 typedef uint8_t byte;
 typedef uint8_t boolean;
 
+struct TRACK {
+    byte on;
+    uint8_t notenumber[64];
+    uint8_t instrument[64];
+};
+
 
 struct OSC {
   byte on;
