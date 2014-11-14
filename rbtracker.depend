@@ -880,7 +880,7 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\univ\theme.h
 	"wx/string.h"
 
-1415920883 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+1415923629 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
 	<wx/stattext.h>
 	<wx/radiobox.h>
 	<wx/menu.h>
@@ -1351,7 +1351,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1415921270 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1415925386 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2084,7 +2084,7 @@
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1415921731 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1415925618 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"

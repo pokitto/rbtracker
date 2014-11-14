@@ -53,6 +53,7 @@ class rbtrackerFrame: public wxFrame
         void OnTestGridKeyDown(wxKeyEvent& event);
         void OnTestGridLeftDown(wxMouseEvent& event);
         void OnTestGridCellLeftClick(wxGridEvent& event);
+        void OnAttackChange(wxSpinEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)

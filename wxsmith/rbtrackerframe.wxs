@@ -22,7 +22,7 @@
 					<item>TRIANGLE</item>
 					<item>NOISE</item>
 				</content>
-				<default>-1</default>
+				<default>1</default>
 				<pos>10,24</pos>
 				<size>128,135</size>
 				<style>wxNO_BORDER</style>
@@ -36,7 +36,7 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="InstVol" member="yes">
 				<value>127</value>
-				<max>255</max>
+				<max>224</max>
 				<pos>232,40</pos>
 				<size>64,21</size>
 			</object>
@@ -155,25 +155,26 @@
 				<pos>184,192</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="Attack" member="yes">
-				<value>0</value>
+				<value>20</value>
 				<max>255</max>
 				<pos>232,216</pos>
 				<size>64,21</size>
+				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="Decay" member="yes">
-				<value>0</value>
+				<value>20</value>
 				<max>255</max>
 				<pos>232,240</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Sustain" member="yes">
-				<value>0</value>
+				<value>50</value>
 				<max>255</max>
 				<pos>232,264</pos>
 				<size>64,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="Release" member="yes">
-				<value>0</value>
+				<value>5</value>
 				<max>255</max>
 				<pos>232,288</pos>
 				<size>64,21</size>

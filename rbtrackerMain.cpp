@@ -149,9 +149,10 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     	_("NOISE")
     };
     Wave = new wxRadioBox(Instrument, ID_RADIOBOX1, wxEmptyString, wxPoint(10,24), wxSize(128,135), 5, __wxRadioBoxChoices_1, 1, wxNO_BORDER, wxDefaultValidator, _T("ID_RADIOBOX1"));
+    Wave->SetSelection(1);
     InstTune = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -10, 10, 0, _T("ID_SPINCTRL2"));
     InstTune->SetValue(_T("0"));
-    InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 255, 127, _T("ID_SPINCTRL3"));
+    InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 224, 127, _T("ID_SPINCTRL3"));
     InstVol->SetValue(_T("127"));
     InstNum = new wxSpinCtrl(Instrument, ID_SPINCTRL1, _T("1"), wxPoint(80,8), wxSize(56,21), 0, 1, 15, 1, _T("ID_SPINCTRL1"));
     InstNum->SetValue(_T("1"));
@@ -186,14 +187,14 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Attack"), wxPoint(184,216), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
     ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(184,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
     ADSR->SetValue(false);
-    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
-    Attack->SetValue(_T("0"));
-    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("0"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL9"));
-    Decay->SetValue(_T("0"));
-    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("0"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
-    Sustain->SetValue(_T("0"));
-    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("0"), wxPoint(232,288), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL7"));
-    Release->SetValue(_T("0"));
+    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("20"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 20, _T("ID_SPINCTRL8"));
+    Attack->SetValue(_T("20"));
+    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("20"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 20, _T("ID_SPINCTRL9"));
+    Decay->SetValue(_T("20"));
+    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("50"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 50, _T("ID_SPINCTRL10"));
+    Sustain->SetValue(_T("50"));
+    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("5"), wxPoint(232,288), wxSize(64,21), 0, 0, 255, 5, _T("ID_SPINCTRL7"));
+    Release->SetValue(_T("5"));
     StaticText9 = new wxStaticText(Instrument, ID_STATICTEXT9, _("Decay"), wxPoint(184,240), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
     StaticText10 = new wxStaticText(Instrument, ID_STATICTEXT10, _("Sustain"), wxPoint(184,264), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
     StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(184,288), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
@@ -278,6 +279,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SetMenuBar(MenuBar1);
     Center();
 
+    Connect(ID_SPINCTRL8,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
     Connect(ID_BUTTON9,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnTestClick);
     Connect(ID_GRID2,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnTestGridCellLeftClick);
     TestGrid->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&rbtrackerFrame::OnTestGridKeyDown,0,this);
@@ -434,4 +436,8 @@ void rbtrackerFrame::playNote(uint8_t notenum)
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
            notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
            Release->GetValue(), PitchBend->GetValue());
+}
+
+void rbtrackerFrame::OnAttackChange(wxSpinEvent& event)
+{
 }

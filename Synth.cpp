@@ -183,30 +183,47 @@ void noADSR(OSC* o){
 }
 
 void attackFunc(OSC* o){
-    int16_t oldvol = o->vol;
-    o->vol += o->attack;
-    if (oldvol > o->vol) {
-        o->vol = 0xFFFF;
-        o->adsrphase = 2;
+    if (o->adsrvol >= o->vol) {
+        if (o->decay) {
+            o->adsrvol = o->vol;
+            o->adsrphase = 2;
+        } else {
+            o->adsrvol = o->sustain;
+            o->adsrphase = 3;
+        }
+        return;
     }
+    o->adsrvol += o->attack;
 }
 
 void decayFunc(OSC* o){
-    o->vol -= o->decay;
-    if (o->vol < o->sustain) {
-        o->vol = o->sustain;
+    if (o->adsrvol >= o->sustain + o->decay) {
+        o->adsrvol -= o->decay;
+        return;
+    } else {
+        o->adsrvol = o->sustain;
         o->adsrphase = 3;
     }
 }
 
 void releaseFunc(OSC* o){
-    uint16_t oldvol = o->vol;
-    o->vol -= o->sustain;
-    if (oldvol < o->vol) {
-        o->vol = 0;
-        if (o->loop) o->adsrphase = 1;
-        else o->adsrphase = 0;
+    if (o->adsrvol >= o->sustain) {
+        if (o->loop) {
+                if (o->attack) {
+                    o->adsrvol = 0;
+                } else {
+                    o->adsrvol = o->vol;
+                }
+                o->adsrphase = 1;
+                return;
+        }
+        else {
+                o->adsrphase = 0;
+                o->adsrvol = 0;
+                return;
+        }
     }
+    o->adsrvol -= o->release;
 }
 
 
@@ -215,7 +232,7 @@ void releaseFunc(OSC* o){
 void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
-    fakeOCR2B = ((osc1.output>>8) * (osc1.vol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
     tick = 4;
 }
 
@@ -231,7 +248,7 @@ void updateEnvelopes(){
     //calculate volume envelopes, I do this to save cpu power
     if (voltick) --voltick;
     else {
-
+            Earr[osc1.adsrphase](&osc1);
             if (osc1.pitchbend > osc1.maxbend) osc1.pitchbend += osc1.bendrate;
             voltick = VOLTICK;
     }
@@ -264,15 +281,20 @@ void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0
   o->vol = volume << 8;//volume;
 
   if (adsr) {
+    o->attack = attack;
+    o->decay = decay;
+    o->sustain = sustain;
+    o->release = release;
     o->adsrphase = 1;
-    o->adsrvol = 0;
-    o->attack = 20; // just a test value
-    o->decay = 20;
-    o->sustain = 50;
-    o->release = 1;
+    if (!o->attack) o->adsrvol = o->vol; // start directly, no attack ramp
+    else o->adsrvol = 0;
   } else {
-    o->adsrphase = 1;
-    o->adsrvol = 0;
+    o->attack = 0;
+    o->decay = 0;
+    o->sustain = 0;
+    o->release = 0;
+    o->adsrphase = 0;
+    o->adsrvol = o->vol; // will stay same all the time
   }
 
   if (pitchbend != 0) {
