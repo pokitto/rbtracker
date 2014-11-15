@@ -35,11 +35,13 @@ Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
 void* Player::Entry() {
     wxString nTxt;
     wxStopWatch sw;
+    initSound();
     sw.Start(0);
     while (true) {
         //wxThread::Sleep(period/2);
-        if (playing) {
-            if (sw.Time() > period) {
+        if (sw.Time() > period) {
+            sw.Start(sw.Time()-period); // correct for uneven calls to thread
+            if (playing) {
             //sw.Pause();
             if (playerpos == 64) playerpos=0;
             if (track[0].on) {
@@ -54,7 +56,7 @@ void* Player::Entry() {
             pos->SetValue(playerpos);
             playerpos++;
 
-            sw.Start(0);
+            //sw.Start(sw.Time()-period); // correct for uneven calls to thread
             }
         }
     }
@@ -361,9 +363,9 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
     Player* pl = new Player(this, Position, Grid); // construct our thread
     pl->Create(); // we have to create a thread before we can run it
-    //pl->SetPriority(99);
+    pl->SetPriority(99);
     pl->Run(); // run our thread
-    timer->Start(25,wxTIMER_ONE_SHOT);
+    //timer->Start(50);
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -386,11 +388,11 @@ void rbtrackerFrame::OnAbout(wxCommandEvent& event)
 void rbtrackerFrame::OnTimer(wxTimerEvent& event)
 {
         if (playing) {
-            if (playerpos==0) Grid->MakeCellVisible(0,0);
+            if (playerpos==64) Grid->MakeCellVisible(0,0);
             if (playerpos==31) Grid->MakeCellVisible(63,0);
             Grid->SelectRow(playerpos);
         }
-        timer->Start(-1,wxTIMER_ONE_SHOT);
+        //timer->Start(-1,wxTIMER_ONE_SHOT);
 }
 
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)

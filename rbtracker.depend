@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1415920301 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerapp.cpp
+1416050589 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerapp.cpp
 	"rbtrackerApp.h"
 	"rbtrackerMain.h"
 	<wx/image.h>
@@ -1353,7 +1353,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1415973342 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1416050588 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2076,7 +2076,7 @@
 	<wx/dcclient.h>
 	<wx/thread.h>
 
-1415967600 c:\dev\myprojects\wxprojects\rbtracker\synth.h
+1416052322 c:\dev\myprojects\wxprojects\rbtracker\synth.h
 	<stdint.h>
 	<stdlib.h>
 	"oscillator.h"
@@ -2086,7 +2086,7 @@
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1415973228 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1415973881 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"
