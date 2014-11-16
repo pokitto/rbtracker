@@ -24,7 +24,9 @@
 
 uint8_t ticks=0;
 uint16_t period=100, playerpos=0;
-boolean playing=false;
+long samplespertick=0;
+boolean priming=false;
+
 
 Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
 	this->parent = Parent;
@@ -33,31 +35,57 @@ Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
 }
 
 void* Player::Entry() {
+    boolean first=true;
     wxString nTxt;
     wxStopWatch sw;
     initSound();
-    sw.Start(0);
+    sw.Start(period+1); // to force first generation immediately
     while (true) {
         //wxThread::Sleep(period/2);
         if (sw.Time() > period) {
-            sw.Start(sw.Time()-period); // correct for uneven calls to thread
-            if (playing) {
-            //sw.Pause();
-            if (playerpos == 64) playerpos=0;
-            if (track[0].on) {
-                uint8_t i = track[0].instrument[playerpos];
-                if (i) {
-                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
-                    track[0].notenumber[playerpos],patch[i].vol,
-                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                    patch[i].pitchbend);
+            if (priming) {
+                playerpos=0;
+                if (track[0].on) {
+                    uint8_t i = track[0].instrument[playerpos];
+                // set oscillator
+                    if (i) {
+                        setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                        track[0].notenumber[playerpos],patch[i].vol,
+                        patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                        patch[i].pitchbend);
+                    }
+                // generate samples into buffer
+                    for (uint16_t j=0;j < samplespertick; j++) fakeISR();
                 }
-            }
             pos->SetValue(playerpos);
             playerpos++;
-
+            priming=false;
+            playing=true;
+            }
+            if (playing) {
+            //sw.Pause();
+                if (playerpos == 64) playerpos=0;
+                if (track[0].on) {
+                    uint8_t i = track[0].instrument[playerpos];
+                    // set oscillator
+                    if (i) {
+                        setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                        track[0].notenumber[playerpos],patch[i].vol,
+                        patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                        patch[i].pitchbend);
+                    }
+                    // generate samples into buffer
+                    for (uint16_t j=0;j < samplespertick; j++) {
+                            fakeISR();
+                            writeindex++;
+                            if (writeindex==57000) writeindex = 0;
+                    }
+                }
+            pos->SetValue(playerpos);
+            playerpos++;
             //sw.Start(sw.Time()-period); // correct for uneven calls to thread
             }
+            sw.Start(0);
         }
     }
     return 0;
@@ -402,8 +430,12 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
         per /= Tempo->GetValue(); // beats per minute
         per /= 4; // 4 ticks per beat
         period = (uint16_t) per;
+        // at 57000 thousand samples per second
+        // period gives ms of 1 tick
+        // therefore samples per tick = period ms / 1000 * 57000
+        samplespertick = period*57;
         playerpos=0;
-        playing = true;
+        priming = true;
     } else playing = false;
 }
 

@@ -12,13 +12,13 @@
 
 
 uint8_t data[NUMFRAMES]; //portaudio
-
+boolean playing=false; //external to share between player and synth
 
 PaStream *paStream;
 PaError paErr;
 uint8_t fakeOCR2B;
 uint8_t soundbuffer[57000];
-uint16_t soundindex=0;
+uint16_t writeindex=0, readindex=0;
 
 OSC osc1,osc2;
 TRACK track[3];
@@ -81,9 +81,14 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
     /** create sound buffer by using the ISR **/
 
     for (j=0;j<framesPerBuffer;j++) {
-            fakeISR(); /** create next sample **/
-            //*out++ = fakeOCR2B;
-            *out++ = soundbuffer[soundindex]; // buffered output because of wxwidgets timing problems
+            if (playing) {
+                    *out++ = soundbuffer[readindex]; // buffered output because of wxwidgets timing problems
+                    readindex++;
+                    if (readindex == 57000) readindex=0;
+            } else {
+                    fakeISR(); /** create next sample **/
+                    *out++ = fakeOCR2B;
+            }
             }
 
     return paContinue; /** THIS IS VERY IMPORTANT !!!! **/
@@ -126,8 +131,6 @@ void initSound() {
     emptyOscillators();
     emptyTracks();
     emptyPatches();
-
-    soundindex = 0;
 
     paErr = Pa_Initialize();
     if( paErr != paNoError ) goto error;
@@ -260,10 +263,8 @@ void releaseFunc(OSC* o){
 void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
-    //fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
-    soundbuffer[soundindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
-    soundindex++;
-    if (soundindex==57000) soundindex = 0;
+    if (!playing) fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    else soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
     tick = 4;
 }
 

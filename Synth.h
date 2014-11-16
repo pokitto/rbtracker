@@ -27,9 +27,12 @@ extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
             int16_t);
 extern void output2file();
 extern void outputADSR(uint16_t);
+extern boolean playing;
+
+extern void fakeISR();
 
 extern uint8_t soundbuffer[];
-extern uint16_t soundindex;
+extern uint16_t readindex, writeindex;
 
 extern OSC osc1,osc2;
 extern TRACK track[]; // array of tracks
