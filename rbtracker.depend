@@ -1353,7 +1353,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1416221836 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1416227822 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2076,7 +2076,7 @@
 	<wx/dcclient.h>
 	<wx/thread.h>
 
-1416221893 c:\dev\myprojects\wxprojects\rbtracker\synth.h
+1416228118 c:\dev\myprojects\wxprojects\rbtracker\synth.h
 	<stdint.h>
 	<stdlib.h>
 	"oscillator.h"
@@ -2086,7 +2086,7 @@
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1416225926 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1416227973 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"

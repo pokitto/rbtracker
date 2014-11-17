@@ -19,6 +19,10 @@ PaError paErr;
 uint8_t fakeOCR2B;
 uint8_t soundbuffer[BUFFERLENGTH];
 long writeindex=0, readindex=0;
+uint16_t playerpos=0;
+long samplespertick=0;
+long samplesperpattern=0;
+
 
 OSC osc1,osc2;
 TRACK track[3];
@@ -84,11 +88,13 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
             if (playing) {
                     *out++ = soundbuffer[readindex]; // buffered output because of wxwidgets timing problems
                     readindex++;
-                    if (readindex == BUFFERLENGTH) readindex=0;
+                    if (readindex % samplespertick == 0) playerpos++;
+                    if (playerpos == 64) playerpos = 0;
+                    if (readindex == samplesperpattern) readindex=0;
             } else if (!priming) {
                     fakeISR(); /** create next sample **/
                     *out++ = fakeOCR2B;
-            }
+            } else playerpos =0;
             }
 
     return paContinue; /** THIS IS VERY IMPORTANT !!!! **/
@@ -264,7 +270,7 @@ void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
     if (!playing && !priming) fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
-    else soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
+    else if (priming) soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
 }
 
 void mix2(){

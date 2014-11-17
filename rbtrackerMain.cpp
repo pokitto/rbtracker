@@ -23,8 +23,8 @@
 //*)
 
 uint8_t ticks=0;
-uint16_t period=100, playerpos=0;
-long samplespertick=0;
+uint16_t period=100;
+
 
 
 Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
@@ -38,41 +38,24 @@ void* Player::Entry() {
     initSound();
     // This runs constantly
     while (true) {
+            if (playing) pos->SetValue(playerpos);
             // Check if play button has been pressed
-            if (playing && readindex > BUFFERLENGTH - 5700) {
-                    uint16_t h = samplespertick; // Initiate samples per tick counter, force first SetOsc
-                    uint8_t patternpos=0;
-                    uint8_t i=0;
-                    tick=3;
-                    if (track[0].on) { // Check if track 1 is on
-                        for (writeindex=0; writeindex < BUFFERLENGTH; writeindex++) // Fill the buffer
-                        {
-                        if (h == samplespertick) {
-                                i = track[0].instrument[patternpos];
-                                // if there is an instrument, set oscillator
-                                if (i) {
-                                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
-                                    track[0].notenumber[patternpos],patch[i].vol,
-                                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                                    patch[i].pitchbend);
-                                }
-                                pos->SetValue(patternpos);
-                                patternpos++;
-                                h =0;
-                        } else h++; // else count away
-                        // Generate sample into buffer
-                        fakeISR();
-                        } // end of fill buffer
-                    } // end of if track 1 is on
-                } // end of if playing
-
             if (priming) {
-                    uint16_t h = samplespertick; // Initiate samples per tick counter, force first SetOsc
+                    uint16_t h = 0; // Initiate samples per tick counter, force first SetOsc
                     uint8_t patternpos=0;
                     uint8_t i=0;
                     tick=3;
                     if (track[0].on) { // Check if track 1 is on
-                        for (writeindex=0; writeindex < BUFFERLENGTH; writeindex++) // Fill the buffer
+                        // set first instrument
+                        i = track[0].instrument[patternpos];
+                        // if there is an instrument, set oscillator
+                              if (i) {
+                                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                                    track[0].notenumber[patternpos],patch[i].vol,
+                                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                                    patch[i].pitchbend);
+                                }
+                        for (writeindex=0; writeindex < samplesperpattern; writeindex++) // Fill the buffer
                         {
                         if (h == samplespertick) {
                                 i = track[0].instrument[patternpos];
@@ -83,9 +66,7 @@ void* Player::Entry() {
                                     patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
                                     patch[i].pitchbend);
                                 }
-                                pos->SetValue(patternpos);
                                 patternpos++;
-                                if (patternpos == 64) patternpos = 0;
                                 h =0;
                         } else h++; // else count away
                         // Generate sample into buffer
@@ -441,6 +422,7 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
         // period gives ms of 1 tick
         // therefore samples per tick = period ms / 1000 * 57000
         samplespertick = period*57;
+        samplesperpattern = samplespertick * 256;
         playerpos=0;
         priming = true;
     } else playing = false;

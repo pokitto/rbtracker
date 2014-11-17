@@ -12,9 +12,9 @@
 
 #define NUM_SECONDS   (5)
 #define SAMPLE_RATE   (57000)
-#define NUMFRAMES 5700 //1 ms before refresh was 357
+#define NUMFRAMES 570 //1 ms before refresh was 357
 #define PWMLEVELS 32
-#define BUFFERLENGTH 57000
+#define BUFFERLENGTH 5700000
 
 
 extern void setPitch(int);
@@ -29,6 +29,9 @@ extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
 extern void output2file();
 extern void outputADSR(uint16_t);
 extern boolean playing, priming;
+extern uint16_t playerpos;
+extern long samplespertick;
+extern long samplesperpattern;
 
 extern void fakeISR();
 
