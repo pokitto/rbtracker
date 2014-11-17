@@ -26,59 +26,6 @@ uint8_t ticks=0;
 uint16_t period=100;
 
 
-
-Player::Player(wxFrame* Parent, wxSpinCtrl* Position, wxGrid* Grid) {
-	this->parent = Parent;
-	this->pos = Position;
-	this->grid = Grid;
-}
-
-void* Player::Entry() {
-
-    initSound();
-    // This runs constantly
-    while (true) {
-            if (playing) pos->SetValue(playerpos);
-            // Check if play button has been pressed
-            if (priming) {
-                    uint16_t h = 0; // Initiate samples per tick counter, force first SetOsc
-                    uint8_t patternpos=0;
-                    uint8_t i=0;
-                    tick=3;
-                    if (track[0].on) { // Check if track 1 is on
-                        // set first instrument
-                        i = track[0].instrument[patternpos];
-                        // if there is an instrument, set oscillator
-                              if (i) {
-                                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
-                                    track[0].notenumber[patternpos],patch[i].vol,
-                                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                                    patch[i].pitchbend);
-                                }
-                        for (writeindex=0; writeindex < samplesperpattern; writeindex++) // Fill the buffer
-                        {
-                        if (h == samplespertick) {
-                                i = track[0].instrument[patternpos];
-                                // if there is an instrument, set oscillator
-                                if (i) {
-                                    setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
-                                    track[0].notenumber[patternpos],patch[i].vol,
-                                    patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                                    patch[i].pitchbend);
-                                }
-                                patternpos++;
-                                h =0;
-                        } else h++; // else count away
-                        // Generate sample into buffer
-                        fakeISR();
-                        } // end of fill buffer
-                    } // end of if track 1 is on
-                priming = false; playing=true;
-                } // end of if priming
-    } // end of while(true)
-    return 0;
-}
-
 //helper functions
 enum wxbuildinfoformat {
     short_f, long_f };
@@ -377,10 +324,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
-    Player* pl = new Player(this, Position, Grid); // construct our thread
-    pl->Create(); // we have to create a thread before we can run it
-    pl->SetPriority(99);
-    pl->Run(); // run our thread
+    initSound();
     //timer->Start(50);
 }
 
@@ -422,9 +366,11 @@ void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
         // period gives ms of 1 tick
         // therefore samples per tick = period ms / 1000 * 57000
         samplespertick = period*57;
-        samplesperpattern = samplespertick * 256;
+        samplesperpattern = samplespertick * 64;
         playerpos=0;
+        Position->SetValue(playerpos);
         priming = true;
+        playPtn();
     } else playing = false;
 }
 
@@ -580,4 +526,49 @@ void rbtrackerFrame::OnPitchBendChange(wxSpinEvent& event)
 void rbtrackerFrame::OnInstTuneChange(wxSpinEvent& event)
 {
     patch[Patch->GetValue()].bendrate = InstTune->GetValue();
+}
+
+void rbtrackerFrame::playPtn() {
+    uint16_t h = samplespertick; // Initiate samples per tick counter, force first SetOsc
+    uint8_t patternpos=0;
+    uint8_t i=0;
+    tick=3;
+    for (writeindex=0; writeindex < samplesperpattern; writeindex++) // Fill the buffer
+    {
+        if (h == samplespertick) {
+            // TRACK 1
+            if (track[0].on) i = track[0].instrument[patternpos];
+            else i = 0;
+            if (i) {
+                setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                track[0].notenumber[patternpos],patch[i].vol,
+                patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                patch[i].pitchbend);
+                }
+            // TRACK 2
+            if (track[1].on) i = track[1].instrument[patternpos];
+            else i = 0;
+            if (i) {
+                setOSC(&osc2,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                track[1].notenumber[patternpos],patch[i].vol,
+                patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                patch[i].pitchbend);
+                }
+            // TRACK 3
+            if (track[2].on) i = track[2].instrument[patternpos];
+            else i = 0;
+            if (i) {
+                setOSC(&osc3,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
+                track[2].notenumber[patternpos],patch[i].vol,
+                patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
+                patch[i].pitchbend);
+                }
+            patternpos++;
+            if (patternpos == 64) patternpos = 0;
+            h =0;
+            } else h++; // else count away
+            // Generate sample into buffer
+            fakeISR();
+        } // end of fill buffer
+    priming = false; playing=true;
 }

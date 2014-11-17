@@ -39,7 +39,7 @@ extern uint8_t soundbuffer[];
 extern long readindex, writeindex;
 extern uint8_t tick;
 
-extern OSC osc1,osc2;
+extern OSC osc1,osc2,osc3;
 extern TRACK track[]; // array of tracks
 extern boolean PWMemulation;
 extern OSC patch[];

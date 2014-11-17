@@ -24,20 +24,6 @@
 //*)
 
 #include <wx/timer.h>
-#include <wx/stopwatch.h>
-#include <wx/thread.h>
-
-class Player : public wxThread {
-	public:
-		Player(wxFrame*, wxSpinCtrl*, wxGrid* grid);
-	private:
-	    wxFrame* parent;
-	    wxSpinCtrl* pos;
-	    wxGrid* grid;
-		void* Entry(); // the entry point to the thread
-};
-
-
 
 class rbtrackerFrame: public wxFrame
 {
@@ -46,6 +32,7 @@ class rbtrackerFrame: public wxFrame
         rbtrackerFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~rbtrackerFrame();
         void playNote(uint8_t);
+        void playPtn();
 
     private:
 
@@ -219,7 +206,6 @@ class rbtrackerFrame: public wxFrame
         //*)
 
         wxTimer* timer;
-        wxStopWatch sw;
         DECLARE_EVENT_TABLE()
 };
 

@@ -24,7 +24,7 @@ long samplespertick=0;
 long samplesperpattern=0;
 
 
-OSC osc1,osc2;
+OSC osc1,osc2,osc3;
 TRACK track[3];
 OSC patch[16];
 
@@ -88,12 +88,12 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
             if (playing) {
                     *out++ = soundbuffer[readindex]; // buffered output because of wxwidgets timing problems
                     readindex++;
-                    if (readindex == samplesperpattern/4) {
+                    if (readindex % samplespertick == 0) playerpos++;
+                    if (playerpos == 64) playerpos = 0;
+                    if (readindex == samplesperpattern) {
                         readindex=0;
+                        out = &soundbuffer[0];
                     }
-                    //if (readindex % samplespertick == 0) playerpos++;
-                    //if (playerpos == 64) playerpos = 0;
-                    //if (readindex == samplesperpattern) {readindex=0; playerpos=0; out = (uint8_t*)outputBuffer;}
             } else if (!priming) {
                     fakeISR(); /** create next sample **/
                     *out++ = fakeOCR2B;
@@ -106,12 +106,16 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
 void emptyOscillators()
 {
     osc1.on = false; osc1.wave = 0; osc1.echo = 0; osc1.count = 0; osc1.cinc =0;
-    osc1.attack = 0; osc1.loop = 0; osc1.adsrphase = 0; osc1.adsr = 0; osc1.decay = 0;
+    osc1.attack = 0; osc1.loop = 0; osc1.adsrphase = 1; osc1.adsr = 1; osc1.decay = 100;
     osc1.pitchbend = 0; osc1.bendrate = 0; osc1.maxbend = 0; osc1.sustain = 0; osc1.release = 0;
 
     osc2.on = false; osc2.wave = 0; osc2.echo = 0; osc2.count = 0; osc2.cinc =0;
-    osc2.attack = 0; osc2.loop = 0; osc2.adsrphase = 0; osc2.adsr = 0; osc2.decay = 0;
+    osc2.attack = 0; osc2.loop = 0; osc2.adsrphase = 1; osc2.adsr = 1; osc2.decay = 100;
     osc2.pitchbend = 0; osc2.bendrate = 0; osc2.maxbend = 0; osc2.sustain = 0; osc2.release = 0;
+
+    osc3.on = false; osc3.wave = 0; osc3.echo = 0; osc3.count = 0; osc3.cinc =0;
+    osc3.attack = 0; osc3.loop = 0; osc3.adsrphase = 1; osc3.adsr = 1; osc3.decay = 100;
+    osc3.pitchbend = 0; osc3.bendrate = 0; osc3.maxbend = 0; osc3.sustain = 0; osc3.release = 0;
 }
 
 void emptyPatches()
@@ -278,12 +282,16 @@ void mix1(){
 
 void mix2(){
     // Track 2
-    if (!playing && !priming) fakeOCR2B = 0;
+    Farr[osc2.wave](&osc2);
+    if (!playing && !priming) fakeOCR2B = ((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    else if (priming) soundbuffer[writeindex] = ((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8;
 }
 
 void mix3(){
     // Track 3
-    if (!playing && !priming) fakeOCR2B = 0;
+     Farr[osc3.wave](&osc3);
+    if (!playing && !priming) fakeOCR2B = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    else if (priming) soundbuffer[writeindex] = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8;
 }
 
 void updateEnvelopes(){
@@ -292,6 +300,13 @@ void updateEnvelopes(){
     else {
             Earr[osc1.adsrphase](&osc1);
             if (osc1.pitchbend > osc1.maxbend) osc1.pitchbend += osc1.bendrate;
+
+            Earr[osc2.adsrphase](&osc2);
+            if (osc2.pitchbend > osc2.maxbend) osc2.pitchbend += osc2.bendrate;
+
+            Earr[osc3.adsrphase](&osc3);
+            if (osc3.pitchbend > osc3.maxbend) osc3.pitchbend += osc3.bendrate;
+
             voltick = VOLTICK;
     }
     //if (priming || playing) writeindex --;
@@ -303,7 +318,8 @@ void updateEnvelopes(){
 void fakeISR(){
 
   osc1.count += osc1.cinc + (osc1.pitchbend >> 8); // counts to 65535 and overflows to zero
-  osc2.count += osc2.cinc + (osc2.pitchbend >> 8);; // counts to 65535 and overflows to zero
+  osc2.count += osc2.cinc + (osc2.pitchbend >> 8); // counts to 65535 and overflows to zero
+  osc3.count += osc3.cinc + (osc3.pitchbend >> 8); // counts to 65535 and overflows to zero
 
   Marr[tick](); // call mixing function
   --tick;
@@ -320,6 +336,7 @@ void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0
   o->loop = loop;
   o->echo = echo;
   o->adsr = adsr;
+  o->count = 0;
 
   o->cinc = cincs[notenumber]; // direct cinc from table, no calculation
   o->vol = volume << 8;//volume;
