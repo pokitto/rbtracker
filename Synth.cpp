@@ -88,9 +88,12 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
             if (playing) {
                     *out++ = soundbuffer[readindex]; // buffered output because of wxwidgets timing problems
                     readindex++;
-                    if (readindex % samplespertick == 0) playerpos++;
-                    if (playerpos == 64) playerpos = 0;
-                    if (readindex == samplesperpattern) readindex=0;
+                    if (readindex == samplesperpattern/4) {
+                        readindex=0;
+                    }
+                    //if (readindex % samplespertick == 0) playerpos++;
+                    //if (playerpos == 64) playerpos = 0;
+                    //if (readindex == samplesperpattern) {readindex=0; playerpos=0; out = (uint8_t*)outputBuffer;}
             } else if (!priming) {
                     fakeISR(); /** create next sample **/
                     *out++ = fakeOCR2B;
@@ -275,10 +278,12 @@ void mix1(){
 
 void mix2(){
     // Track 2
+    if (!playing && !priming) fakeOCR2B = 0;
 }
 
 void mix3(){
     // Track 3
+    if (!playing && !priming) fakeOCR2B = 0;
 }
 
 void updateEnvelopes(){
