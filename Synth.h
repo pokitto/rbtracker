@@ -12,8 +12,9 @@
 
 #define NUM_SECONDS   (5)
 #define SAMPLE_RATE   (57000)
-#define NUMFRAMES 57 //1 ms before refresh was 357
+#define NUMFRAMES 5700 //1 ms before refresh was 357
 #define PWMLEVELS 32
+#define BUFFERLENGTH 57000
 
 
 extern void setPitch(int);
@@ -27,12 +28,13 @@ extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
             int16_t);
 extern void output2file();
 extern void outputADSR(uint16_t);
-extern boolean playing;
+extern boolean playing, priming;
 
 extern void fakeISR();
 
 extern uint8_t soundbuffer[];
-extern uint16_t readindex, writeindex;
+extern long readindex, writeindex;
+extern uint8_t tick;
 
 extern OSC osc1,osc2;
 extern TRACK track[]; // array of tracks

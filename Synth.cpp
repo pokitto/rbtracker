@@ -12,13 +12,13 @@
 
 
 uint8_t data[NUMFRAMES]; //portaudio
-boolean playing=false; //external to share between player and synth
+boolean playing=false, priming = false; //external to share between player and synth
 
 PaStream *paStream;
 PaError paErr;
 uint8_t fakeOCR2B;
-uint8_t soundbuffer[57000];
-uint16_t writeindex=0, readindex=0;
+uint8_t soundbuffer[BUFFERLENGTH];
+long writeindex=0, readindex=0;
 
 OSC osc1,osc2;
 TRACK track[3];
@@ -42,7 +42,7 @@ void mix1(); void mix2(); void mix3(); void updateEnvelopes();
 
 waveFunction Farr []  = {waveoff, sqwave, sawwave, triwave, noise, sample};
 envFunction Earr [] = {noADSR, attackFunc, decayFunc, releaseFunc};
-mixFunction Marr [] = {mix1, mix2, mix3, updateEnvelopes};
+mixFunction Marr [] = {updateEnvelopes,mix3,mix2,mix1}; // counts down
 
 // Arduino compatibility
 
@@ -84,8 +84,8 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
             if (playing) {
                     *out++ = soundbuffer[readindex]; // buffered output because of wxwidgets timing problems
                     readindex++;
-                    if (readindex == 57000) readindex=0;
-            } else {
+                    if (readindex == BUFFERLENGTH) readindex=0;
+            } else if (!priming) {
                     fakeISR(); /** create next sample **/
                     *out++ = fakeOCR2B;
             }
@@ -177,8 +177,8 @@ void waveoff(OSC* o){
 
 void sqwave(OSC* o){
 // square. If bit 16 set, its 2nd half of cycle and then output. if not, silence.
- if (o->count & 0x8000) o->output = 0xFFFF;
- else  o->output = 0;
+ if (o->count & 0x8000) o->output = 0;
+ else  o->output = 0xFFFF;
 }
 
 void sawwave(OSC* o){
@@ -263,9 +263,8 @@ void releaseFunc(OSC* o){
 void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
-    if (!playing) fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    if (!playing && !priming) fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
     else soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
-    tick = 4;
 }
 
 void mix2(){
@@ -284,6 +283,8 @@ void updateEnvelopes(){
             if (osc1.pitchbend > osc1.maxbend) osc1.pitchbend += osc1.bendrate;
             voltick = VOLTICK;
     }
+    //if (priming || playing) writeindex --;
+    tick = 4;
 }
 
 
