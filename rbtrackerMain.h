@@ -142,7 +142,6 @@ class rbtrackerFrame: public wxFrame
         wxButton* Pause;
         wxStaticText* StaticText20;
         wxCheckBox* Echo;
-        wxSpinCtrl* PitchBend;
         wxCheckBox* InstAudible;
         wxSpinCtrl* VibAmount;
         wxCheckBox* Ch3;
@@ -151,7 +150,6 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText2;
         wxStaticText* StaticText14;
         wxStaticText* StaticText6;
-        wxSpinCtrl* InstTune;
         wxStaticText* Pitchbendrate;
         wxStaticText* StaticText19;
         wxSpinCtrl* Position;
@@ -177,6 +175,7 @@ class rbtrackerFrame: public wxFrame
         wxSpinCtrl* InstVol;
         wxButton* PlaySong;
         wxSpinCtrl* Pitch;
+        wxSpinCtrl* BendRate;
         wxPanel* Instrument;
         wxGrid* TestGrid;
         wxPanel* Tracks;
@@ -188,6 +187,7 @@ class rbtrackerFrame: public wxFrame
         wxSpinCtrl* Tempo;
         wxCheckBox* ADSR;
         wxSpinCtrl* VibSpeed;
+        wxSpinCtrl* MaxBend;
         wxButton* New;
         wxSpinCtrl* Release;
         wxStaticText* StaticText17;

@@ -206,7 +206,9 @@ void triwave(OSC* o){
 }
 
 void noise(OSC* o){
-  o->output = random(0,(o->count - 0x7FFF)) << 1 ;
+  if (o->count & 0x8000) o->output = 0;
+  else  o->output = random(0,0xFFFF);
+  //o->output = random(0,(o->count - 0x7FFF)) << 1 ;
   // an even value between 0 and 0xFFFF will be generated ONLY when count > 0x8000 (ie half the loop)
 }
 
@@ -299,13 +301,19 @@ void updateEnvelopes(){
     if (voltick) --voltick;
     else {
             Earr[osc1.adsrphase](&osc1);
-            if (osc1.pitchbend > osc1.maxbend) osc1.pitchbend += osc1.bendrate;
+            osc1.pitchbend += osc1.bendrate;
+            if (osc1.bendrate > 0 && osc1.pitchbend > osc1.maxbend) osc1.pitchbend = osc1.maxbend;
+            else if (osc1.bendrate < 0 && osc1.pitchbend < osc1.maxbend) osc1.pitchbend = osc1.maxbend;
 
             Earr[osc2.adsrphase](&osc2);
-            if (osc2.pitchbend > osc2.maxbend) osc2.pitchbend += osc2.bendrate;
+            osc2.pitchbend += osc2.bendrate;
+            if (osc2.bendrate > 0 && osc2.pitchbend > osc2.maxbend) osc2.pitchbend = osc2.maxbend;
+            else if (osc2.bendrate < 0 && osc2.pitchbend < osc2.maxbend) osc2.pitchbend = osc2.maxbend;
 
             Earr[osc3.adsrphase](&osc3);
-            if (osc3.pitchbend > osc3.maxbend) osc3.pitchbend += osc3.bendrate;
+            osc3.pitchbend += osc3.bendrate;
+            if (osc3.bendrate > 0 && osc3.pitchbend > osc3.maxbend) osc3.pitchbend = osc3.maxbend;
+            else if (osc3.bendrate < 0 && osc3.pitchbend < osc3.maxbend) osc3.pitchbend = osc3.maxbend;
 
             voltick = VOLTICK;
     }
@@ -329,7 +337,7 @@ void fakeISR(){
 void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0,
             uint8_t notenumber=25, uint8_t volume=127,
             uint16_t attack=0, uint16_t decay=0, uint16_t sustain=0, uint16_t release=0,
-            int16_t pitchbend=0)
+            int16_t maxbend=0, int16_t bendrate=0)
 {
   o->on = on;
   o->wave = wave;
@@ -358,10 +366,10 @@ void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0
     o->adsrvol = o->vol; // will stay same all the time
   }
 
-  if (pitchbend != 0) {
-        o->bendrate = -100; // test value
+  if (bendrate != 0) {
+        o->bendrate = bendrate; // test value
         o->pitchbend = 0;
-        o->maxbend = -30000;
+        o->maxbend = maxbend;
   }
 }
 

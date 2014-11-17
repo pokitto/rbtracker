@@ -154,8 +154,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     };
     Wave = new wxRadioBox(Instrument, ID_RADIOBOX1, wxEmptyString, wxPoint(10,24), wxSize(128,135), 5, __wxRadioBoxChoices_1, 1, wxNO_BORDER, wxDefaultValidator, _T("ID_RADIOBOX1"));
     Wave->SetSelection(1);
-    InstTune = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -10, 10, 0, _T("ID_SPINCTRL2"));
-    InstTune->SetValue(_T("0"));
+    BendRate = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -1000, 1000, 0, _T("ID_SPINCTRL2"));
+    BendRate->SetValue(_T("0"));
     InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 224, 127, _T("ID_SPINCTRL3"));
     InstVol->SetValue(_T("127"));
     Patch = new wxSpinCtrl(Instrument, ID_SPINCTRL1, _T("1"), wxPoint(80,8), wxSize(56,21), 0, 1, 15, 1, _T("ID_SPINCTRL1"));
@@ -181,8 +181,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText5 = new wxStaticText(Instrument, ID_STATICTEXT5, _("Vibrato speed"), wxPoint(16,216), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
     Pitch = new wxSpinCtrl(Instrument, ID_SPINCTRL19, _T("100"), wxPoint(200,120), wxSize(64,21), 0, 1, 3000, 100, _T("ID_SPINCTRL19"));
     Pitch->SetValue(_T("100"));
-    PitchBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -127, 127, 0, _T("ID_SPINCTRL5"));
-    PitchBend->SetValue(_T("0"));
+    MaxBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -30000, 30000, 0, _T("ID_SPINCTRL5"));
+    MaxBend->SetValue(_T("0"));
     StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend max"), wxPoint(144,88), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
     StaticText6 = new wxStaticText(Instrument, ID_STATICTEXT6, _("Note"), wxPoint(152,152), wxDefaultSize, 0, _T("ID_STATICTEXT6"));
     StaticText20 = new wxStaticText(Instrument, ID_STATICTEXT20, _("Hz"), wxPoint(270,124), wxSize(13,22), 0, _T("ID_STATICTEXT20"));
@@ -190,15 +190,15 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     VibSpeed->SetValue(_T("0"));
     StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Attack"), wxPoint(184,216), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
     ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(184,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
-    ADSR->SetValue(false);
-    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("20"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 20, _T("ID_SPINCTRL8"));
-    Attack->SetValue(_T("20"));
-    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("20"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 20, _T("ID_SPINCTRL9"));
-    Decay->SetValue(_T("20"));
-    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("50"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 50, _T("ID_SPINCTRL10"));
-    Sustain->SetValue(_T("50"));
-    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("5"), wxPoint(232,288), wxSize(64,21), 0, 0, 255, 5, _T("ID_SPINCTRL7"));
-    Release->SetValue(_T("5"));
+    ADSR->SetValue(true);
+    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
+    Attack->SetValue(_T("0"));
+    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("100"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 100, _T("ID_SPINCTRL9"));
+    Decay->SetValue(_T("100"));
+    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("0"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
+    Sustain->SetValue(_T("0"));
+    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("0"), wxPoint(232,288), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL7"));
+    Release->SetValue(_T("0"));
     StaticText9 = new wxStaticText(Instrument, ID_STATICTEXT9, _("Decay"), wxPoint(184,240), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
     StaticText10 = new wxStaticText(Instrument, ID_STATICTEXT10, _("Sustain"), wxPoint(184,264), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
     StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(184,288), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
@@ -458,7 +458,7 @@ void rbtrackerFrame::OnTestClick(wxCommandEvent& event)
 {
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
            25,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
-           Release->GetValue(), PitchBend->GetValue());
+           Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue());
 }
 
 void rbtrackerFrame::playNote(uint8_t notenum)
@@ -466,7 +466,7 @@ void rbtrackerFrame::playNote(uint8_t notenum)
     Pitch->SetValue(freqs[notenum]);
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
            notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
-           Release->GetValue(), PitchBend->GetValue());
+           Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue());
 }
 
 
@@ -482,7 +482,8 @@ void rbtrackerFrame::OnPatchChange(wxSpinEvent& event)
     Decay->SetValue(patch[i].decay);
     Sustain->SetValue(patch[i].sustain);
     Release->SetValue(patch[i].release);
-    PitchBend->SetValue(patch[i].pitchbend);
+    MaxBend->SetValue(patch[i].maxbend);
+    BendRate->SetValue(patch[i].bendrate);
 }
 
 void rbtrackerFrame::OnAttackChange(wxSpinEvent& event)
@@ -520,12 +521,12 @@ void rbtrackerFrame::OnInstVolChange(wxSpinEvent& event)
 
 void rbtrackerFrame::OnPitchBendChange(wxSpinEvent& event)
 {
-    patch[Patch->GetValue()].maxbend = PitchBend->GetValue();
+    patch[Patch->GetValue()].maxbend = MaxBend->GetValue();
 }
 
 void rbtrackerFrame::OnInstTuneChange(wxSpinEvent& event)
 {
-    patch[Patch->GetValue()].bendrate = InstTune->GetValue();
+    patch[Patch->GetValue()].bendrate = BendRate->GetValue();
 }
 
 void rbtrackerFrame::playPtn() {
@@ -533,6 +534,11 @@ void rbtrackerFrame::playPtn() {
     uint8_t patternpos=0;
     uint8_t i=0;
     tick=3;
+    // Zero all oscillators
+    setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc2,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc3,0,0,0,0,0,0,0,0,0,0,0,0,0);
+
     for (writeindex=0; writeindex < samplesperpattern; writeindex++) // Fill the buffer
     {
         if (h == samplespertick) {
@@ -543,7 +549,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[0].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].pitchbend);
+                patch[i].maxbend, patch[i].bendrate );
                 }
             // TRACK 2
             if (track[1].on) i = track[1].instrument[patternpos];
@@ -552,7 +558,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc2,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[1].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].pitchbend);
+                patch[i].maxbend, patch[i].bendrate );
                 }
             // TRACK 3
             if (track[2].on) i = track[2].instrument[patternpos];
@@ -561,7 +567,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc3,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[2].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].pitchbend);
+                patch[i].maxbend, patch[i].bendrate );
                 }
             patternpos++;
             if (patternpos == 64) patternpos = 0;

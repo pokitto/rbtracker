@@ -25,7 +25,7 @@ extern void killSound();
 
 extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
             uint16_t, uint16_t, uint16_t, uint16_t,
-            int16_t);
+            int16_t,int16_t);
 extern void output2file();
 extern void outputADSR(uint16_t);
 extern boolean playing, priming;
