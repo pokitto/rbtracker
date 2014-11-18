@@ -144,15 +144,16 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_GRADIENTACTIVECAPTION));
     Instrument = new wxPanel(this, ID_PANEL1, wxPoint(8,288), wxSize(304,328), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Instrument->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-    wxString __wxRadioBoxChoices_1[5] =
+    wxString __wxRadioBoxChoices_1[6] =
     {
     	_("OFF"),
     	_("SQUARE"),
     	_("SAW"),
     	_("TRIANGLE"),
-    	_("NOISE")
+    	_("NOISE"),
+    	_("TONE NOISE")
     };
-    Wave = new wxRadioBox(Instrument, ID_RADIOBOX1, wxEmptyString, wxPoint(10,24), wxSize(128,135), 5, __wxRadioBoxChoices_1, 1, wxNO_BORDER, wxDefaultValidator, _T("ID_RADIOBOX1"));
+    Wave = new wxRadioBox(Instrument, ID_RADIOBOX1, wxEmptyString, wxPoint(10,24), wxSize(128,151), 6, __wxRadioBoxChoices_1, 1, wxNO_BORDER, wxDefaultValidator, _T("ID_RADIOBOX1"));
     Wave->SetSelection(1);
     BendRate = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -1000, 1000, 0, _T("ID_SPINCTRL2"));
     BendRate->SetValue(_T("0"));
@@ -463,10 +464,12 @@ void rbtrackerFrame::OnTestClick(wxCommandEvent& event)
 
 void rbtrackerFrame::playNote(uint8_t notenum)
 {
+    //stopSound();
     Pitch->SetValue(freqs[notenum]);
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
            notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
            Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue());
+    //startSound();
 }
 
 
@@ -534,6 +537,7 @@ void rbtrackerFrame::playPtn() {
     uint8_t patternpos=0;
     uint8_t i=0;
     tick=3;
+
     // Zero all oscillators
     setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0);
     setOSC(&osc2,0,0,0,0,0,0,0,0,0,0,0,0,0);

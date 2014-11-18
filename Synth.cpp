@@ -15,13 +15,15 @@ uint8_t data[NUMFRAMES]; //portaudio
 boolean playing=false, priming = false; //external to share between player and synth
 
 PaStream *paStream;
+PaStream *playbackStream;
 PaError paErr;
 uint8_t fakeOCR2B;
 uint8_t soundbuffer[BUFFERLENGTH];
 long writeindex=0, readindex=0;
-uint16_t playerpos=0;
+uint16_t playerpos=0,noiseval, noiseval2;
 long samplespertick=0;
 long samplesperpattern=0;
+
 
 
 OSC osc1,osc2,osc3;
@@ -40,11 +42,11 @@ typedef void (*mixFunction)();
 #define NUMENVELOPES 3
 #define NUMMIXES 4
 
-void waveoff(OSC* o); void sqwave(OSC* o); void sawwave(OSC* o); void triwave(OSC* o); void noise(OSC* o); void sample(OSC* o);
+void waveoff(OSC* o); void sqwave(OSC* o); void sawwave(OSC* o); void triwave(OSC* o); void noise(OSC* o); void tonenoise(OSC* o); void sample(OSC* o);
 void noADSR(OSC* o); void attackFunc(OSC* o); void decayFunc(OSC* o); void releaseFunc(OSC* o);
 void mix1(); void mix2(); void mix3(); void updateEnvelopes();
 
-waveFunction Farr []  = {waveoff, sqwave, sawwave, triwave, noise, sample};
+waveFunction Farr []  = {waveoff, sqwave, sawwave, triwave, noise, tonenoise};
 envFunction Earr [] = {noADSR, attackFunc, decayFunc, releaseFunc};
 mixFunction Marr [] = {updateEnvelopes,mix3,mix2,mix1}; // counts down
 
@@ -68,7 +70,6 @@ long random(long howsmall, long howbig)
   long diff = howbig - howsmall;
   return random(diff) + howsmall;
 }
-
 
 static int paCallback( const void *inputBuffer, void *outputBuffer,
                            unsigned long framesPerBuffer,
@@ -156,9 +157,11 @@ void initSound() {
                                 NUMFRAMES,  /* frames per buffer was 256 */
                                 paCallback,
                                 &data );
+
     if( paErr != paNoError ) goto error;
 
     paErr = Pa_StartStream( paStream );
+    //stopSound();
     if( paErr != paNoError ) goto error;
     return;
 
@@ -167,6 +170,35 @@ error:
     return;
 
 }
+
+void startSound() {
+     paErr = Pa_AbortStream( paStream );
+     Pa_Sleep(100);
+     paErr = Pa_CloseStream( paStream );
+     Pa_Sleep(100);
+     paErr = Pa_OpenDefaultStream( &paStream,
+                                0,          /* no input channels */
+                                1,          /* mono output */
+                                paUInt8,    /* 8 bit output */
+                                SAMPLE_RATE,
+                                NUMFRAMES,  /* frames per buffer was 256 */
+                                paCallback,
+                                &data );
+
+    if( paErr != paNoError ) goto error;
+    paErr = Pa_StartStream( paStream );
+    if( paErr != paNoError ) goto error;
+    return;
+
+error:
+    Pa_Terminate();
+    return;
+}
+
+void stopSound() {
+
+}
+
 
 void killSound()
 {
@@ -206,11 +238,22 @@ void triwave(OSC* o){
 }
 
 void noise(OSC* o){
-  if (o->count & 0x8000) o->output = 0;
-  else  o->output = random(0,0xFFFF);
-  //o->output = random(0,(o->count - 0x7FFF)) << 1 ;
-  // an even value between 0 and 0xFFFF will be generated ONLY when count > 0x8000 (ie half the loop)
+  if (o->count > 0x8000) {
+    o->output = noiseval2;
+    noiseval = random(0,0xFFFF);
+  }
+  else  {
+    o->output = noiseval;
+    noiseval2 = random(0,0xFFFF);
+  }
 }
+
+void tonenoise(OSC* o){
+  // square. If bit 16 set, its 2nd half of cycle and then output. if not, silence.
+ if (o->count & 0x8000) o->output = 0;
+ else  o->output = random(0,0xFFFF);
+}
+
 
 void sample(OSC* o) {
 
@@ -317,7 +360,6 @@ void updateEnvelopes(){
 
             voltick = VOLTICK;
     }
-    //if (priming || playing) writeindex --;
     tick = 4;
 }
 
@@ -345,8 +387,11 @@ void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0
   o->echo = echo;
   o->adsr = adsr;
   o->count = 0;
+  noiseval = random(0,0xFFFF);
 
   o->cinc = cincs[notenumber]; // direct cinc from table, no calculation
+  if (wave == 2) o->cinc >>= 1; // correct pitch for saw wave
+  if (wave == 4) o->cinc <<= 1; // enable higher pitch for pure noise
   o->vol = volume << 8;//volume;
 
   if (adsr) {

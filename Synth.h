@@ -22,6 +22,8 @@ extern void setWave(int);
 extern void setVolume(int);
 extern void initSound();
 extern void killSound();
+extern void startSound();
+extern void stopSound();
 
 extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
             uint16_t, uint16_t, uint16_t, uint16_t,

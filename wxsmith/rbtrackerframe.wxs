@@ -21,10 +21,11 @@
 					<item>SAW</item>
 					<item>TRIANGLE</item>
 					<item>NOISE</item>
+					<item>TONE NOISE</item>
 				</content>
 				<default>1</default>
 				<pos>10,24</pos>
-				<size>128,135</size>
+				<size>128,151</size>
 				<style>wxNO_BORDER</style>
 				<handler function="OnWaveSelect" entry="EVT_RADIOBOX" />
 			</object>
