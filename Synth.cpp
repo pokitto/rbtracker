@@ -30,9 +30,9 @@ OSC osc1,osc2,osc3;
 TRACK track[3];
 OSC patch[16];
 
-#define VOLTICK 10
+#define VOLTICK 5
 uint8_t tick=3; // loops between 3 channels. Tick 3 is used to calculate volume envelopes
-char voltick=VOLTICK; // i need to make volume changes even slower
+char voltick=0; // i need to make volume changes even slower
 
 typedef void (*waveFunction)(OSC*);
 typedef void (*envFunction)(OSC*);
@@ -296,7 +296,8 @@ void decayFunc(OSC* o){
 }
 
 void releaseFunc(OSC* o){
-    if (o->adsrvol >= o->sustain) {
+    if (o->adsrvol) o->adsrvol -= o->release;
+    if (o->adsrvol > 0x8000) { // below zero, but looped back
         if (o->loop) {
                 if (o->attack) {
                     o->adsrvol = 0;
@@ -312,7 +313,6 @@ void releaseFunc(OSC* o){
                 return;
         }
     }
-    o->adsrvol -= o->release;
 }
 
 

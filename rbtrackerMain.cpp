@@ -157,7 +157,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Wave->SetSelection(1);
     BendRate = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -1000, 1000, 0, _T("ID_SPINCTRL2"));
     BendRate->SetValue(_T("0"));
-    InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 224, 127, _T("ID_SPINCTRL3"));
+    InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 300, 127, _T("ID_SPINCTRL3"));
     InstVol->SetValue(_T("127"));
     Patch = new wxSpinCtrl(Instrument, ID_SPINCTRL1, _T("1"), wxPoint(80,8), wxSize(56,21), 0, 1, 15, 1, _T("ID_SPINCTRL1"));
     Patch->SetValue(_T("1"));
@@ -191,11 +191,11 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     VibSpeed->SetValue(_T("0"));
     StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Attack"), wxPoint(184,216), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
     ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(184,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
-    ADSR->SetValue(true);
+    ADSR->SetValue(false);
     Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
     Attack->SetValue(_T("0"));
-    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("100"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 100, _T("ID_SPINCTRL9"));
-    Decay->SetValue(_T("100"));
+    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("0"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL9"));
+    Decay->SetValue(_T("0"));
     Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("0"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
     Sustain->SetValue(_T("0"));
     Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("0"), wxPoint(232,288), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL7"));
@@ -467,7 +467,7 @@ void rbtrackerFrame::playNote(uint8_t notenum)
     //stopSound();
     Pitch->SetValue(freqs[notenum]);
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
-           notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue(),
+           notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue()<<8,
            Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue());
     //startSound();
 }
@@ -483,7 +483,7 @@ void rbtrackerFrame::OnPatchChange(wxSpinEvent& event)
     InstVol->SetValue(patch[i].vol);
     Attack->SetValue(patch[i].attack);
     Decay->SetValue(patch[i].decay);
-    Sustain->SetValue(patch[i].sustain);
+    Sustain->SetValue(patch[i].sustain>>8); // sustain is a volume level, not a rate
     Release->SetValue(patch[i].release);
     MaxBend->SetValue(patch[i].maxbend);
     BendRate->SetValue(patch[i].bendrate);
@@ -493,7 +493,7 @@ void rbtrackerFrame::OnAttackChange(wxSpinEvent& event)
 {
     patch[Patch->GetValue()].attack = Attack->GetValue();
     patch[Patch->GetValue()].decay = Decay->GetValue();
-    patch[Patch->GetValue()].sustain = Sustain->GetValue();
+    patch[Patch->GetValue()].sustain = Sustain->GetValue()<<8; // sustain is a volume level, not a rate
     patch[Patch->GetValue()].release = Release->GetValue();
 }
 

@@ -39,7 +39,7 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL3" variable="InstVol" member="yes">
 				<value>127</value>
-				<max>224</max>
+				<max>300</max>
 				<pos>232,40</pos>
 				<size>64,21</size>
 				<handler function="OnInstVolChange" entry="EVT_SPINCTRL" />
@@ -160,7 +160,6 @@
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="ADSR" member="yes">
 				<label>ADSR</label>
-				<checked>1</checked>
 				<pos>184,192</pos>
 				<handler function="OnADSRClick" entry="EVT_CHECKBOX" />
 			</object>
@@ -172,7 +171,7 @@
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="Decay" member="yes">
-				<value>100</value>
+				<value>0</value>
 				<max>255</max>
 				<pos>232,240</pos>
 				<size>64,21</size>
