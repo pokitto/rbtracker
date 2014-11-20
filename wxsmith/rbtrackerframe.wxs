@@ -88,7 +88,7 @@
 				<label>Arpeggio mode</label>
 				<pos>144,144</pos>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT5" variable="VibRate" member="yes">
+			<object class="wxStaticText" name="ID_STATICTEXT5" variable="asdff" member="yes">
 				<label>Vibrato rate</label>
 				<pos>144,120</pos>
 			</object>
@@ -104,7 +104,7 @@
 				<label>Pitch bend max</label>
 				<pos>144,96</pos>
 			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="VibSpeed" member="yes">
+			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="VibRate" member="yes">
 				<value>0</value>
 				<max>255</max>
 				<pos>232,120</pos>
@@ -163,7 +163,7 @@
 				<label>Release</label>
 				<pos>144,288</pos>
 			</object>
-			<object class="wxChoice" name="ID_CHOICE1" variable="Choice1" member="yes">
+			<object class="wxChoice" name="ID_CHOICE1" variable="ArpMode" member="yes">
 				<content>
 					<item>OFF</item>
 					<item>1-3-5</item>
@@ -175,11 +175,11 @@
 				<pos>232,145</pos>
 				<size>64,21</size>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="CheckBox2" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="Overdrive" member="yes">
 				<label>Overdrive X2</label>
 				<pos>16,264</pos>
 			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="CheckBox1" member="yes">
+			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="Kick" member="yes">
 				<label>Drum kick</label>
 				<pos>16,288</pos>
 			</object>

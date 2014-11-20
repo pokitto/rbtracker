@@ -164,12 +164,12 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Echo = new wxCheckBox(Instrument, ID_CHECKBOX2, _("Echo"), wxPoint(16,240), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
     Echo->SetValue(false);
     StaticText12 = new wxStaticText(Instrument, ID_STATICTEXT12, _("Arpeggio mode"), wxPoint(144,144), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
-    VibRate = new wxStaticText(Instrument, ID_STATICTEXT5, _("Vibrato rate"), wxPoint(144,120), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
+    asdff = new wxStaticText(Instrument, ID_STATICTEXT5, _("Vibrato rate"), wxPoint(144,120), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
     MaxBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,96), wxSize(64,21), 0, -30000, 30000, 0, _T("ID_SPINCTRL5"));
     MaxBend->SetValue(_T("0"));
     StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend max"), wxPoint(144,96), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
-    VibSpeed = new wxSpinCtrl(Instrument, ID_SPINCTRL6, _T("0"), wxPoint(232,120), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL6"));
-    VibSpeed->SetValue(_T("0"));
+    VibRate = new wxSpinCtrl(Instrument, ID_SPINCTRL6, _T("0"), wxPoint(232,120), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL6"));
+    VibRate->SetValue(_T("0"));
     StaticText1 = new wxStaticText(Instrument, ID_STATICTEXT4, _("Attack"), wxPoint(144,216), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Effects"), wxPoint(16,184), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
     ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(144,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
@@ -185,16 +185,16 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText9 = new wxStaticText(Instrument, ID_STATICTEXT9, _("Decay"), wxPoint(144,240), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
     StaticText10 = new wxStaticText(Instrument, ID_STATICTEXT10, _("Sustain"), wxPoint(144,264), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
     StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(144,288), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
-    Choice1 = new wxChoice(Instrument, ID_CHOICE1, wxPoint(232,145), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
-    Choice1->SetSelection( Choice1->Append(_("OFF")) );
-    Choice1->Append(_("1-3-5"));
-    Choice1->Append(_("5-3-1"));
-    Choice1->Append(_("3-5-1"));
-    Choice1->Append(_("1-5-3"));
-    CheckBox2 = new wxCheckBox(Instrument, ID_CHECKBOX8, _("Overdrive X2"), wxPoint(16,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
-    CheckBox2->SetValue(false);
-    CheckBox1 = new wxCheckBox(Instrument, ID_CHECKBOX7, _("Drum kick"), wxPoint(16,288), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
-    CheckBox1->SetValue(false);
+    ArpMode = new wxChoice(Instrument, ID_CHOICE1, wxPoint(232,145), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+    ArpMode->SetSelection( ArpMode->Append(_("OFF")) );
+    ArpMode->Append(_("1-3-5"));
+    ArpMode->Append(_("5-3-1"));
+    ArpMode->Append(_("3-5-1"));
+    ArpMode->Append(_("1-5-3"));
+    Overdrive = new wxCheckBox(Instrument, ID_CHECKBOX8, _("Overdrive X2"), wxPoint(16,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
+    Overdrive->SetValue(false);
+    Kick = new wxCheckBox(Instrument, ID_CHECKBOX7, _("Drum kick"), wxPoint(16,288), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
+    Kick->SetValue(false);
     SavePatchBtn = new wxButton(Instrument, ID_BUTTON7, _("SAVE AS..."), wxPoint(8,328), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON7"));
     LoadPatchBtn = new wxButton(Instrument, ID_BUTTON8, _("LOAD"), wxPoint(80,328), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
     Button7 = new wxButton(Instrument, ID_BUTTON9, _("EXPORT .C"), wxPoint(152,328), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON9"));
@@ -541,79 +541,5 @@ void rbtrackerFrame::playPtn() {
     priming = false; playing=true;
 }
 
-void rbtrackerFrame::OnSaveSongBtnClick(wxCommandEvent& event)
-{
-    int dlg=SaveSongDialog->ShowModal();
-    if(dlg==wxID_OK)
-    {
-        wxFileName my_file(SaveSongDialog->GetPath());
-        wxString my_file_ext=my_file.GetExt().Lower();
 
-        //if(my_file_ext==wxT("jpg")) my_bitmap_tmp.SaveFile(SaveSongDialog->GetPath(),wxBITMAP_TYPE_JPEG);
-        //else if(my_file_ext==wxT("bmp")) my_bitmap_tmp.SaveFile(SaveSongDialog->GetPath(),wxBITMAP_TYPE_BMP);
-
-        //else wxMessageBox(wxT("Extension ERROR"),wxT("ERROR"));
-    }
-}
-
-void rbtrackerFrame::OnLoadSongBtnClick(wxCommandEvent& event)
-{
-        int dlg=LoadSongDialog->ShowModal();
-        if (dlg == wxID_OK)
-        {
-           //my_bitmap.LoadFile(LoadSongDialog->GetPath(), wxBITMAP_TYPE_ANY);
-           //my_wxclientdc->DrawBitmap(my_bitmap,0,0,false);
-        }
-}
-
-void rbtrackerFrame::OnSavePatchBtnClick(wxCommandEvent& event)
-{
-    wxString defname;
-    defname = InstName->GetValue();
-    defname.Append(wxT(".rbp"));
-    SavePatchDialog->SetFilename(defname);
-    int dlg=SavePatchDialog->ShowModal();
-
-    if(dlg==wxID_OK)
-    {
-        defname = SavePatchDialog->GetPath();
-        wxTextFile file(defname);
-        if(file.Exists()) file.Open(defname); else file.Create(defname);
-
-        //wxTextFile file( SavePatchDialog->GetPath(), wxFile::write );
-        //if( file.IsOpened() )
-        //{
-        //file.Write( wxT("write some string data here..."));
-        //... write some more
-        //file.Close();
-        //}
-        //wxFileName my_file(SavePatchDialog->GetPath());
-        //wxString my_file_ext=my_file.GetExt().Lower();
-
-        //if(my_file_ext==wxT("jpg")) my_bitmap_tmp.SaveFile(SaveSongDialog->GetPath(),wxBITMAP_TYPE_JPEG);
-        //else if(my_file_ext==wxT("bmp")) my_bitmap_tmp.SaveFile(SaveSongDialog->GetPath(),wxBITMAP_TYPE_BMP);
-
-        //else wxMessageBox(wxT("Extension ERROR"),wxT("ERROR"));
-    file.Clear();
-    file.AddLine( (wxString)"Created by Class ServoData");
-    file.AddLine(wxString::Format("XRampSpeed=%ld",666));
-// More lines to add text to the file are snipped......
-
-    wxRemoveFile(defname);
-    file.Create(defname);
-
-    file.Write();
-    file.Close();
-    }
-}
-
-void rbtrackerFrame::OnLoadPatchBtnClick(wxCommandEvent& event)
-{
-        int dlg=LoadPatchDialog->ShowModal();
-        if (dlg == wxID_OK)
-        {
-           //my_bitmap.LoadFile(LoadSongDialog->GetPath(), wxBITMAP_TYPE_ANY);
-           //my_wxclientdc->DrawBitmap(my_bitmap,0,0,false);
-        }
-}
 
