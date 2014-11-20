@@ -19,6 +19,8 @@
 #include <wx/spinctrl.h>
 #include <wx/panel.h>
 #include <wx/grid.h>
+#include <wx/filedlg.h>
+#include <wx/choice.h>
 #include <wx/button.h>
 #include <wx/frame.h>
 //*)
@@ -63,6 +65,12 @@ class rbtrackerFrame: public wxFrame
         void OnInstVolChange(wxSpinEvent& event);
         void OnPitchBendChange(wxSpinEvent& event);
         void OnInstTuneChange(wxSpinEvent& event);
+        void OnButton2Click(wxCommandEvent& event);
+        void OnSaveSongBtnClick(wxCommandEvent& event);
+        void OnLoadSongBtnClick(wxCommandEvent& event);
+        void OnButton5Click(wxCommandEvent& event);
+        void OnLoadPatchBtnClick(wxCommandEvent& event);
+        void OnSavePatchBtnClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -76,19 +84,12 @@ class rbtrackerFrame: public wxFrame
         static const long ID_TEXTCTRL1;
         static const long ID_CHECKBOX1;
         static const long ID_CHECKBOX2;
-        static const long ID_SPINCTRL11;
-        static const long ID_SPINCTRL12;
-        static const long ID_SPINCTRL4;
-        static const long ID_STATICTEXT11;
         static const long ID_STATICTEXT12;
-        static const long ID_STATICTEXT4;
         static const long ID_STATICTEXT5;
-        static const long ID_SPINCTRL19;
         static const long ID_SPINCTRL5;
         static const long ID_STATICTEXT21;
-        static const long ID_STATICTEXT6;
-        static const long ID_STATICTEXT20;
         static const long ID_SPINCTRL6;
+        static const long ID_STATICTEXT4;
         static const long ID_STATICTEXT7;
         static const long ID_CHECKBOX3;
         static const long ID_SPINCTRL8;
@@ -98,30 +99,28 @@ class rbtrackerFrame: public wxFrame
         static const long ID_STATICTEXT9;
         static const long ID_STATICTEXT10;
         static const long ID_STATICTEXT8;
+        static const long ID_CHOICE1;
+        static const long ID_CHECKBOX8;
+        static const long ID_CHECKBOX7;
+        static const long ID_BUTTON7;
+        static const long ID_BUTTON8;
         static const long ID_BUTTON9;
-        static const long ID_GRID2;
-        static const long ID_PANEL5;
         static const long ID_PANEL1;
         static const long ID_GRID1;
         static const long ID_PANEL2;
-        static const long ID_TEXTCTRL2;
-        static const long ID_STATICTEXT14;
         static const long ID_STATICTEXT19;
         static const long ID_STATICTEXT15;
         static const long ID_SPINCTRL15;
         static const long ID_SPINCTRL16;
         static const long ID_SPINCTRL14;
         static const long ID_STATICTEXT16;
-        static const long ID_BUTTON6;
-        static const long ID_BUTTON8;
-        static const long ID_BUTTON7;
+        static const long ID_BUTTON3;
         static const long ID_BUTTON4;
-        static const long ID_CHECKBOX7;
+        static const long ID_BUTTON6;
+        static const long ID_BUTTON1;
         static const long ID_PANEL3;
         static const long ID_BUTTON5;
         static const long ID_BUTTON2;
-        static const long ID_BUTTON3;
-        static const long ID_BUTTON1;
         static const long ID_STATICTEXT18;
         static const long ID_STATICTEXT17;
         static const long ID_STATICTEXT13;
@@ -139,69 +138,64 @@ class rbtrackerFrame: public wxFrame
         //(*Declarations(rbtrackerFrame)
         wxStaticText* StaticText10;
         wxStaticText* StaticText9;
-        wxButton* Pause;
-        wxStaticText* StaticText20;
         wxCheckBox* Echo;
-        wxCheckBox* InstAudible;
-        wxSpinCtrl* VibAmount;
+        wxFileDialog* LoadSongDialog;
         wxCheckBox* Ch3;
-        wxSpinCtrl* Arp2;
+        wxButton* LoadSongBtn;
+        wxFileDialog* SaveSongDialog;
+        wxButton* Button4;
         wxStaticText* StaticText13;
         wxStaticText* StaticText2;
-        wxStaticText* StaticText14;
-        wxStaticText* StaticText6;
+        wxButton* Button1;
         wxStaticText* Pitchbendrate;
         wxStaticText* StaticText19;
         wxSpinCtrl* Position;
         wxStaticText* StaticText8;
-        wxStaticText* StaticText11;
         wxStaticText* StaticText18;
         wxCheckBox* Ch2;
+        wxCheckBox* CheckBox2;
         wxPanel* Panel1;
+        wxStaticText* StaticText1;
+        wxStaticText* VibRate;
+        wxButton* SaveSongBtn;
         wxButton* PlayPattern;
         wxStaticText* StaticText3;
-        wxButton* Save;
         wxTextCtrl* InstName;
+        wxCheckBox* CheckBox1;
         wxStaticText* StaticText21;
         wxSpinCtrl* Pattern;
         wxRadioBox* Wave;
-        wxButton* Rewind;
+        wxButton* SavePatchBtn;
         wxSpinCtrl* NumInstruments;
         wxSpinCtrl* Patch;
         wxSpinCtrl* Decay;
         wxCheckBox* Ch1;
-        wxStaticText* StaticText5;
+        wxButton* Button7;
+        wxButton* LoadPatchBtn;
         wxStaticText* StaticText7;
         wxSpinCtrl* InstVol;
         wxButton* PlaySong;
-        wxSpinCtrl* Pitch;
         wxSpinCtrl* BendRate;
         wxPanel* Instrument;
-        wxGrid* TestGrid;
         wxPanel* Tracks;
         wxStaticText* StaticText15;
         wxStaticText* StaticText12;
         wxSpinCtrl* Sustain;
-        wxPanel* Panel2;
-        wxTextCtrl* SongName;
+        wxFileDialog* LoadPatchDialog;
+        wxFileDialog* SavePatchDialog;
         wxSpinCtrl* Tempo;
         wxCheckBox* ADSR;
         wxSpinCtrl* VibSpeed;
         wxSpinCtrl* MaxBend;
-        wxButton* New;
         wxSpinCtrl* Release;
         wxStaticText* StaticText17;
-        wxStaticText* StaticText4;
         wxSpinCtrl* Attack;
-        wxButton* Export;
         wxSpinCtrl* Octave;
+        wxChoice* Choice1;
         wxGrid* Grid;
-        wxButton* Test;
         wxPanel* Control;
-        wxButton* Load;
         wxStaticText* StaticText16;
         wxSpinCtrl* NumPatterns;
-        wxSpinCtrl* Arp1;
         wxCheckBox* Loop;
         //*)
 

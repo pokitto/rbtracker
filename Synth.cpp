@@ -304,6 +304,7 @@ void releaseFunc(OSC* o){
                 } else {
                     o->adsrvol = o->vol;
                 }
+                if (o->echo) o->echo--;
                 o->adsrphase = 1;
                 return;
         }
@@ -334,8 +335,10 @@ void mix2(){
 
 void mix3(){
     // Track 3
-     Farr[osc3.wave](&osc3);
-    if (!playing && !priming) fakeOCR2B = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+    uint8_t echo=0;
+    if (osc3.echo) echo = 16-osc3.echo;
+    Farr[osc3.wave](&osc3);
+    if (!playing && !priming) fakeOCR2B = (((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8) >> echo; // To output, shift back to 8-bit
     else if (priming) soundbuffer[writeindex] = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8;
 }
 
