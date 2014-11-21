@@ -68,11 +68,13 @@
 				<size>87,16</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="InstName" member="yes">
-				<value>Description</value>
+				<value>Patchname</value>
 				<maxlength>20</maxlength>
 				<pos>144,8</pos>
 				<size>152,24</size>
 				<style>wxTE_NO_VSCROLL</style>
+				<handler function="OnInstNameTextEnter" entry="EVT_TEXT" />
+				<handler function="OnInstNameTextEnter" entry="EVT_TEXT_ENTER" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="Loop" member="yes">
 				<label>Loop</label>

@@ -79,6 +79,39 @@ void rbtrackerFrame::OnLoadPatchBtnClick(wxCommandEvent& event)
                 str = file.GetFirstLine();
                 str = file.GetNextLine();
                 InstName->SetValue(str);
+                str = file.GetNextLine(); // wave type
+                Wave->SetSelection(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // instrument volume
+                InstVol->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // pitch bend rate
+                BendRate->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // pitch bend max
+                MaxBend->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // vibrato rate
+                VibRate->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Arpeggio mode
+                ArpMode->SetSelection(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // ADSR toggle
+                ADSR->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Attack
+                Attack->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Decay
+                Decay->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Sustain
+                Sustain->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Release
+                Release->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Loop toggle
+                Loop->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Echo toggle
+                Echo->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Overdrive toggle
+                Overdrive->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                str = file.GetNextLine(); // Drum kick toggle
+                Kick->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                setPatch();
+                file.Close();
             }
+
         }
 }

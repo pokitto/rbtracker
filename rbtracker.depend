@@ -880,7 +880,7 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\univ\theme.h
 	"wx/string.h"
 
-1416499720 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+1416551412 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
 	<wx/stattext.h>
 	<wx/radiobox.h>
 	<wx/menu.h>
@@ -1353,10 +1353,12 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1416403293 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1416548285 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
 	"led.h"
 	"Synth.h"
 	"oscillator.h"
@@ -2105,4 +2107,31 @@
 	"rbtrackerMain.h"
 	"utilities.h"
 	"notes.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\textfile.h
+	"wx/defs.h"
+	"wx/textbuf.h"
+	"wx/file.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\textbuf.h
+	"wx/defs.h"
+	"wx/arrstr.h"
+	"wx/convauto.h"
+	"wx/string.h"
+	"wx/dynarray.h"
+
+1416547006 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerio.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+
+1416548141 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	"synth.h"
 

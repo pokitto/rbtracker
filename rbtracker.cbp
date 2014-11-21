@@ -51,6 +51,7 @@
 		<Unit filename="oscillator.h" />
 		<Unit filename="rbtrackerApp.cpp" />
 		<Unit filename="rbtrackerApp.h" />
+		<Unit filename="rbtrackerIO.cpp" />
 		<Unit filename="rbtrackerMain.cpp" />
 		<Unit filename="rbtrackerMain.h" />
 		<Unit filename="resource.rc">
@@ -59,6 +60,7 @@
 		<Unit filename="utilities.cpp" />
 		<Unit filename="utilities.h" />
 		<Unit filename="wxKeyEventExample.txt" />
+		<Unit filename="wxTextFile example.txt" />
 		<Unit filename="wxsmith/rbtrackerframe.wxs" />
 		<Extensions>
 			<code_completion />

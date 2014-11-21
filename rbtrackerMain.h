@@ -27,6 +27,8 @@
 
 #include <wx/timer.h>
 
+extern wxString iNames[];
+
 class rbtrackerFrame: public wxFrame
 {
     public:
@@ -35,6 +37,9 @@ class rbtrackerFrame: public wxFrame
         virtual ~rbtrackerFrame();
         void playNote(uint8_t);
         void playPtn();
+        void setPatch();
+        void getpatch();
+
 
     private:
 
@@ -71,6 +76,7 @@ class rbtrackerFrame: public wxFrame
         void OnButton5Click(wxCommandEvent& event);
         void OnLoadPatchBtnClick(wxCommandEvent& event);
         void OnSavePatchBtnClick(wxCommandEvent& event);
+        void OnInstNameTextEnter(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)

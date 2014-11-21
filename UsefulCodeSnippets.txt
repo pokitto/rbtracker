@@ -1,0 +1,7 @@
+    wxArrayString *array = new wxArrayString ;
+    array->Add("hello");
+    array->Add("world");
+    int num = array->GetCount();
+    wxString str[num];
+    for(int i=0;i<num;i++)
+        str[i] = array[i];

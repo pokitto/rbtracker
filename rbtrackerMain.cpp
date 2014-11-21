@@ -27,6 +27,7 @@
 uint8_t ticks=0;
 uint16_t period=100;
 
+wxString iNames[16];
 
 //helper functions
 enum wxbuildinfoformat {
@@ -157,7 +158,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText2 = new wxStaticText(Instrument, ID_STATICTEXT2, _("Patch"), wxPoint(8,8), wxSize(64,24), 0, _T("ID_STATICTEXT2"));
     StaticText3 = new wxStaticText(Instrument, ID_STATICTEXT3, _("Volume"), wxPoint(144,40), wxSize(64,16), 0, _T("ID_STATICTEXT3"));
     Pitchbendrate = new wxStaticText(Instrument, ID_STATICTEXT1, _("Pitch bend rate"), wxPoint(144,72), wxSize(87,16), 0, _T("ID_STATICTEXT1"));
-    InstName = new wxTextCtrl(Instrument, ID_TEXTCTRL1, _("Description"), wxPoint(144,8), wxSize(152,24), wxTE_NO_VSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+    InstName = new wxTextCtrl(Instrument, ID_TEXTCTRL1, _("Patchname"), wxPoint(144,8), wxSize(152,24), wxTE_NO_VSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
     InstName->SetMaxLength(20);
     Loop = new wxCheckBox(Instrument, ID_CHECKBOX1, _("Loop"), wxPoint(16,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     Loop->SetValue(false);
@@ -271,6 +272,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstTuneChange);
     Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstVolChange);
     Connect(ID_SPINCTRL1,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPatchChange);
+    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstNameTextEnter);
+    Connect(ID_TEXTCTRL1,wxEVT_COMMAND_TEXT_ENTER,(wxObjectEventFunction)&rbtrackerFrame::OnInstNameTextEnter);
     Connect(ID_CHECKBOX1,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoopClick);
     Connect(ID_CHECKBOX2,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnEchoClick);
     Connect(ID_SPINCTRL5,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPitchBendChange);
@@ -431,64 +434,7 @@ void rbtrackerFrame::playNote(uint8_t notenum)
 }
 
 
-void rbtrackerFrame::OnPatchChange(wxSpinEvent& event)
-{
-    int i = Patch->GetValue();
-    Wave->SetSelection(patch[i].wave);
-    Loop->SetValue(patch[i].loop);
-    Echo->SetValue(patch[i].echo);
-    ADSR->SetValue(patch[i].adsr);
-    InstVol->SetValue(patch[i].vol);
-    Attack->SetValue(patch[i].attack);
-    Decay->SetValue(patch[i].decay);
-    Sustain->SetValue(patch[i].sustain>>8); // sustain is a volume level, not a rate
-    Release->SetValue(patch[i].release);
-    MaxBend->SetValue(patch[i].maxbend);
-    BendRate->SetValue(patch[i].bendrate);
-}
 
-void rbtrackerFrame::OnAttackChange(wxSpinEvent& event)
-{
-    patch[Patch->GetValue()].attack = Attack->GetValue();
-    patch[Patch->GetValue()].decay = Decay->GetValue();
-    patch[Patch->GetValue()].sustain = Sustain->GetValue()<<8; // sustain is a volume level, not a rate
-    patch[Patch->GetValue()].release = Release->GetValue();
-}
-
-void rbtrackerFrame::OnWaveSelect(wxCommandEvent& event)
-{
-    patch[Patch->GetValue()].wave = Wave->GetSelection();
-}
-
-void rbtrackerFrame::OnLoopClick(wxCommandEvent& event)
-{
-    patch[Patch->GetValue()].loop = Loop->IsChecked();
-}
-
-void rbtrackerFrame::OnEchoClick(wxCommandEvent& event)
-{
-    patch[Patch->GetValue()].echo = Echo->IsChecked() * 16; // echo loops maximum 16 times
-}
-
-void rbtrackerFrame::OnADSRClick(wxCommandEvent& event)
-{
-    patch[Patch->GetValue()].adsr = ADSR->IsChecked();
-}
-
-void rbtrackerFrame::OnInstVolChange(wxSpinEvent& event)
-{
-    patch[Patch->GetValue()].vol = InstVol->GetValue();
-}
-
-void rbtrackerFrame::OnPitchBendChange(wxSpinEvent& event)
-{
-    patch[Patch->GetValue()].maxbend = MaxBend->GetValue();
-}
-
-void rbtrackerFrame::OnInstTuneChange(wxSpinEvent& event)
-{
-    patch[Patch->GetValue()].bendrate = BendRate->GetValue();
-}
 
 void rbtrackerFrame::playPtn() {
     uint16_t h = samplespertick; // Initiate samples per tick counter, force first SetOsc
