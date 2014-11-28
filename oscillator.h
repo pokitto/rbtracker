@@ -29,6 +29,7 @@ struct OSC {
   byte echo;
   byte echodiv;
   byte adsr;
+  byte tonic;
 
   uint16_t count;
 
@@ -49,6 +50,8 @@ struct OSC {
 
   uint8_t vibrate;
   uint8_t arpmode;
+  uint8_t arpspeed;
+  uint8_t arpstep;
   uint8_t overdrive;
   uint8_t kick;
 

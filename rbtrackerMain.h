@@ -83,6 +83,7 @@ class rbtrackerFrame: public wxFrame
         void OnLoadPatchBtnClick(wxCommandEvent& event);
         void OnSavePatchBtnClick(wxCommandEvent& event);
         void OnInstNameTextEnter(wxCommandEvent& event);
+        void OnArpModeSelect(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)

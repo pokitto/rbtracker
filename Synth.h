@@ -27,7 +27,7 @@ extern void stopSound();
 
 extern void setOSC(OSC* o,byte, byte, byte, byte, byte, uint8_t, uint8_t,
             uint16_t, uint16_t, uint16_t, uint16_t,
-            int16_t,int16_t);
+            int16_t,int16_t, uint8_t);
 extern void output2file();
 extern void outputADSR(uint16_t);
 extern boolean playing, priming;
@@ -45,5 +45,7 @@ extern OSC osc1,osc2,osc3;
 extern TRACK track[]; // array of tracks
 extern boolean PWMemulation;
 extern OSC patch[];
+
+extern int8_t arptable[][3];
 
 #endif /* SYNTH_H */

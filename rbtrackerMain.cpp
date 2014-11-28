@@ -188,10 +188,12 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(144,288), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
     ArpMode = new wxChoice(Instrument, ID_CHOICE1, wxPoint(232,145), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
     ArpMode->SetSelection( ArpMode->Append(_("OFF")) );
-    ArpMode->Append(_("1-3-5"));
-    ArpMode->Append(_("5-3-1"));
-    ArpMode->Append(_("3-5-1"));
-    ArpMode->Append(_("1-5-3"));
+    ArpMode->Append(_("M slow"));
+    ArpMode->Append(_("M med"));
+    ArpMode->Append(_("M fast"));
+    ArpMode->Append(_("m slow"));
+    ArpMode->Append(_("m med"));
+    ArpMode->Append(_("m fast"));
     Overdrive = new wxCheckBox(Instrument, ID_CHECKBOX8, _("Overdrive X2"), wxPoint(16,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
     Overdrive->SetValue(false);
     Kick = new wxCheckBox(Instrument, ID_CHECKBOX7, _("Drum kick"), wxPoint(16,288), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
@@ -282,6 +284,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_SPINCTRL9,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
     Connect(ID_SPINCTRL10,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
     Connect(ID_SPINCTRL7,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnAttackChange);
+    Connect(ID_CHOICE1,wxEVT_COMMAND_CHOICE_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnArpModeSelect);
     Connect(ID_BUTTON7,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnSavePatchBtnClick);
     Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoadPatchBtnClick);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnGrid1CellLeftClick);
@@ -433,7 +436,7 @@ void rbtrackerFrame::playNote(uint8_t notenum)
 {
     setOSC(&osc1,1,Wave->GetSelection(),Loop->IsChecked(), Echo->IsChecked(), ADSR->IsChecked(),
            notenum,InstVol->GetValue(), Attack->GetValue(), Decay->GetValue(), Sustain->GetValue()<<8,
-           Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue());
+           Release->GetValue(), MaxBend->GetValue(), BendRate->GetValue(), ArpMode->GetSelection());
 }
 
 
@@ -446,9 +449,9 @@ void rbtrackerFrame::playPtn() {
     tick=3;
 
     // Zero all oscillators
-    setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    setOSC(&osc2,0,0,0,0,0,0,0,0,0,0,0,0,0);
-    setOSC(&osc3,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc2,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc3,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 
     for (writeindex=0; writeindex < samplesperpattern; writeindex++) // Fill the buffer
     {
@@ -460,7 +463,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc1,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[0].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].maxbend, patch[i].bendrate );
+                patch[i].maxbend, patch[i].bendrate, patch[i].arpmode );
                 }
             // TRACK 2
             if (track[1].on) i = track[1].instrument[patternpos];
@@ -469,7 +472,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc2,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[1].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].maxbend, patch[i].bendrate );
+                patch[i].maxbend, patch[i].bendrate, patch[i].arpmode );
                 }
             // TRACK 3
             if (track[2].on) i = track[2].instrument[patternpos];
@@ -478,7 +481,7 @@ void rbtrackerFrame::playPtn() {
                 setOSC(&osc3,1,patch[i].wave,patch[i].loop, patch[i].echo, patch[i].adsr,
                 track[2].notenumber[patternpos],patch[i].vol,
                 patch[i].attack, patch[i].decay, patch[i].sustain,patch[i].release,
-                patch[i].maxbend, patch[i].bendrate );
+                patch[i].maxbend, patch[i].bendrate, patch[i].arpmode );
                 }
             patternpos++;
             if (patternpos == 64) patternpos = 0;
@@ -489,6 +492,8 @@ void rbtrackerFrame::playPtn() {
         } // end of fill buffer
     priming = false; playing=true;
 }
+
+
 
 
 

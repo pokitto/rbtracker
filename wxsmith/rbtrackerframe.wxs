@@ -168,14 +168,17 @@
 			<object class="wxChoice" name="ID_CHOICE1" variable="ArpMode" member="yes">
 				<content>
 					<item>OFF</item>
-					<item>1-3-5</item>
-					<item>5-3-1</item>
-					<item>3-5-1</item>
-					<item>1-5-3</item>
+					<item>M slow</item>
+					<item>M med</item>
+					<item>M fast</item>
+					<item>m slow</item>
+					<item>m med</item>
+					<item>m fast</item>
 				</content>
 				<selection>0</selection>
 				<pos>232,145</pos>
 				<size>64,21</size>
+				<handler function="OnArpModeSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="Overdrive" member="yes">
 				<label>Overdrive X2</label>

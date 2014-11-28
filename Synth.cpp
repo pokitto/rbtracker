@@ -24,15 +24,23 @@ uint16_t playerpos=0,noiseval, noiseval2;
 long samplespertick=0;
 long samplesperpattern=0;
 
-
+int8_t arptable[5][3] = {
+{0,0,0}, // Off
+{0,4,7}, // Major tonic, 3rd, 5th
+{7,4,0}, // Reverse major 5th, 3rd, tonic
+{0,3,7}, // Minor tonic, 3rd, 5th
+{7,3,0}  // Reverse minor, 5th, 3rd, tonic
+};
 
 OSC osc1,osc2,osc3;
 TRACK track[3];
 OSC patch[16];
 
 #define VOLTICK 5
+#define ARPTICK 210
 uint8_t tick=3; // loops between 3 channels. Tick 3 is used to calculate volume envelopes
 char voltick=0; // i need to make volume changes even slower
+uint16_t arptick=0; // i need to make volume changes even slower
 
 typedef void (*waveFunction)(OSC*);
 typedef void (*envFunction)(OSC*);
@@ -343,6 +351,16 @@ void mix3(){
 
 void updateEnvelopes(){
     //calculate volume envelopes, I do this to save cpu power
+    if (arptick) --arptick;
+    else {
+            if (osc1.arpmode) {
+                osc1.cinc = cincs[osc1.tonic+arptable[osc1.arpmode][osc1.arpstep]];
+                osc1.arpstep++;
+                if (osc1.arpstep==3) osc1.arpstep = 0;
+            }
+    arptick = ARPTICK << (3-osc1.arpspeed);
+    }
+
     if (voltick) --voltick;
     else {
             Earr[osc1.adsrphase](&osc1);
@@ -381,18 +399,25 @@ void fakeISR(){
 void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0,
             uint8_t notenumber=25, uint8_t volume=127,
             uint16_t attack=0, uint16_t decay=0, uint16_t sustain=0, uint16_t release=0,
-            int16_t maxbend=0, int16_t bendrate=0)
+            int16_t maxbend=0, int16_t bendrate=0, uint8_t arpmode = 0)
 {
   o->on = on;
+
   o->wave = wave;
   o->loop = loop;
   o->echo = echo; //echo shifts left 8 steps to zero
   o->echodiv = 0;
   o->adsr = adsr;
+  if (arpmode) {
+        if (arpmode < 4) {o->arpmode = 1; o->arpspeed = arpmode;}
+        else {o->arpmode = 3; o->arpspeed = arpmode-3;}
+  } else o->arpmode = 0;
+  o->arpstep = 0;
   o->count = 0;
   noiseval = random(0,0xFFFF);
 
   o->cinc = cincs[notenumber]; // direct cinc from table, no calculation
+  o->tonic = notenumber; // save tonic for arpeggio use
   if (wave == 2) o->cinc >>= 1; // correct pitch for saw wave
   if (wave == 4) o->cinc <<= 1; // enable higher pitch for pure noise
   o->vol = volume << 8;//volume;

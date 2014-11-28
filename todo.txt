@@ -5,3 +5,4 @@
 5) make vibrato work
 6) port sound core to the target hardware
 7) add drum kick feature
+8) make arpeggio work

@@ -71,6 +71,11 @@ void rbtrackerFrame::OnInstTuneChange(wxSpinEvent& event)
      if (Patch->GetValue()>instedited) {instedited = Patch->GetValue(); NumInstruments->SetValue(instedited);}
 }
 
+void rbtrackerFrame::OnArpModeSelect(wxCommandEvent& event)
+{
+    patch[Patch->GetValue()].arpmode = ArpMode->GetSelection();
+}
+
 void rbtrackerFrame::setPatch(int i)
 {
     iNames[i] = InstName->GetValue();
@@ -85,6 +90,7 @@ void rbtrackerFrame::setPatch(int i)
     patch[i].decay = Decay->GetValue();
     patch[i].sustain = Sustain->GetValue()<<8; // sustain is a volume level, not a rate
     patch[i].release = Release->GetValue();
+    patch[i].arpmode = ArpMode->GetSelection();
 }
 
 void rbtrackerFrame::getPatch(int i) {
