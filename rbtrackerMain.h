@@ -26,8 +26,10 @@
 //*)
 
 #include <wx/timer.h>
+#include <wx/textfile.h>
 
 extern wxString iNames[];
+extern uint16_t instedited;
 
 class rbtrackerFrame: public wxFrame
 {
@@ -37,8 +39,12 @@ class rbtrackerFrame: public wxFrame
         virtual ~rbtrackerFrame();
         void playNote(uint8_t);
         void playPtn();
-        void setPatch();
-        void getpatch();
+        void setPatch(int);
+        void getPatch(int);
+        void writePatchToFile(wxTextFile &);
+        void readPatchFromFile(wxTextFile &);
+        void writePatternToFile(wxTextFile &);
+        void readPatternFromFile(wxTextFile &);
 
 
     private:

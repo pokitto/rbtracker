@@ -46,6 +46,7 @@
 		</Linker>
 		<Unit filename="Synth.cpp" />
 		<Unit filename="Synth.h" />
+		<Unit filename="UsefulCodeSnippets.txt" />
 		<Unit filename="fastdiv.cpp" />
 		<Unit filename="fastdiv.h" />
 		<Unit filename="oscillator.h" />
@@ -54,6 +55,7 @@
 		<Unit filename="rbtrackerIO.cpp" />
 		<Unit filename="rbtrackerMain.cpp" />
 		<Unit filename="rbtrackerMain.h" />
+		<Unit filename="rbtrackerPatchPanel.cpp" />
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>

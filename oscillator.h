@@ -27,6 +27,7 @@ struct OSC {
   byte wave;
   byte loop;
   byte echo;
+  byte echodiv;
   byte adsr;
 
   uint16_t count;
@@ -45,6 +46,11 @@ struct OSC {
   int16_t pitchbend;   // bends cycle counter (more is higher pitch)
   int16_t maxbend; // maximum bend before stopping
   int16_t bendrate; // how much to bend by every cycle
+
+  uint8_t vibrate;
+  uint8_t arpmode;
+  uint8_t overdrive;
+  uint8_t kick;
 
 };
 

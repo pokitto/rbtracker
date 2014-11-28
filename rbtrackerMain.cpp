@@ -25,7 +25,7 @@
 //*)
 
 uint8_t ticks=0;
-uint16_t period=100;
+uint16_t period=100, instedited=1;
 
 wxString iNames[16];
 
@@ -372,6 +372,7 @@ void rbtrackerFrame::OnCh1Click(wxCommandEvent& event)
     if (Ch1->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,0,wxColor(0,0,0));
     else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,0,wxColor(170,170,170));
     Grid->Refresh();
+    track[0].on = Ch1->IsChecked();
 }
 
 void rbtrackerFrame::OnCh2Click(wxCommandEvent& event)
@@ -379,6 +380,7 @@ void rbtrackerFrame::OnCh2Click(wxCommandEvent& event)
     if (Ch2->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,1,wxColor(0,0,0));
     else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,1,wxColor(170,170,170));
     Grid->Refresh();
+    track[1].on = Ch2->IsChecked();
 }
 
 void rbtrackerFrame::OnCh3Click(wxCommandEvent& event)
@@ -386,6 +388,7 @@ void rbtrackerFrame::OnCh3Click(wxCommandEvent& event)
     if (Ch3->IsChecked()) for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,2,wxColor(0,0,0));
     else for (int row = 0; row <64 ; row++) Grid->SetCellTextColour(row,2,wxColor(170,170,170));
     Grid->Refresh();
+    track[2].on = Ch3->IsChecked();
 }
 
 void rbtrackerFrame::OnGrid1CellLeftClick(wxGridEvent& event)

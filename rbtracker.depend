@@ -880,7 +880,7 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\univ\theme.h
 	"wx/string.h"
 
-1416551412 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+1416670571 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
 	<wx/stattext.h>
 	<wx/radiobox.h>
 	<wx/menu.h>
@@ -894,6 +894,7 @@
 	<wx/button.h>
 	<wx/frame.h>
 	<wx/timer.h>
+	<wx/textfile.h>
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\stattext.h
 	"wx/defs.h"
@@ -1353,7 +1354,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1416548285 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1417177012 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2084,11 +2085,11 @@
 	"oscillator.h"
 	"notes.h"
 
-1415967205 c:\dev\myprojects\wxprojects\rbtracker\oscillator.h
+1417177917 c:\dev\myprojects\wxprojects\rbtracker\oscillator.h
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1416403602 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1417178059 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"
@@ -2100,10 +2101,10 @@
 
 1346454613 c:\dev\portaudio\include\portaudio.h
 
-1415888548 c:\dev\myprojects\wxprojects\rbtracker\utilities.h
+1416579559 c:\dev\myprojects\wxprojects\rbtracker\utilities.h
 	<wx/string.h>
 
-1415888400 source:c:\dev\myprojects\wxprojects\rbtracker\utilities.cpp
+1416658045 source:c:\dev\myprojects\wxprojects\rbtracker\utilities.cpp
 	"rbtrackerMain.h"
 	"utilities.h"
 	"notes.h"
@@ -2120,14 +2121,16 @@
 	"wx/string.h"
 	"wx/dynarray.h"
 
-1416547006 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerio.cpp
+1416596860 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerio.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
 	<wx/filename.h>
 	<wx/textfile.h>
+	"synth.h"
+	"utilities.h"
 
-1416548141 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
+1416673448 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>

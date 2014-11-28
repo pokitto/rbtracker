@@ -1,0 +1,7 @@
+1) add possibility of multiple patterns
+2) make storing song as C structure possible
+3) fix the missing support for tracks - OK
+4) make echo work - OK
+5) make vibrato work
+6) port sound core to the target hardware
+7) add drum kick feature

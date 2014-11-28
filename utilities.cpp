@@ -95,6 +95,98 @@ uint16_t cincs[] ={
 5958,  // 88 - NOTE_DS8
 };
 
+wxString NoteNames[] = {
+"B-0",  // 0 - NOTE_B0
+"C-1",  // 1 - NOTE_C1
+"C#1",  // 2 - NOTE_CS1
+"D-1",  // 3 - NOTE_D1
+"D#1",  // 4 - NOTE_DS1
+"E-1",  // 5 - NOTE_E1
+"F-1",  // 6 - NOTE_F1
+"F#1",  // 7 - NOTE_FS1
+"G-1",  // 8 - NOTE_G1
+"G#1",  // 9 - NOTE_GS1
+"A-1",  // 10 - NOTE_A1
+"A#1",  // 11 - NOTE_AS1
+"B-1",  // 12 - NOTE_B1
+"C-2",  // 2 - NOTE_C2
+"C#2",  // 2 - NOTE_CS2
+"D-2",  // 3 - NOTE_D2
+"D#2",  // 4 - NOTE_DS2
+"E-2",  // 5 - NOTE_E2
+"F-2",  // 6 - NOTE_F2
+"F#2",  // 7 - NOTE_FS2
+"G-2",  // 8 - NOTE_G2
+"G#2",  // 9 - NOTE_GS2
+"A-2",  // 20 - NOTE_A2
+"A#2",  // 22 - NOTE_AS2
+"B-2",  // 22 - NOTE_B2
+"C-3",  // 3 - NOTE_C3
+"C#3",  // 3 - NOTE_CS3
+"D-3",  // 3 - NOTE_D3
+"D#3",  // 4 - NOTE_DS3
+"E-3",  // 5 - NOTE_E3
+"F-3",  // 6 - NOTE_F3
+"F#3",  // 7 - NOTE_FS3
+"G-3",  // 8 - NOTE_G3
+"G#3",  // 9 - NOTE_GS3
+"A-3",  // 30 - NOTE_A3
+"A#3",  // 33 - NOTE_AS3
+"B-3",  // 33 - NOTE_B3
+"C-4",  // 4 - NOTE_C4
+"C#4",  // 4 - NOTE_CS4
+"D-4",  // 3 - NOTE_D4
+"D#4",  // 4 - NOTE_DS4
+"E-4",  // 5 - NOTE_E4
+"F-4",  // 6 - NOTE_F4
+"F#4",  // 7 - NOTE_FS4
+"G-4",  // 8 - NOTE_G4
+"G#4",  // 9 - NOTE_GS4
+"A-4",  // 40 - NOTE_A4
+"A#4",  // 44 - NOTE_AS4
+"B-4",  // 44 - NOTE_B4
+"C-5",  // 5 - NOTE_C5
+"C#5",  // 5 - NOTE_CS5
+"D-5",  // 3 - NOTE_D5
+"D#5",  // 4 - NOTE_DS5
+"E-5",  // 5 - NOTE_E5
+"F-5",  // 6 - NOTE_F5
+"F#5",  // 7 - NOTE_FS5
+"G-5",  // 8 - NOTE_G5
+"G#5",  // 9 - NOTE_GS5
+"A-5",  // 50 - NOTE_A5
+"A#5",  // 55 - NOTE_AS5
+"B-5",  // 55 - NOTE_B5
+"C-6",  // 6 - NOTE_C6
+"C#6",  // 6 - NOTE_CS6
+"D-6",  // 3 - NOTE_D6
+"D#6",  // 4 - NOTE_DS6
+"E-6",  // 5 - NOTE_E6
+"F-6",  // 6 - NOTE_F6
+"F#6",  // 7 - NOTE_FS6
+"G-6",  // 8 - NOTE_G6
+"G#6",  // 9 - NOTE_GS6
+"A-6",  // 60 - NOTE_A6
+"A#6",  // 66 - NOTE_AS6
+"B-6",  // 66 - NOTE_B6
+"C-7",  // 7 - NOTE_C7
+"C#7",  // 7 - NOTE_CS7
+"D-7",  // 3 - NOTE_D7
+"D#7",  // 4 - NOTE_DS7
+"E-7",  // 5 - NOTE_E7
+"F-7",  // 6 - NOTE_F7
+"F#7",  // 7 - NOTE_FS7
+"G-7",  // 8 - NOTE_G7
+"G#7",  // 9 - NOTE_GS7
+"A-7",  // 70 - NOTE_A7
+"A#7",  // 77 - NOTE_AS7
+"B-7",  // 77 - NOTE_B7
+"C-8",  // 8 - NOTE_C8
+"C#8",  // 8 - NOTE_CS8
+"D-8",  // 3 - NOTE_D8
+"D#8"  // 4 - NOTE_DS8
+};
+
 uint16_t freqs[] = {
 31,  // 0 - NOTE_B0
 33,  // 1 - NOTE_C1
@@ -189,7 +281,7 @@ uint16_t freqs[] = {
 
 uint8_t KeyToNumber(wxString iText, int oct)
 {
-   oct = oct*12; // shift index by octave
+   oct = (oct-1)*12; // shift index by octave
 
    switch (iText[0].GetValue()) {
     case 'X':

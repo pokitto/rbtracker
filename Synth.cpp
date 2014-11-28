@@ -93,7 +93,7 @@ static int paCallback( const void *inputBuffer, void *outputBuffer,
                     if (playerpos == 64) playerpos = 0;
                     if (readindex == samplesperpattern) {
                         readindex=0;
-                        out = &soundbuffer[0];
+                        //out = &soundbuffer[0];
                     }
             } else if (!priming) {
                     fakeISR(); /** create next sample **/
@@ -296,15 +296,16 @@ void decayFunc(OSC* o){
 }
 
 void releaseFunc(OSC* o){
-    if (o->adsrvol) o->adsrvol -= o->release;
-    if (o->adsrvol > 0x8000) { // below zero, but looped back
+    if (o->adsrvol > o->release) o->adsrvol -= o->release;
+    else o->adsrvol = 0;
+    if (!o->adsrvol) { // we have hit zero volume level
         if (o->loop) {
                 if (o->attack) {
                     o->adsrvol = 0;
                 } else {
                     o->adsrvol = o->vol;
                 }
-                if (o->echo) o->echo--;
+                if (o->echo) o->echodiv++;
                 o->adsrphase = 1;
                 return;
         }
@@ -322,7 +323,7 @@ void releaseFunc(OSC* o){
 void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
-    if (!playing && !priming) fakeOCR2B = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
+     if (!playing && !priming) fakeOCR2B = (((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8) >> osc1.echodiv; // To output, shift back to 8-bit
     else if (priming) soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
 }
 
@@ -335,10 +336,8 @@ void mix2(){
 
 void mix3(){
     // Track 3
-    uint8_t echo=0;
-    if (osc3.echo) echo = 16-osc3.echo;
     Farr[osc3.wave](&osc3);
-    if (!playing && !priming) fakeOCR2B = (((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8) >> echo; // To output, shift back to 8-bit
+    if (!playing && !priming) fakeOCR2B = (((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8) >> osc3.echodiv; // To output, shift back to 8-bit
     else if (priming) soundbuffer[writeindex] = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8;
 }
 
@@ -387,7 +386,8 @@ void setOSC(OSC* o,byte on=1, byte wave=1, byte loop=0, byte echo=0, byte adsr=0
   o->on = on;
   o->wave = wave;
   o->loop = loop;
-  o->echo = echo;
+  o->echo = echo; //echo shifts left 8 steps to zero
+  o->echodiv = 0;
   o->adsr = adsr;
   o->count = 0;
   noiseval = random(0,0xFFFF);
