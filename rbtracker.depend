@@ -880,13 +880,14 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\univ\theme.h
 	"wx/string.h"
 
-1417181828 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+1419202164 c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.h
 	<wx/stattext.h>
 	<wx/radiobox.h>
 	<wx/menu.h>
 	<wx/textctrl.h>
 	<wx/checkbox.h>
 	<wx/spinctrl.h>
+	<wx/statline.h>
 	<wx/panel.h>
 	<wx/grid.h>
 	<wx/filedlg.h>
@@ -1354,7 +1355,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1417187661 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1419207227 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2079,7 +2080,7 @@
 	<wx/dcclient.h>
 	<wx/thread.h>
 
-1417180853 c:\dev\myprojects\wxprojects\rbtracker\synth.h
+1417202355 c:\dev\myprojects\wxprojects\rbtracker\synth.h
 	<stdint.h>
 	<stdlib.h>
 	"oscillator.h"
@@ -2089,7 +2090,7 @@
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1417181369 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1417202439 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"
@@ -2130,11 +2131,29 @@
 	"synth.h"
 	"utilities.h"
 
-1417181903 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
+1417198088 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
 	<wx/filename.h>
 	<wx/textfile.h>
 	"synth.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\statline.h
+	"wx/defs.h"
+	"wx/control.h"
+	"wx/univ/statline.h"
+	"wx/msw/statline.h"
+	"wx/gtk/statline.h"
+	"wx/gtk1/statline.h"
+	"wx/os2/statline.h"
+	"wx/osx/statline.h"
+	"wx/cocoa/statline.h"
+	"wx/generic/statline.h"
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\univ\statline.h
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\msw\statline.h
+
+1412493550 c:\wxwidgets-3.0.2\include\wx\generic\statline.h
 

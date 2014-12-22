@@ -46,6 +46,6 @@ extern TRACK track[]; // array of tracks
 extern boolean PWMemulation;
 extern OSC patch[];
 
-extern int8_t arptable[][3];
+extern int8_t arptable[][5];
 
 #endif /* SYNTH_H */

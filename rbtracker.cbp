@@ -59,6 +59,7 @@
 		<Unit filename="resource.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="todo.txt" />
 		<Unit filename="utilities.cpp" />
 		<Unit filename="utilities.h" />
 		<Unit filename="wxKeyEventExample.txt" />

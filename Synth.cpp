@@ -24,12 +24,12 @@ uint16_t playerpos=0,noiseval, noiseval2;
 long samplespertick=0;
 long samplesperpattern=0;
 
-int8_t arptable[5][3] = {
-{0,0,0}, // Off
-{0,4,7}, // Major tonic, 3rd, 5th
-{7,4,0}, // Reverse major 5th, 3rd, tonic
-{0,3,7}, // Minor tonic, 3rd, 5th
-{7,3,0}  // Reverse minor, 5th, 3rd, tonic
+int8_t arptable[5][5] = {
+{0,0,0,0,0}, // Off
+{0,4,7,4,0}, // Major tonic, 3rd, 5th
+{7,4,0,4,7}, // Reverse major 5th, 3rd, tonic
+{0,3,7,3,0}, // Minor tonic, 3rd, 5th
+{7,3,0,3,7}  // Reverse minor, 5th, 3rd, tonic
 };
 
 OSC osc1,osc2,osc3;
@@ -37,7 +37,7 @@ TRACK track[3];
 OSC patch[16];
 
 #define VOLTICK 5
-#define ARPTICK 210
+#define ARPTICK 200
 uint8_t tick=3; // loops between 3 channels. Tick 3 is used to calculate volume envelopes
 char voltick=0; // i need to make volume changes even slower
 uint16_t arptick=0; // i need to make volume changes even slower
@@ -332,21 +332,21 @@ void mix1(){
     // Track 1
     Farr[osc1.wave](&osc1);
      if (!playing && !priming) fakeOCR2B = (((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8) >> osc1.echodiv; // To output, shift back to 8-bit
-    else if (priming) soundbuffer[writeindex] = ((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8;
+    else if (priming) soundbuffer[writeindex] = (((osc1.output>>8) * (osc1.adsrvol >>8 )) >> 8) >> osc1.echodiv;
 }
 
 void mix2(){
     // Track 2
     Farr[osc2.wave](&osc2);
-    if (!playing && !priming) fakeOCR2B = ((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8 ; // To output, shift back to 8-bit
-    else if (priming) soundbuffer[writeindex] = ((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8;
+    if (!playing && !priming) fakeOCR2B = (((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8) >> osc2.echodiv;  // To output, shift back to 8-bit
+    else if (priming) soundbuffer[writeindex] = (((osc2.output>>8) * (osc2.adsrvol >>8 )) >> 8) >> osc2.echodiv;
 }
 
 void mix3(){
     // Track 3
     Farr[osc3.wave](&osc3);
     if (!playing && !priming) fakeOCR2B = (((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8) >> osc3.echodiv; // To output, shift back to 8-bit
-    else if (priming) soundbuffer[writeindex] = ((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8;
+    else if (priming) soundbuffer[writeindex] = (((osc3.output>>8) * (osc3.adsrvol >>8 )) >> 8) >> osc3.echodiv;;
 }
 
 void updateEnvelopes(){
@@ -356,9 +356,22 @@ void updateEnvelopes(){
             if (osc1.arpmode) {
                 osc1.cinc = cincs[osc1.tonic+arptable[osc1.arpmode][osc1.arpstep]];
                 osc1.arpstep++;
-                if (osc1.arpstep==3) osc1.arpstep = 0;
+                if (osc1.arpstep==5) osc1.arpstep = 0;
+                arptick = ARPTICK << (3-osc1.arpspeed);
             }
-    arptick = ARPTICK << (3-osc1.arpspeed);
+            if (osc2.arpmode) {
+                osc2.cinc = cincs[osc2.tonic+arptable[osc2.arpmode][osc2.arpstep]];
+                osc2.arpstep++;
+                if (osc2.arpstep==5) osc2.arpstep = 0;
+                arptick = ARPTICK << (3-osc2.arpspeed);
+            }
+            if (osc3.arpmode) {
+                osc3.cinc = cincs[osc3.tonic+arptable[osc3.arpmode][osc3.arpstep]];
+                osc3.arpstep++;
+                if (osc3.arpstep==5) osc3.arpstep = 0;
+                arptick = ARPTICK << (3-osc3.arpspeed);
+            }
+
     }
 
     if (voltick) --voltick;

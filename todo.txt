@@ -2,7 +2,12 @@
 2) make storing song as C structure possible
 3) fix the missing support for tracks - OK
 4) make echo work - OK
-5) make vibrato work
+5) make vibrato work - OK
 6) port sound core to the target hardware
 7) add drum kick feature
-8) make arpeggio work
+8) make arpeggio work - OK
+9) pack options into options bits
+10) add transpose
+11) make notes different colour according to instrument
+12) add editable mode for pattern
+

@@ -43,7 +43,7 @@ void rbtrackerFrame::OnLoopClick(wxCommandEvent& event)
 
 void rbtrackerFrame::OnEchoClick(wxCommandEvent& event)
 {
-    patch[Patch->GetValue()].echo = Echo->IsChecked() * 16; // echo loops maximum 16 times
+    patch[Patch->GetValue()].echo = Echo->IsChecked();
      if (Patch->GetValue()>instedited) {instedited = Patch->GetValue(); NumInstruments->SetValue(instedited);}
 }
 
@@ -83,7 +83,7 @@ void rbtrackerFrame::setPatch(int i)
     patch[i].vol = InstVol->GetValue();
     patch[i].bendrate = BendRate->GetValue();
     patch[i].maxbend = MaxBend->GetValue();
-    patch[i].echo = Echo->IsChecked() * 16; // echo loops maximum 16 times
+    patch[i].echo = Echo->IsChecked(); // echo loops maximum 16 times
     patch[i].loop = Loop->IsChecked();
     patch[i].wave = Wave->GetSelection();
     patch[i].attack = Attack->GetValue();

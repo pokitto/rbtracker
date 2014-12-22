@@ -56,6 +56,46 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(rbtrackerFrame)
+const long rbtrackerFrame::ID_BUTTON5 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT18 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT17 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT13 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL18 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL17 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL13 = wxNewId();
+const long rbtrackerFrame::ID_CHECKBOX5 = wxNewId();
+const long rbtrackerFrame::ID_CHECKBOX6 = wxNewId();
+const long rbtrackerFrame::ID_CHECKBOX4 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT19 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL15 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT16 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL16 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT15 = wxNewId();
+const long rbtrackerFrame::ID_SPINCTRL14 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON3 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON4 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON13 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON14 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON1 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON6 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON2 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON12 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON10 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON18 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON19 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON11 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON20 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON21 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON15 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON22 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON25 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON17 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON23 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON26 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON16 = wxNewId();
+const long rbtrackerFrame::ID_BUTTON27 = wxNewId();
+const long rbtrackerFrame::ID_STATICLINE1 = wxNewId();
+const long rbtrackerFrame::ID_PANEL4 = wxNewId();
 const long rbtrackerFrame::ID_RADIOBOX1 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL2 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL3 = wxNewId();
@@ -90,29 +130,6 @@ const long rbtrackerFrame::ID_BUTTON9 = wxNewId();
 const long rbtrackerFrame::ID_PANEL1 = wxNewId();
 const long rbtrackerFrame::ID_GRID1 = wxNewId();
 const long rbtrackerFrame::ID_PANEL2 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT19 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT15 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL15 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL16 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL14 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT16 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON3 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON4 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON6 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON1 = wxNewId();
-const long rbtrackerFrame::ID_PANEL3 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON5 = wxNewId();
-const long rbtrackerFrame::ID_BUTTON2 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT18 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT17 = wxNewId();
-const long rbtrackerFrame::ID_STATICTEXT13 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL18 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL17 = wxNewId();
-const long rbtrackerFrame::ID_SPINCTRL13 = wxNewId();
-const long rbtrackerFrame::ID_CHECKBOX5 = wxNewId();
-const long rbtrackerFrame::ID_CHECKBOX6 = wxNewId();
-const long rbtrackerFrame::ID_CHECKBOX4 = wxNewId();
-const long rbtrackerFrame::ID_PANEL4 = wxNewId();
 const long rbtrackerFrame::idMenuQuit = wxNewId();
 const long rbtrackerFrame::idMenuAbout = wxNewId();
 //*)
@@ -136,7 +153,57 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SetMinSize(wxSize(-1,-1));
     SetMaxSize(wxSize(-1,-1));
     SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_GRADIENTACTIVECAPTION));
-    Instrument = new wxPanel(this, ID_PANEL1, wxPoint(8,208), wxSize(304,408), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
+    Panel1 = new wxPanel(this, ID_PANEL4, wxPoint(8,8), wxSize(304,240), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
+    Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
+    PlaySong = new wxButton(Panel1, ID_BUTTON5, _("Play SONG"), wxPoint(8,8), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON5"));
+    StaticText18 = new wxStaticText(Panel1, ID_STATICTEXT18, _("PATTERN"), wxPoint(168,144), wxDefaultSize, 0, _T("ID_STATICTEXT18"));
+    StaticText17 = new wxStaticText(Panel1, ID_STATICTEXT17, _("POSITION"), wxPoint(96,144), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
+    StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("OCTAVE"), wxPoint(96,184), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
+    Octave = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("3"), wxPoint(96,200), wxSize(49,21), 0, 0, 7, 3, _T("ID_SPINCTRL18"));
+    Octave->SetValue(_T("3"));
+    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(96,160), wxSize(49,21), 0, 0, 63, 0, _T("ID_SPINCTRL17"));
+    Position->SetValue(_T("0"));
+    Pattern = new wxSpinCtrl(Panel1, ID_SPINCTRL13, _T("1"), wxPoint(168,160), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL13"));
+    Pattern->SetValue(_T("1"));
+    Ch1 = new wxCheckBox(Panel1, ID_CHECKBOX5, _("Track 1"), wxPoint(88,16), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
+    Ch1->SetValue(true);
+    Ch3 = new wxCheckBox(Panel1, ID_CHECKBOX6, _("Track 3"), wxPoint(232,16), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
+    Ch3->SetValue(true);
+    Ch2 = new wxCheckBox(Panel1, ID_CHECKBOX4, _("Track 2"), wxPoint(160,16), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
+    Ch2->SetValue(true);
+    StaticText19 = new wxStaticText(Panel1, ID_STATICTEXT19, _("PATCHES"), wxPoint(240,184), wxDefaultSize, 0, _T("ID_STATICTEXT19"));
+    NumInstruments = new wxSpinCtrl(Panel1, ID_SPINCTRL15, _T("1"), wxPoint(240,200), wxSize(50,21), 0, 1, 15, 1, _T("ID_SPINCTRL15"));
+    NumInstruments->SetValue(_T("1"));
+    StaticText16 = new wxStaticText(Panel1, ID_STATICTEXT16, _("LOOP AT"), wxPoint(240,144), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
+    NumPatterns = new wxSpinCtrl(Panel1, ID_SPINCTRL16, _T("1"), wxPoint(240,160), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL16"));
+    NumPatterns->SetValue(_T("1"));
+    StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("BPM"), wxPoint(168,184), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
+    Tempo = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("120"), wxPoint(168,200), wxSize(49,21), 0, 1, 300, 120, _T("ID_SPINCTRL14"));
+    Tempo->SetValue(_T("120"));
+    SaveSongBtn = new wxButton(Panel1, ID_BUTTON3, _("SAVE AS..."), wxPoint(8,40), wxSize(72,23), 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    LoadSongBtn = new wxButton(Panel1, ID_BUTTON4, _("LOAD"), wxPoint(8,64), wxSize(72,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
+    Button5 = new wxButton(Panel1, ID_BUTTON13, _("NEW SONG"), wxPoint(8,88), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON13"));
+    Button6 = new wxButton(Panel1, ID_BUTTON14, _("Copy PTN"), wxPoint(8,152), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON14"));
+    Button1 = new wxButton(Panel1, ID_BUTTON1, _("Paste PTN"), wxPoint(8,176), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    Button4 = new wxButton(Panel1, ID_BUTTON6, _("EXPORT .C"), wxPoint(8,112), wxSize(72,23), 0, wxDefaultValidator, _T("ID_BUTTON6"));
+    CopyTr1 = new wxButton(Panel1, ID_BUTTON2, _("Copy Tr1"), wxPoint(88,40), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    CopyTr3 = new wxButton(Panel1, ID_BUTTON12, _("Copy Tr3"), wxPoint(232,40), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON12"));
+    CopyTr2 = new wxButton(Panel1, ID_BUTTON10, _("Copy Tr2"), wxPoint(160,40), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON10"));
+    Button2 = new wxButton(Panel1, ID_BUTTON18, _("Paste Tr1"), wxPoint(88,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON18"));
+    Button3 = new wxButton(Panel1, ID_BUTTON19, _("Paste Tr1"), wxPoint(232,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON19"));
+    PastePtn = new wxButton(Panel1, ID_BUTTON11, _("Paste Tr1"), wxPoint(160,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON11"));
+    Button11 = new wxButton(Panel1, ID_BUTTON20, _("Clear Tr1"), wxPoint(88,88), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON20"));
+    Button12 = new wxButton(Panel1, ID_BUTTON21, _("Clear Tr1"), wxPoint(160,88), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON21"));
+    Button8 = new wxButton(Panel1, ID_BUTTON15, _("Clear Tr1"), wxPoint(232,88), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON15"));
+    Button13 = new wxButton(Panel1, ID_BUTTON22, _("/\\"), wxPoint(88,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON22"));
+    Button16 = new wxButton(Panel1, ID_BUTTON25, _("/\\"), wxPoint(160,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON25"));
+    Button10 = new wxButton(Panel1, ID_BUTTON17, _("/\\"), wxPoint(232,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON17"));
+    Button14 = new wxButton(Panel1, ID_BUTTON23, _("\\/"), wxPoint(120,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON23"));
+    Button17 = new wxButton(Panel1, ID_BUTTON26, _("\\/"), wxPoint(192,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON26"));
+    Button9 = new wxButton(Panel1, ID_BUTTON16, _("\\/"), wxPoint(264,112), wxSize(31,23), 0, wxDefaultValidator, _T("ID_BUTTON16"));
+    Button18 = new wxButton(Panel1, ID_BUTTON27, _("Clear PTN"), wxPoint(8,200), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON27"));
+    StaticLine1 = new wxStaticLine(Panel1, ID_STATICLINE1, wxPoint(83,8), wxSize(1,225), wxLI_VERTICAL, _T("ID_STATICLINE1"));
+    Instrument = new wxPanel(this, ID_PANEL1, wxPoint(8,256), wxSize(304,360), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL1"));
     Instrument->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
     wxString __wxRadioBoxChoices_1[6] =
     {
@@ -173,7 +240,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     VibRate->SetValue(_T("0"));
     StaticText1 = new wxStaticText(Instrument, ID_STATICTEXT4, _("Attack"), wxPoint(144,216), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
     StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Effects"), wxPoint(16,184), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
-    ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(144,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
+    ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(88,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
     ADSR->SetValue(false);
     Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
     Attack->SetValue(_T("0"));
@@ -206,7 +273,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Grid->CreateGrid(64,3);
     wxFont GridFont(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxBOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
     Grid->SetFont(GridFont);
-    Grid->EnableEditing(false);
+    Grid->EnableEditing(true);
     Grid->EnableGridLines(true);
     Grid->SetColLabelSize(17);
     Grid->SetRowLabelSize(30);
@@ -220,40 +287,6 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Grid->SetCellValue(0, 0, _("--- 00"));
     Grid->SetDefaultCellFont( Grid->GetFont() );
     Grid->SetDefaultCellTextColour( Grid->GetForegroundColour() );
-    Control = new wxPanel(this, ID_PANEL3, wxPoint(8,104), wxSize(304,96), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL3"));
-    Control->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-    StaticText19 = new wxStaticText(Control, ID_STATICTEXT19, _("Instruments"), wxPoint(8,8), wxDefaultSize, 0, _T("ID_STATICTEXT19"));
-    StaticText15 = new wxStaticText(Control, ID_STATICTEXT15, _("BPM"), wxPoint(168,8), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
-    NumInstruments = new wxSpinCtrl(Control, ID_SPINCTRL15, _T("1"), wxPoint(8,24), wxSize(50,21), 0, 1, 15, 1, _T("ID_SPINCTRL15"));
-    NumInstruments->SetValue(_T("1"));
-    NumPatterns = new wxSpinCtrl(Control, ID_SPINCTRL16, _T("1"), wxPoint(88,24), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL16"));
-    NumPatterns->SetValue(_T("1"));
-    Tempo = new wxSpinCtrl(Control, ID_SPINCTRL14, _T("120"), wxPoint(168,24), wxSize(49,21), 0, 1, 300, 120, _T("ID_SPINCTRL14"));
-    Tempo->SetValue(_T("120"));
-    StaticText16 = new wxStaticText(Control, ID_STATICTEXT16, _("Patterns"), wxPoint(88,8), wxDefaultSize, 0, _T("ID_STATICTEXT16"));
-    SaveSongBtn = new wxButton(Control, ID_BUTTON3, _("SAVE AS..."), wxPoint(8,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON3"));
-    LoadSongBtn = new wxButton(Control, ID_BUTTON4, _("LOAD"), wxPoint(80,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
-    Button4 = new wxButton(Control, ID_BUTTON6, _("EXPORT .C"), wxPoint(224,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON6"));
-    Button1 = new wxButton(Control, ID_BUTTON1, _("NEW"), wxPoint(152,64), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON1"));
-    Panel1 = new wxPanel(this, ID_PANEL4, wxPoint(8,8), wxSize(304,88), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL4"));
-    Panel1->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
-    PlaySong = new wxButton(Panel1, ID_BUTTON5, _("Play SONG"), wxPoint(8,16), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON5"));
-    PlayPattern = new wxButton(Panel1, ID_BUTTON2, _("Play PTN"), wxPoint(8,48), wxSize(71,23), 0, wxDefaultValidator, _T("ID_BUTTON2"));
-    StaticText18 = new wxStaticText(Panel1, ID_STATICTEXT18, _("PATTERN"), wxPoint(176,8), wxDefaultSize, 0, _T("ID_STATICTEXT18"));
-    StaticText17 = new wxStaticText(Panel1, ID_STATICTEXT17, _("POSITION"), wxPoint(176,32), wxDefaultSize, 0, _T("ID_STATICTEXT17"));
-    StaticText13 = new wxStaticText(Panel1, ID_STATICTEXT13, _("OCTAVE"), wxPoint(176,56), wxDefaultSize, 0, _T("ID_STATICTEXT13"));
-    Octave = new wxSpinCtrl(Panel1, ID_SPINCTRL18, _T("3"), wxPoint(240,56), wxSize(49,21), 0, 0, 7, 3, _T("ID_SPINCTRL18"));
-    Octave->SetValue(_T("3"));
-    Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(240,32), wxSize(49,21), 0, 0, 63, 0, _T("ID_SPINCTRL17"));
-    Position->SetValue(_T("0"));
-    Pattern = new wxSpinCtrl(Panel1, ID_SPINCTRL13, _T("1"), wxPoint(240,8), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL13"));
-    Pattern->SetValue(_T("1"));
-    Ch1 = new wxCheckBox(Panel1, ID_CHECKBOX5, _("TRACK 1"), wxPoint(96,8), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX5"));
-    Ch1->SetValue(true);
-    Ch3 = new wxCheckBox(Panel1, ID_CHECKBOX6, _("TRACK 3"), wxPoint(96,56), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX6"));
-    Ch3->SetValue(true);
-    Ch2 = new wxCheckBox(Panel1, ID_CHECKBOX4, _("TRACK 2"), wxPoint(96,32), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX4"));
-    Ch2->SetValue(true);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
@@ -270,6 +303,12 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     LoadPatchDialog = new wxFileDialog(this, _("Load patch"), wxEmptyString, wxEmptyString, _("Rbtracker patch | *.rbp;"), wxFD_DEFAULT_STYLE|wxFD_OPEN, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
     Center();
 
+    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
+    Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh1Click);
+    Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh3Click);
+    Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh2Click);
+    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnSaveSongBtnClick);
+    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoadSongBtnClick);
     Connect(ID_RADIOBOX1,wxEVT_COMMAND_RADIOBOX_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnWaveSelect);
     Connect(ID_SPINCTRL2,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstTuneChange);
     Connect(ID_SPINCTRL3,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnInstVolChange);
@@ -289,12 +328,6 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_BUTTON8,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoadPatchBtnClick);
     Connect(ID_GRID1,wxEVT_GRID_CELL_LEFT_CLICK,(wxObjectEventFunction)&rbtrackerFrame::OnGrid1CellLeftClick);
     Tracks->Connect(wxEVT_KEY_DOWN,(wxObjectEventFunction)&rbtrackerFrame::OnTracksKeyDown,0,this);
-    Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnSaveSongBtnClick);
-    Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoadSongBtnClick);
-    Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
-    Connect(ID_CHECKBOX5,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh1Click);
-    Connect(ID_CHECKBOX6,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh3Click);
-    Connect(ID_CHECKBOX4,wxEVT_COMMAND_CHECKBOX_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnCh2Click);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&rbtrackerFrame::OnAbout);
     //*)
@@ -305,10 +338,25 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
         Grid->SetCellValue(row,0,wxString("--- 00 --"));
         Grid->SetCellValue(row,1,wxString("--- 00 --"));
         Grid->SetCellValue(row,2,wxString("--- 00 --"));
-        if (!(row%4)) {
-            Grid->SetCellBackgroundColour(row,0,wxColor(200,200,255));
-            Grid->SetCellBackgroundColour(row,1,wxColor(200,200,255));
-            Grid->SetCellBackgroundColour(row,2,wxColor(200,200,255));
+        if (!(row%4) && row < 63) {
+            Grid->SetCellBackgroundColour(row,0,wxColor(150,150,255));
+            Grid->SetCellBackgroundColour(row,1,wxColor(150,150,255));
+            Grid->SetCellBackgroundColour(row,2,wxColor(150,150,255));
+        }
+        if (!(row%4) && row < 63-16) {
+            Grid->SetCellBackgroundColour(row,0,wxColor(150,255,150));
+            Grid->SetCellBackgroundColour(row,1,wxColor(150,255,150));
+            Grid->SetCellBackgroundColour(row,2,wxColor(150,255,150));
+        }
+        if (!(row%4) && row < 63-16-16) {
+            Grid->SetCellBackgroundColour(row,0,wxColor(255,150,150));
+            Grid->SetCellBackgroundColour(row,1,wxColor(255,150,150));
+            Grid->SetCellBackgroundColour(row,2,wxColor(255,150,150));
+        }
+        if (!(row%4) && row < 63-16-16-16) {
+            Grid->SetCellBackgroundColour(row,0,wxColor(150,255,255));
+            Grid->SetCellBackgroundColour(row,1,wxColor(150,255,255));
+            Grid->SetCellBackgroundColour(row,2,wxColor(150,255,255));
         }
     }
 
@@ -409,10 +457,30 @@ void rbtrackerFrame::OnTracksKeyDown(wxKeyEvent& event)
     if (event.GetKeyCode()==WXK_RIGHT) { Grid->MoveCursorRight(false); return; }
     if (event.GetKeyCode()==WXK_UP) { Grid->MoveCursorUp(false); return; }
     if (event.GetKeyCode()==WXK_DOWN) { Grid->MoveCursorDown(false); return; }
+
+    if (event.ControlDown()) {
+        char iKey;
+        iText = event.GetUnicodeKey();
+        iKey = iText[0].GetValue();
+        switch (iKey) {
+            case 'C':
+                wxMessageBox( "Copied to clipboard", "Control-C", wxOK | wxICON_INFORMATION );
+                break;
+            case 'P':
+                wxMessageBox( "Paste from clipboard", "Control-P", wxOK | wxICON_INFORMATION );
+                break;
+            default:
+                return;
+        }
+        return;
+    }
+
+
     iText = event.GetUnicodeKey();
     iText = iText.Upper();
     num = KeyToNumber(iText, Octave->GetValue());
     iText = KeyToNote(iText, Octave->GetValue());
+
 
     if (iText == "" || num == 255) {
         iText = "--- 00 --";
@@ -492,8 +560,4 @@ void rbtrackerFrame::playPtn() {
         } // end of fill buffer
     priming = false; playing=true;
 }
-
-
-
-
 
