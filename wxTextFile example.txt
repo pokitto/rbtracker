@@ -1,0 +1,16 @@
+{
+    wxTextFile CfgFile(filename);
+
+    if(CfgFile.Exists()) CfgFile.Open(filename); else CfgFile.Create(filename);
+
+    CfgFile.Clear();
+    CfgFile.AddLine( (wxString)"Created by Class ServoData");
+    CfgFile.AddLine(wxString::Format("XRampSpeed=%ld",XRampSpeed));
+// More lines to add text to the file are snipped......
+
+    wxRemoveFile(filename);
+    CfgFile.Create(filename);
+
+    CfgFile.Write();
+    CfgFile.Close();
+}
