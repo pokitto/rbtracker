@@ -7,6 +7,96 @@
 #include "synth.h"
 #include "utilities.h"
 
+void rbtrackerFrame::OnExportCSongClick(wxCommandEvent& event)
+{
+    wxString defname;
+    defname = "Song";
+    defname.Append(wxT(".c"));
+    ExportPatchDialog->SetFilename(defname);
+    int dlg=ExportPatchDialog->ShowModal();
+
+    if(dlg==wxID_OK)
+    {
+        defname = ExportPatchDialog->GetPath();
+        wxTextFile file(defname);
+        if(file.Exists()) file.Open(defname); else file.Create(defname);
+
+        file.Clear();
+        wxString temp;
+        file.AddLine( (wxString)"// Rboy Tracker song .c export file");
+        temp << "// Rbtracker version :" << RBTRACKER_VERSION;
+        file.AddLine(temp);
+        file.AddLine( (wxString)"#include <Arduino.h>");
+        file.AddLine( (wxString)"#include <songs.h>");
+        file.AddLine( (wxString)"");
+        file.AddLine( (wxString)"// Song data");
+        temp = "const prog_uchar ";
+        temp << "Song[";
+        temp << 5 + 3 * (SongLength->GetValue()+1) + 64 * NumBlocks->GetValue();
+        temp << "] PROGMEM = {";
+        file.AddLine(temp);
+        file.AddLine(wxString::Format("%d, // Song length",SongLength->GetValue()));
+        file.AddLine(wxString::Format("%d, // Loop to",LoopTo->GetValue()));
+        file.AddLine(wxString::Format("%d, // Number of blocks used",NumBlocks->GetValue()));
+        file.AddLine(wxString::Format("%d, // Number of patches used",NumInstruments->GetValue()));
+        file.AddLine(wxString::Format("%d, // BPM",Tempo->GetValue()));
+
+        /** Write Sequence to file **/
+        file.AddLine( (wxString)"// Sequence");
+        for (int i=0; i <= SongLength->GetValue(); i++) {
+            temp = "";
+            temp.Append(wxString::Format("%d,%d,%d,",song.block_sequence[0][i],song.block_sequence[1][i],song.block_sequence[2][i]));
+            temp.Append(wxString::Format("// Pattern %d ",i));
+            file.AddLine(temp);
+        }
+        /** Write Blocks to file **/
+        file.AddLine( (wxString)"// Block data");
+        for (int i=0; i<NumBlocks->GetValue(); i++)
+            {
+            temp="";
+            for (int j=0; j < PATTERNLENGTH; j++) {
+                temp.Append(wxString::Format("%d,%d,",block[i].notenumber[j],block[i].instrument[j]));
+                if (j == 15 || j == 31 || j == 47 || j==63) {
+                        temp.Append(wxString::Format("// Block %d phrase %d",i,j/15));
+                        file.AddLine(temp);
+                        temp="";
+                        }
+                }
+            file.AddLine( (wxString)"//");
+            }
+        file.AddLine( (wxString)"}; // end of song data");
+
+        /** Write Patches to file **/
+        //exportPatchToFile(file);
+
+        file.AddLine( (wxString)"");
+        file.AddLine( (wxString)"// Patches data");
+
+        temp = "const prog_uchar ";
+        temp << "Patches" << "[";
+        temp << 13 * (NumInstruments->GetValue());
+        temp << "] PROGMEM = {";
+        file.AddLine(temp);
+
+        for (int i=1; i<=NumInstruments->GetValue(); i++) {
+            getPatch(i);
+            temp = "// Patch " ;
+            temp << i;
+            file.AddLine(temp);
+            exportPatchToFile(file);
+        }
+
+        file.AddLine( (wxString)"}; // end of patches data");
+
+        wxRemoveFile(defname);
+        file.Create(defname);
+
+        file.Write();
+        file.Close();
+    }
+}
+
+
 void rbtrackerFrame::exportPatchToFile(wxTextFile &file)
 {
         file.AddLine(wxString::Format("%d, // Waveform ",Wave->GetSelection()));

@@ -6,9 +6,6 @@
 #include "synth.h"
 
 
-
-
-
 void rbtrackerFrame::OnExportCPatchClick(wxCommandEvent& event)
 {
     wxString defname;

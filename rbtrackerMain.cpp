@@ -176,13 +176,10 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SaveSongBtn = new wxButton(Panel1, ID_BUTTON3, _("SAVE AS..."), wxPoint(10,128), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON3"));
     LoadSongBtn = new wxButton(Panel1, ID_BUTTON4, _("LOAD"), wxPoint(10,160), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
     NewSong = new wxButton(Panel1, ID_BUTTON13, _("NEW SONG"), wxPoint(10,208), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON13"));
-    Button4 = new wxButton(Panel1, ID_BUTTON6, _("EXPORT .C"), wxPoint(10,240), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON6"));
-    Button4->Disable();
+    ExportCSong = new wxButton(Panel1, ID_BUTTON6, _("EXPORT .C"), wxPoint(10,240), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON6"));
     StaticText18 = new wxStaticText(Panel1, ID_STATICTEXT18, _("BLOCKS USED"), wxPoint(144,144), wxDefaultSize, wxALIGN_LEFT, _T("ID_STATICTEXT18"));
-    StaticText18->Disable();
-    NumPatterns = new wxSpinCtrl(Panel1, ID_SPINCTRL4, _T("1"), wxPoint(248,144), wxSize(49,21), 0, 1, 10, 1, _T("ID_SPINCTRL4"));
-    NumPatterns->SetValue(_T("1"));
-    NumPatterns->Disable();
+    NumBlocks = new wxSpinCtrl(Panel1, ID_SPINCTRL4, _T("3"), wxPoint(248,144), wxSize(49,21), 0, 1, 10, 3, _T("ID_SPINCTRL4"));
+    NumBlocks->SetValue(_T("3"));
     StaticText5 = new wxStaticText(Panel1, ID_STATICTEXT11, _("SONG POSITION"), wxPoint(144,64), wxDefaultSize, 0, _T("ID_STATICTEXT11"));
     Position = new wxSpinCtrl(Panel1, ID_SPINCTRL17, _T("0"), wxPoint(248,64), wxSize(49,21), 0, 0, 9, 0, _T("ID_SPINCTRL17"));
     Position->SetValue(_T("0"));
@@ -324,12 +321,14 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     SetStatusBar(StatusBar1);
     NewSongDialog = new wxMessageDialog(this, _("Wipe current song and start a new one \?"), _("New song"), wxOK|wxCANCEL, wxDefaultPosition);
     ExportPatchDialog = new wxFileDialog(this, _("Export patch as .c file"), wxEmptyString, wxEmptyString, _(".C file | *.c;"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
+    ExportSongDialog = new wxFileDialog(this, _("Export song as .C file"), wxEmptyString, wxEmptyString, _(".C file | *.c;"), wxFD_SAVE|wxFD_OVERWRITE_PROMPT, wxDefaultPosition, wxDefaultSize, _T("wxFileDialog"));
     Center();
 
     Connect(ID_BUTTON5,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnPlaySongClick);
     Connect(ID_BUTTON3,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnSaveSongBtnClick);
     Connect(ID_BUTTON4,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnLoadSongBtnClick);
     Connect(ID_BUTTON13,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnNewSongClick);
+    Connect(ID_BUTTON6,wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&rbtrackerFrame::OnExportCSongClick);
     Connect(ID_SPINCTRL4,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPatternChange);
     Connect(ID_SPINCTRL17,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnPositionChange);
     Connect(ID_SPINCTRL16,wxEVT_COMMAND_SPINCTRL_UPDATED,(wxObjectEventFunction)&rbtrackerFrame::OnSongLengthChange);
@@ -807,4 +806,3 @@ void rbtrackerFrame::OnNewSongClick(wxCommandEvent& event)
     Grid->SelectRow(0,false);
 
 }
-

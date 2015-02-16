@@ -110,6 +110,7 @@ class rbtrackerFrame: public wxFrame
         void OnOverdriveClick(wxCommandEvent& event);
         void OnKickClick(wxCommandEvent& event);
         void OnExportCPatchClick(wxCommandEvent& event);
+        void OnExportCSongClick(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -188,19 +189,20 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText10;
         wxStaticText* StaticText9;
         wxButton* NewSong;
+        wxSpinCtrl* NumBlocks;
         wxCheckBox* Echo;
         wxFileDialog* LoadSongDialog;
         wxSpinCtrl* Block2;
         wxCheckBox* Ch3;
         wxButton* LoadSongBtn;
         wxFileDialog* SaveSongDialog;
-        wxButton* Button4;
         wxStaticText* StaticText13;
         wxStaticText* StaticText2;
         wxStaticText* StaticText14;
         wxStaticText* StaticText6;
         wxStaticBitmap* StaticBitmap1;
         wxStaticText* Pitchbendrate;
+        wxFileDialog* ExportSongDialog;
         wxStaticText* asdff;
         wxStaticText* StaticText19;
         wxStaticText* StaticText8;
@@ -251,11 +253,11 @@ class rbtrackerFrame: public wxFrame
         wxStaticText* StaticText17;
         wxStaticText* StaticText4;
         wxSpinCtrl* Attack;
+        wxButton* ExportCSong;
         wxSpinCtrl* Octave;
         wxSpinCtrl* LoopTo;
         wxGrid* Grid;
         wxStaticText* StaticText16;
-        wxSpinCtrl* NumPatterns;
         wxCheckBox* Loop;
         //*)
 

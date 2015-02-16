@@ -85,25 +85,23 @@
 				<size>100,23</size>
 				<handler function="OnNewSongClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON6" variable="Button4" member="yes">
+			<object class="wxButton" name="ID_BUTTON6" variable="ExportCSong" member="yes">
 				<label>EXPORT .C</label>
 				<pos>10,240</pos>
 				<size>100,23</size>
-				<enabled>0</enabled>
+				<handler function="OnExportCSongClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
 				<label>BLOCKS USED</label>
 				<pos>144,144</pos>
-				<enabled>0</enabled>
 				<style>wxALIGN_LEFT</style>
 			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="NumPatterns" member="yes">
-				<value>1</value>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="NumBlocks" member="yes">
+				<value>3</value>
 				<min>1</min>
 				<max>10</max>
 				<pos>248,144</pos>
 				<size>49,21</size>
-				<enabled>0</enabled>
 				<handler function="OnPatternChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText5" member="yes">
@@ -491,6 +489,11 @@
 		</object>
 		<object class="wxFileDialog" variable="ExportPatchDialog" member="yes">
 			<message>Export patch as .c file</message>
+			<wildcard>.C file | *.c;</wildcard>
+			<style>wxFD_SAVE|wxFD_OVERWRITE_PROMPT</style>
+		</object>
+		<object class="wxFileDialog" variable="ExportSongDialog" member="yes">
+			<message>Export song as .C file</message>
 			<wildcard>.C file | *.c;</wildcard>
 			<style>wxFD_SAVE|wxFD_OVERWRITE_PROMPT</style>
 		</object>
