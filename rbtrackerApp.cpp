@@ -8,6 +8,7 @@
  **************************************************************/
 
 #include "rbtrackerApp.h"
+#include <wx/icon.h>
 
 //(*AppHeaders
 #include "rbtrackerMain.h"

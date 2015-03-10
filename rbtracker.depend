@@ -1355,7 +1355,7 @@
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\checkbox.h
 
-1419207227 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+1421518642 source:c:\dev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
 	"rbtrackerMain.h"
 	<wx/msgdlg.h>
 	<wx/wxprec.h>
@@ -2080,17 +2080,17 @@
 	<wx/dcclient.h>
 	<wx/thread.h>
 
-1417202355 c:\dev\myprojects\wxprojects\rbtracker\synth.h
+1421517299 c:\dev\myprojects\wxprojects\rbtracker\synth.h
 	<stdint.h>
 	<stdlib.h>
 	"oscillator.h"
 	"notes.h"
 
-1417189201 c:\dev\myprojects\wxprojects\rbtracker\oscillator.h
+1419211057 c:\dev\myprojects\wxprojects\rbtracker\oscillator.h
 
 1415888436 c:\dev\myprojects\wxprojects\rbtracker\notes.h
 
-1417202439 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
+1421518312 source:c:\dev\myprojects\wxprojects\rbtracker\synth.cpp
 	"Synth.h"
 	"oscillator.h"
 	"utilities.h"
@@ -2156,4 +2156,244 @@
 1412493550 c:\wxwidgets-3.0.2\include\wx\msw\statline.h
 
 1412493550 c:\wxwidgets-3.0.2\include\wx\generic\statline.h
+
+1413483099 source:e:\gamedev\myprojects\wxprojects\rbtracker\fastdiv.cpp
+	"fastdiv.h"
+
+1413483163 e:\gamedev\myprojects\wxprojects\rbtracker\fastdiv.h
+
+1423034014 source:e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackerapp.cpp
+	"rbtrackerApp.h"
+	<wx/icon.h>
+	"rbtrackerMain.h"
+	<wx/image.h>
+
+1415653753 e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackerapp.h
+	<wx/app.h>
+	"synth.h"
+
+1422875410 e:\gamedev\myprojects\wxprojects\rbtracker\synth.h
+	<stdint.h>
+	<stdlib.h>
+	"oscillator.h"
+	"notes.h"
+	"portaudio.h"
+
+1422879038 e:\gamedev\myprojects\wxprojects\rbtracker\oscillator.h
+
+1415888436 e:\gamedev\myprojects\wxprojects\rbtracker\notes.h
+
+1422875360 e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackermain.h
+	<wx/stattext.h>
+	<wx/radiobox.h>
+	<wx/menu.h>
+	<wx/textctrl.h>
+	<wx/msgdlg.h>
+	<wx/checkbox.h>
+	<wx/spinctrl.h>
+	<wx/panel.h>
+	<wx/grid.h>
+	<wx/filedlg.h>
+	<wx/choice.h>
+	<wx/statbmp.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+	<wx/timer.h>
+	<wx/textfile.h>
+	"oscillator.h"
+
+1422874192 source:e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackerio.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	<wx/grid.h>
+	"synth.h"
+	"utilities.h"
+
+1416579559 e:\gamedev\myprojects\wxprojects\rbtracker\utilities.h
+	<wx/string.h>
+
+1423034171 source:e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackermain.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	<wx/icon.h>
+	"led.h"
+	"Synth.h"
+	"oscillator.h"
+	"utilities.h"
+	<wx/bitmap.h>
+	<wx/icon.h>
+	<wx/settings.h>
+	<wx/font.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1413239787 e:\gamedev\myprojects\wxprojects\rbtracker\led.h
+	<wx/window.h>
+	<wx/bitmap.h>
+	<wx/dcclient.h>
+	<wx/thread.h>
+
+1422946178 source:e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackerpatchpanel.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	"synth.h"
+
+1385316876 source:e:\gamedev\myprojects\wxprojects\rbtracker\resource.rc
+	"wx/msw/wx.rc"
+
+1422879142 source:e:\gamedev\myprojects\wxprojects\rbtracker\synth.cpp
+	"Synth.h"
+	"oscillator.h"
+	"utilities.h"
+	<math.h>
+	"portaudio.h"
+	"fastdiv.h"
+	<iostream>
+	<fstream>
+
+1416658045 source:e:\gamedev\myprojects\wxprojects\rbtracker\utilities.cpp
+	"rbtrackerMain.h"
+	"utilities.h"
+	"notes.h"
+
+1422865761 source:e:\gamedev\myprojects\wxprojects\rbtracker\rbtrackerpatternhandling.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	"synth.h"
+	"Utilities.h"
+
+1412497150 c:\wxwidgets-3.0.2\lib\gcc_dll\mswu\wx\setup.h
+
+1413483100 source:c:\gamedev\rbtracker\fastdiv.cpp
+	"fastdiv.h"
+
+1413483164 c:\gamedev\rbtracker\fastdiv.h
+
+1423034016 source:c:\gamedev\rbtracker\rbtrackerapp.cpp
+	"rbtrackerApp.h"
+	<wx/icon.h>
+	"rbtrackerMain.h"
+	<wx/image.h>
+
+1415653754 c:\gamedev\rbtracker\rbtrackerapp.h
+	<wx/app.h>
+	"synth.h"
+
+1422875412 c:\gamedev\rbtracker\synth.h
+	<stdint.h>
+	<stdlib.h>
+	"oscillator.h"
+	"notes.h"
+	"portaudio.h"
+
+1424037100 c:\gamedev\rbtracker\oscillator.h
+
+1415888438 c:\gamedev\rbtracker\notes.h
+
+1424042059 c:\gamedev\rbtracker\rbtrackermain.h
+	<wx/stattext.h>
+	<wx/radiobox.h>
+	<wx/menu.h>
+	<wx/textctrl.h>
+	<wx/msgdlg.h>
+	<wx/checkbox.h>
+	<wx/spinctrl.h>
+	<wx/panel.h>
+	<wx/grid.h>
+	<wx/filedlg.h>
+	<wx/choice.h>
+	<wx/statbmp.h>
+	<wx/button.h>
+	<wx/frame.h>
+	<wx/statusbr.h>
+	<wx/timer.h>
+	<wx/textfile.h>
+	"oscillator.h"
+
+1424037920 source:c:\gamedev\rbtracker\rbtrackerio.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	<wx/grid.h>
+	"synth.h"
+	"utilities.h"
+
+1416579560 c:\gamedev\rbtracker\utilities.h
+	<wx/string.h>
+
+1424045000 source:c:\gamedev\rbtracker\rbtrackermain.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	<wx/icon.h>
+	"led.h"
+	"Synth.h"
+	"oscillator.h"
+	"utilities.h"
+	<wx/bitmap.h>
+	<wx/icon.h>
+	<wx/settings.h>
+	<wx/font.h>
+	<wx/intl.h>
+	<wx/image.h>
+	<wx/string.h>
+
+1413239788 c:\gamedev\rbtracker\led.h
+	<wx/window.h>
+	<wx/bitmap.h>
+	<wx/dcclient.h>
+	<wx/thread.h>
+
+1424041277 source:c:\gamedev\rbtracker\rbtrackerpatchpanel.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	"synth.h"
+
+1422865762 source:c:\gamedev\rbtracker\rbtrackerpatternhandling.cpp
+	"rbtrackerMain.h"
+	<wx/msgdlg.h>
+	<wx/wxprec.h>
+	<wx/filename.h>
+	<wx/textfile.h>
+	"synth.h"
+	"Utilities.h"
+
+1423034142 source:c:\gamedev\rbtracker\resource.rc
+	"wx/msw/wx.rc"
+
+1422879144 source:c:\gamedev\rbtracker\synth.cpp
+	"Synth.h"
+	"oscillator.h"
+	"utilities.h"
+	<math.h>
+	"portaudio.h"
+	"fastdiv.h"
+	<iostream>
+	<fstream>
+
+1416658046 source:c:\gamedev\rbtracker\utilities.cpp
+	"rbtrackerMain.h"
+	"utilities.h"
+	"notes.h"
 

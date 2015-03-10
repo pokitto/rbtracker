@@ -3,8 +3,133 @@
 #include <wx/wxprec.h>
 #include <wx/filename.h>
 #include <wx/textfile.h>
+#include <wx/grid.h>
 #include "synth.h"
 #include "utilities.h"
+
+void rbtrackerFrame::OnExportCSongClick(wxCommandEvent& event)
+{
+    wxString defname;
+    defname = "Song";
+    defname.Append(wxT(".c"));
+    ExportPatchDialog->SetFilename(defname);
+    int dlg=ExportPatchDialog->ShowModal();
+
+    if(dlg==wxID_OK)
+    {
+        defname = ExportPatchDialog->GetPath();
+        wxTextFile file(defname);
+        if(file.Exists()) file.Open(defname); else file.Create(defname);
+
+        file.Clear();
+        wxString temp;
+        file.AddLine( (wxString)"// Rboy Tracker song .c export file");
+        temp << "// Rbtracker version :" << RBTRACKER_VERSION;
+        file.AddLine(temp);
+        file.AddLine( (wxString)"#include <Arduino.h>");
+        file.AddLine( (wxString)"#include <songs.h>");
+        file.AddLine( (wxString)"");
+        file.AddLine( (wxString)"// Song data");
+        temp = "const prog_uchar ";
+        temp << "Song[";
+        temp << 5 + 3 * (SongLength->GetValue()+1) + 64 * NumBlocks->GetValue();
+        temp << "] PROGMEM = {";
+        file.AddLine(temp);
+        file.AddLine(wxString::Format("%d, // Song length",SongLength->GetValue()));
+        file.AddLine(wxString::Format("%d, // Loop to",LoopTo->GetValue()));
+        file.AddLine(wxString::Format("%d, // Number of blocks used",NumBlocks->GetValue()));
+        file.AddLine(wxString::Format("%d, // Number of patches used",NumInstruments->GetValue()));
+        file.AddLine(wxString::Format("%d, // BPM",Tempo->GetValue()));
+
+        /** Write Sequence to file **/
+        file.AddLine( (wxString)"// Sequence");
+        for (int i=0; i <= SongLength->GetValue(); i++) {
+            temp = "";
+            temp.Append(wxString::Format("%d,%d,%d,",song.block_sequence[0][i],song.block_sequence[1][i],song.block_sequence[2][i]));
+            temp.Append(wxString::Format("// Pattern %d ",i));
+            file.AddLine(temp);
+        }
+        /** Write Blocks to file **/
+        file.AddLine( (wxString)"// Block data");
+        for (int i=0; i<NumBlocks->GetValue(); i++)
+            {
+            temp="";
+            for (int j=0; j < PATTERNLENGTH; j++) {
+                temp.Append(wxString::Format("%d,%d,",block[i].notenumber[j],block[i].instrument[j]));
+                if (j == 15 || j == 31 || j == 47 || j==63) {
+                        temp.Append(wxString::Format("// Block %d phrase %d",i,j/15));
+                        file.AddLine(temp);
+                        temp="";
+                        }
+                }
+            file.AddLine( (wxString)"//");
+            }
+        file.AddLine( (wxString)"}; // end of song data");
+
+        /** Write Patches to file **/
+        //exportPatchToFile(file);
+
+        file.AddLine( (wxString)"");
+        file.AddLine( (wxString)"// Patches data");
+
+        temp = "const prog_uchar ";
+        temp << "Patches" << "[";
+        temp << 13 * (NumInstruments->GetValue());
+        temp << "] PROGMEM = {";
+        file.AddLine(temp);
+
+        for (int i=1; i<=NumInstruments->GetValue(); i++) {
+            getPatch(i);
+            temp = "// Patch " ;
+            temp << i;
+            file.AddLine(temp);
+            exportPatchToFile(file);
+        }
+
+        file.AddLine( (wxString)"}; // end of patches data");
+
+        wxRemoveFile(defname);
+        file.Create(defname);
+
+        file.Write();
+        file.Close();
+    }
+}
+
+
+void rbtrackerFrame::exportPatchToFile(wxTextFile &file)
+{
+        file.AddLine(wxString::Format("%d, // Waveform ",Wave->GetSelection()));
+        file.AddLine(wxString::Format("%d, // Volume",InstVol->GetValue()));
+        file.AddLine(wxString::Format("0x%x, // Pitch bend rate UPPER BYTE",(uint8_t)(BendRate->GetValue()>>8)));
+        file.AddLine(wxString::Format("0x%x, // Pitch bend rate LOWER BYTE",(uint8_t)(BendRate->GetValue())));
+        file.AddLine(wxString::Format("0x%x, // Pitch bend max UPPER BYTE",(uint8_t)(MaxBend->GetValue()>>8)));
+        file.AddLine(wxString::Format("0x%x, // Pitch bend max LOWER BYTE",(uint8_t)(MaxBend->GetValue())));
+        file.AddLine(wxString::Format("%d, // Transpose",VibRate->GetValue()));
+        file.AddLine(wxString::Format("%d, // Arp mode ", ArpMode->GetSelection()));
+        uint8_t options=0;
+        wxString optstring;
+        options = (ADSR->IsChecked()) << OPT_ADSR ;
+        if (ADSR->IsChecked()) optstring << "ADSR on ";
+        else optstring << "ADSR off ";
+        options |= (Loop->IsChecked()) << OPT_LOOP ;
+        if (Loop->IsChecked()) optstring << "LOOP on ";
+        else optstring << "LOOP off ";
+        options |= (Echo->IsChecked()) << OPT_ECHO ;
+        if (Echo->IsChecked()) optstring << "ECHO on ";
+        else optstring << "ECHO off ";
+        options |= (Overdrive->IsChecked()) << OPT_OVERDRIVE ;
+        if (Overdrive->IsChecked()) optstring << "OVERDRIVE on ";
+        else optstring << "OVERDRIVE off ";
+        options |= (Kick->IsChecked()) << OPT_NORMALIZE ;
+        if (Kick->IsChecked()) optstring << "NORMALIZE on ";
+        else optstring << "NORMALIZE off ";
+        file.AddLine(wxString::Format("%d, // Options ", options) << optstring);
+        file.AddLine(wxString::Format("%d, // Attack ", Attack->GetValue()));
+        file.AddLine(wxString::Format("%d, // Decay", Decay->GetValue()));
+        file.AddLine(wxString::Format("%d, // Sustain", Sustain->GetValue()));
+        file.AddLine(wxString::Format("%d, // Release", Release->GetValue()));
+}
 
 void rbtrackerFrame::OnSaveSongBtnClick(wxCommandEvent& event)
 {
@@ -18,16 +143,26 @@ void rbtrackerFrame::OnSaveSongBtnClick(wxCommandEvent& event)
         if(file.Exists()) file.Open(defname); else file.Create(defname);
 
         file.Clear();
+        str << RBTRACKER_VERSION;
         file.AddLine( (wxString)"Rboy Tracker song file");
+        file.AddLine(str);
         file.AddLine(wxString::Format("BPM=%d",Tempo->GetValue()));
-        file.AddLine(wxString::Format("Patterns=%d",NumPatterns->GetValue()));
-        file.AddLine(wxString::Format("Instruments=%d",NumInstruments->GetValue()));
-        // Write patterns
-        for (int i=1; i<=NumPatterns->GetValue(); i++) {
-            Pattern->SetValue(i);
-            writePatternToFile(file);
+        file.AddLine(wxString::Format("Last pattern=%d",SongLength->GetValue()));
+        file.AddLine(wxString::Format("Loop to=%d",LoopTo->GetValue()));
+        file.AddLine(wxString::Format("Patches=%d",NumInstruments->GetValue()));
+
+        /** Write Sequence to file **/
+
+        str="";
+        for (int i=0; i <= SongLength->GetValue(); i++) {
+            str << "Block sequence " << i << " ";
+            str.Append(wxString::Format(",%d,%d,%d",song.block_sequence[0][i],song.block_sequence[1][i],song.block_sequence[2][i]));
+            file.AddLine(str);
+            str="";
         }
-        // Write instruments
+
+        writeBlocksToFile(file);
+
         for (int i=1; i<=NumInstruments->GetValue(); i++) {
             getPatch(i);
             file.AddLine(InstName->GetValue());
@@ -53,28 +188,58 @@ void rbtrackerFrame::OnLoadSongBtnClick(wxCommandEvent& event)
             if (file.Open()) {
                 wxString str;
                 str = file.GetFirstLine(); // vanity text only
+                str = file.GetFirstLine(); // version number
+                str = file.GetNextLine();
                 str = file.GetNextLine();
 
                 Tempo->SetValue(wxAtoi(str.AfterLast((wxUniChar)'=')));
+                song.song_bpm = Tempo->GetValue();
 
                 str = file.GetNextLine();
                 numpat = wxAtoi(str.AfterLast((wxUniChar)'='));
-                NumPatterns->SetValue(numpat);
+                SongLength->SetValue(numpat);
+                song.song_end = numpat;
+
+                str = file.GetNextLine();
+                numpat = wxAtoi(str.AfterLast((wxUniChar)'='));
+                LoopTo->SetValue(numpat);
+                song.song_loop = numpat;
 
                 str = file.GetNextLine();
                 numinst = wxAtoi(str.AfterLast((wxUniChar)'='));
                 NumInstruments->SetValue(numinst);
+                song.num_patches = numinst;
 
-                // Read patterns
-                for (int i=1; i<=NumPatterns->GetValue(); i++) {
-                    Pattern->SetValue(i);
-                    readPatternFromFile(file);
+                /** Read Block Sequence from file **/
+
+                str="";
+                for (int i=0; i <= SongLength->GetValue(); i++) {
+                    int val;
+                    str = file.GetNextLine(); //
+                    val = wxAtoi(str.AfterLast((wxUniChar)','));
+                    song.block_sequence[2][i]=val;
+                    str = str.BeforeLast((wxUniChar)','); //chop 1
+                    val = wxAtoi(str.AfterLast((wxUniChar)','));
+                    song.block_sequence[1][i]=val;
+                    str = str.BeforeLast((wxUniChar)','); //chop 2
+                    val = wxAtoi(str.AfterLast((wxUniChar)','));
+                    song.block_sequence[0][i]=val;
                 }
 
+                Block1->SetValue(song.block_sequence[0][0]);
+                Block2->SetValue(song.block_sequence[1][0]);
+                Block3->SetValue(song.block_sequence[2][0]);
+
+                readBlocksFromFile(file);
+
                 // Read instruments
-                for (int i=1; i<=NumInstruments->GetValue(); i++) {
+                for (int i=1; i<=numinst; i++) {
+                    Patch->SetValue(i);
                     readPatchFromFile(file);
+                    iNames[i].clear();
+                    iNames[i].Append(InstName->GetValue()); //= InstName->GetValue();
                     setPatch(i);
+                    getPatch(i);
                 }
                 file.Close();
             }
@@ -192,12 +357,49 @@ void rbtrackerFrame::writePatternToFile(wxTextFile &file)
         for (int i=0; i<64; i++)
             {
             wxString str;
-            str.Append(wxString::Format("%d,%d,",track[0].notenumber[i],track[0].instrument[i]));
-            str.Append(wxString::Format("%d,%d,",track[1].notenumber[i],track[1].instrument[i]));
-            str.Append(wxString::Format("%d,%d ",track[2].notenumber[i],track[2].instrument[i]));
+            //str.Append(wxString::Format("%d,%d,",track[0].notenumber[i],track[0].instrument[i]));
+            //str.Append(wxString::Format("%d,%d,",track[1].notenumber[i],track[1].instrument[i]));
+            //str.Append(wxString::Format("%d,%d ",track[2].notenumber[i],track[2].instrument[i]));
+
             file.AddLine(str);
             }
 }
+
+void rbtrackerFrame::writeBlocksToFile(wxTextFile &file)
+{
+        for (int i=0; i<MAXBLOCKS; i++)
+            {
+            for (int j=0; j < PATTERNLENGTH; j++) {
+                wxString str;
+                str << "Block " << i << " row " << j << " ";
+                str.Append(wxString::Format(",%d,%d",block[i].notenumber[j],block[i].instrument[j]));
+                file.AddLine(str);
+                }
+            }
+}
+
+void rbtrackerFrame::readBlocksFromFile(wxTextFile &file)
+{
+    for (int i=0; i<MAXBLOCKS; i++)
+            {
+            for (int j=0; j<PATTERNLENGTH; j++)
+            {
+                    wxString str; int val,inst;
+                    wxString iText;
+                    str = file.GetNextLine();
+
+                    inst = wxAtoi(str.AfterLast((wxUniChar)','));
+                    block[i].instrument[j]=inst;
+                    str = str.BeforeLast((wxUniChar)','); //chop 1
+                    val = wxAtoi(str.AfterLast((wxUniChar)','));
+                    block[i].notenumber[j]=val;
+                    str = str.BeforeLast((wxUniChar)','); //chop 2
+            }
+        }
+    sequencepos=0;
+    readBlocksToAllTracks(sequencepos); // refresh display
+}
+
 
 void rbtrackerFrame::readPatternFromFile(wxTextFile &file)
 {
@@ -208,10 +410,8 @@ void rbtrackerFrame::readPatternFromFile(wxTextFile &file)
             str = file.GetNextLine();
 
             inst = wxAtoi(str.AfterLast((wxUniChar)','));
-            track[2].instrument[i]=inst;
             str = str.BeforeLast((wxUniChar)','); //chop 1
             val = wxAtoi(str.AfterLast((wxUniChar)','));
-            track[2].notenumber[i]=val;
             str = str.BeforeLast((wxUniChar)','); //chop 2
 
             iText = "";
@@ -228,10 +428,8 @@ void rbtrackerFrame::readPatternFromFile(wxTextFile &file)
             Grid->SetCellValue(i,2,iText);
 
             inst = wxAtoi(str.AfterLast((wxUniChar)','));
-            track[1].instrument[i]=inst;
             str = str.BeforeLast((wxUniChar)','); //chop 3
             val = wxAtoi(str.AfterLast((wxUniChar)','));
-            track[1].notenumber[i]=val;
             str = str.BeforeLast((wxUniChar)','); //chop 4
 
             iText = "";
@@ -248,10 +446,8 @@ void rbtrackerFrame::readPatternFromFile(wxTextFile &file)
             Grid->SetCellValue(i,1,iText);
 
             inst = wxAtoi(str.AfterLast((wxUniChar)','));
-            track[0].instrument[i]=inst;
             str = str.BeforeLast((wxUniChar)','); //chop 5
             val = wxAtoi(str);
-            track[0].notenumber[i]=val;
 
             iText = "";
             if (val!=255) {

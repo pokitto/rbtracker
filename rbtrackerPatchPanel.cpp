@@ -6,6 +6,52 @@
 #include "synth.h"
 
 
+void rbtrackerFrame::OnExportCPatchClick(wxCommandEvent& event)
+{
+    wxString defname;
+    defname = InstName->GetValue();
+    defname.Append(wxT(".c"));
+    ExportPatchDialog->SetFilename(defname);
+    int dlg=ExportPatchDialog->ShowModal();
+
+    if(dlg==wxID_OK)
+    {
+        defname = ExportPatchDialog->GetPath();
+        wxTextFile file(defname);
+        if(file.Exists()) file.Open(defname); else file.Create(defname);
+
+        file.Clear();
+        file.AddLine( (wxString)"// Rboy Tracker patch .c export file");
+        file.AddLine( (wxString)"#include <Arduino.h>");
+        file.AddLine( (wxString)"#include <patches.h>");
+        file.AddLine( (wxString)"");
+        wxString temp;
+        temp << "// " << Patch->GetValue() << " " << InstName->GetValue();
+        file.AddLine(temp);
+        temp = "const prog_uchar ";
+        temp << InstName->GetValue() << "[13] PROGMEM = {";
+        file.AddLine(temp);
+        exportPatchToFile(file);
+        file.AddLine( (wxString)"};");
+        wxRemoveFile(defname);
+        file.Create(defname);
+
+        file.Write();
+        file.Close();
+    }
+}
+
+void rbtrackerFrame::OnKickClick(wxCommandEvent& event)
+{
+    int i = Patch->GetValue();
+    patch[i].kick = Kick->GetValue();
+}
+
+void rbtrackerFrame::OnOverdriveClick(wxCommandEvent& event)
+{
+    int i = Patch->GetValue();
+    patch[i].overdrive = Overdrive->GetValue();
+}
 
 void rbtrackerFrame::OnInstNameTextEnter(wxCommandEvent& event)
 {
@@ -91,6 +137,8 @@ void rbtrackerFrame::setPatch(int i)
     patch[i].sustain = Sustain->GetValue()<<8; // sustain is a volume level, not a rate
     patch[i].release = Release->GetValue();
     patch[i].arpmode = ArpMode->GetSelection();
+    patch[i].overdrive = Overdrive->GetValue();
+    patch[i].kick = Kick->GetValue();
 }
 
 void rbtrackerFrame::getPatch(int i) {

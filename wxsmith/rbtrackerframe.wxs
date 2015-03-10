@@ -3,226 +3,146 @@
 	<object class="wxFrame" name="rbtrackerFrame">
 		<title>Rboy Tracker - Copyright 2014 Jonne Valola</title>
 		<centered>1</centered>
-		<size>824,640</size>
-		<bg>wxSYS_COLOUR_GRADIENTACTIVECAPTION</bg>
+		<icon>aaa_rbticon.ico</icon>
+		<size>840,680</size>
+		<bg>wxSYS_COLOUR_3DDKSHADOW</bg>
 		<minsize>-1,-1</minsize>
 		<maxsize>-1,-1</maxsize>
 		<id_arg>0</id_arg>
 		<object class="wxPanel" name="ID_PANEL4" variable="Panel1" member="yes">
-			<pos>8,8</pos>
-			<size>304,240</size>
+			<pos>16,8</pos>
+			<size>306,278</size>
 			<bg>wxSYS_COLOUR_MENU</bg>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
-			<handler function="OnPanel1Paint" entry="EVT_PAINT" />
+			<object class="wxStaticBitmap" name="ID_STATICBITMAP1" variable="StaticBitmap1" member="yes">
+				<bitmap>rbtrackerlgreen2.png</bitmap>
+				<pos>1,0</pos>
+				<style>0</style>
+			</object>
 			<object class="wxButton" name="ID_BUTTON5" variable="PlaySong" member="yes">
 				<label>Play SONG</label>
-				<pos>8,8</pos>
-				<size>71,23</size>
+				<pos>8,72</pos>
+				<size>100,32</size>
 				<handler function="OnPlaySongClick" entry="EVT_BUTTON" />
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
-				<label>PATTERN</label>
-				<pos>168,144</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText17" member="yes">
-				<label>POSITION</label>
-				<pos>96,144</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT13" variable="StaticText13" member="yes">
 				<label>OCTAVE</label>
-				<pos>96,184</pos>
+				<pos>144,200</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL18" variable="Octave" member="yes">
 				<value>3</value>
 				<max>7</max>
-				<pos>96,200</pos>
+				<pos>248,200</pos>
 				<size>49,21</size>
-			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="Position" member="yes">
-				<value>0</value>
-				<max>63</max>
-				<pos>96,160</pos>
-				<size>49,21</size>
-			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL13" variable="Pattern" member="yes">
-				<value>1</value>
-				<min>1</min>
-				<max>10</max>
-				<pos>168,160</pos>
-				<size>49,21</size>
-			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="Ch1" member="yes">
-				<label>Track 1</label>
-				<checked>1</checked>
-				<pos>88,16</pos>
-				<handler function="OnCh1Click" entry="EVT_CHECKBOX" />
-			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="Ch3" member="yes">
-				<label>Track 3</label>
-				<checked>1</checked>
-				<pos>232,16</pos>
-				<handler function="OnCh3Click" entry="EVT_CHECKBOX" />
-			</object>
-			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="Ch2" member="yes">
-				<label>Track 2</label>
-				<checked>1</checked>
-				<pos>160,16</pos>
-				<handler function="OnCh2Click" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT19" variable="StaticText19" member="yes">
-				<label>PATCHES</label>
-				<pos>240,184</pos>
+				<label>PATCHES USED</label>
+				<pos>144,168</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL15" variable="NumInstruments" member="yes">
-				<value>1</value>
+				<value>5</value>
 				<min>1</min>
 				<max>15</max>
-				<pos>240,200</pos>
+				<pos>248,168</pos>
 				<size>50,21</size>
 			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
-				<label>LOOP AT</label>
-				<pos>240,144</pos>
-			</object>
-			<object class="wxSpinCtrl" name="ID_SPINCTRL16" variable="NumPatterns" member="yes">
-				<value>1</value>
-				<min>1</min>
-				<max>10</max>
-				<pos>240,160</pos>
-				<size>49,21</size>
+			<object class="wxStaticText" name="ID_STATICTEXT6" variable="StaticText4" member="yes">
+				<label>BPM</label>
+				<pos>144,224</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT15" variable="StaticText15" member="yes">
-				<label>BPM</label>
-				<pos>168,184</pos>
+				<label>ROW JUMPING</label>
+				<pos>144,248</pos>
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL13" variable="RowJump" member="yes">
+				<value>0</value>
+				<max>16</max>
+				<pos>248,248</pos>
+				<size>49,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Tempo" member="yes">
-				<value>120</value>
+				<value>230</value>
 				<min>1</min>
 				<max>300</max>
-				<pos>168,200</pos>
+				<pos>248,224</pos>
 				<size>49,21</size>
 			</object>
 			<object class="wxButton" name="ID_BUTTON3" variable="SaveSongBtn" member="yes">
 				<label>SAVE AS...</label>
-				<pos>8,40</pos>
-				<size>72,23</size>
+				<pos>10,128</pos>
+				<size>100,23</size>
 				<handler function="OnSaveSongBtnClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON4" variable="LoadSongBtn" member="yes">
 				<label>LOAD</label>
-				<pos>8,64</pos>
-				<size>72,23</size>
+				<pos>10,160</pos>
+				<size>100,23</size>
 				<handler function="OnLoadSongBtnClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON13" variable="Button5" member="yes">
+			<object class="wxButton" name="ID_BUTTON13" variable="NewSong" member="yes">
 				<label>NEW SONG</label>
-				<pos>8,88</pos>
-				<size>71,23</size>
+				<pos>10,208</pos>
+				<size>100,23</size>
+				<handler function="OnNewSongClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON14" variable="Button6" member="yes">
-				<label>Copy PTN</label>
-				<pos>8,152</pos>
-				<size>71,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON1" variable="Button1" member="yes">
-				<label>Paste PTN</label>
-				<pos>8,176</pos>
-				<size>71,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON6" variable="Button4" member="yes">
+			<object class="wxButton" name="ID_BUTTON6" variable="ExportCSong" member="yes">
 				<label>EXPORT .C</label>
-				<pos>8,112</pos>
-				<size>72,23</size>
+				<pos>10,240</pos>
+				<size>100,23</size>
+				<handler function="OnExportCSongClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON2" variable="CopyTr1" member="yes">
-				<label>Copy Tr1</label>
-				<pos>88,40</pos>
-				<size>63,23</size>
+			<object class="wxStaticText" name="ID_STATICTEXT18" variable="StaticText18" member="yes">
+				<label>BLOCKS USED</label>
+				<pos>144,144</pos>
+				<style>wxALIGN_LEFT</style>
 			</object>
-			<object class="wxButton" name="ID_BUTTON12" variable="CopyTr3" member="yes">
-				<label>Copy Tr3</label>
-				<pos>232,40</pos>
-				<size>63,23</size>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL4" variable="NumBlocks" member="yes">
+				<value>3</value>
+				<min>1</min>
+				<max>10</max>
+				<pos>248,144</pos>
+				<size>49,21</size>
+				<handler function="OnPatternChange" entry="EVT_SPINCTRL" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON10" variable="CopyTr2" member="yes">
-				<label>Copy Tr2</label>
-				<pos>160,40</pos>
-				<size>63,23</size>
+			<object class="wxStaticText" name="ID_STATICTEXT11" variable="StaticText5" member="yes">
+				<label>SONG POSITION</label>
+				<pos>144,64</pos>
 			</object>
-			<object class="wxButton" name="ID_BUTTON18" variable="Button2" member="yes">
-				<label>Paste Tr1</label>
-				<pos>88,64</pos>
-				<size>63,23</size>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL17" variable="Position" member="yes">
+				<value>0</value>
+				<max>9</max>
+				<pos>248,64</pos>
+				<size>49,21</size>
+				<handler function="OnPositionChange" entry="EVT_SPINCTRL" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON19" variable="Button3" member="yes">
-				<label>Paste Tr1</label>
-				<pos>232,64</pos>
-				<size>63,23</size>
+			<object class="wxStaticText" name="ID_STATICTEXT22" variable="StaticText17" member="yes">
+				<label>LAST PATTERN</label>
+				<pos>144,88</pos>
+				<style>wxALIGN_RIGHT</style>
 			</object>
-			<object class="wxButton" name="ID_BUTTON11" variable="PastePtn" member="yes">
-				<label>Paste Tr1</label>
-				<pos>160,64</pos>
-				<size>63,23</size>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL16" variable="SongLength" member="yes">
+				<value>0</value>
+				<max>9</max>
+				<pos>248,88</pos>
+				<size>49,21</size>
+				<handler function="OnSongLengthChange" entry="EVT_SPINCTRL" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON20" variable="Button11" member="yes">
-				<label>Clear Tr1</label>
-				<pos>88,88</pos>
-				<size>63,23</size>
+			<object class="wxStaticText" name="ID_STATICTEXT16" variable="StaticText16" member="yes">
+				<label>LOOP TO</label>
+				<pos>144,112</pos>
 			</object>
-			<object class="wxButton" name="ID_BUTTON21" variable="Button12" member="yes">
-				<label>Clear Tr1</label>
-				<pos>160,88</pos>
-				<size>63,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON15" variable="Button8" member="yes">
-				<label>Clear Tr1</label>
-				<pos>232,88</pos>
-				<size>63,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON22" variable="Button13" member="yes">
-				<label>/\\</label>
-				<pos>88,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON25" variable="Button16" member="yes">
-				<label>/\\</label>
-				<pos>160,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON17" variable="Button10" member="yes">
-				<label>/\\</label>
-				<pos>232,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON23" variable="Button14" member="yes">
-				<label>\\/</label>
-				<pos>120,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON26" variable="Button17" member="yes">
-				<label>\\/</label>
-				<pos>192,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON16" variable="Button9" member="yes">
-				<label>\\/</label>
-				<pos>264,112</pos>
-				<size>31,23</size>
-			</object>
-			<object class="wxButton" name="ID_BUTTON27" variable="Button18" member="yes">
-				<label>Clear PTN</label>
-				<pos>8,200</pos>
-				<size>71,23</size>
-			</object>
-			<object class="wxStaticLine" name="ID_STATICLINE1" variable="StaticLine1" member="yes">
-				<pos>83,8</pos>
-				<size>1,225</size>
-				<style>wxLI_VERTICAL</style>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL20" variable="LoopTo" member="yes">
+				<value>0</value>
+				<min>-1</min>
+				<max>9</max>
+				<pos>248,112</pos>
+				<size>49,21</size>
+				<handler function="OnLoopToChange" entry="EVT_SPINCTRL" />
 			</object>
 		</object>
 		<object class="wxPanel" name="ID_PANEL1" variable="Instrument" member="yes">
-			<pos>8,256</pos>
-			<size>304,360</size>
+			<pos>16,296</pos>
+			<size>306,322</size>
 			<bg>wxSYS_COLOUR_MENU</bg>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
 			<object class="wxRadioBox" name="ID_RADIOBOX1" variable="Wave" member="yes">
@@ -265,7 +185,7 @@
 				<handler function="OnPatchChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT2" variable="StaticText2" member="yes">
-				<label>Patch</label>
+				<label>Patch #</label>
 				<pos>8,8</pos>
 				<size>64,24</size>
 			</object>
@@ -290,26 +210,27 @@
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="Loop" member="yes">
 				<label>Loop</label>
-				<pos>16,216</pos>
+				<pos>16,184</pos>
 				<handler function="OnLoopClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="Echo" member="yes">
 				<label>Echo</label>
-				<pos>16,240</pos>
+				<pos>16,208</pos>
 				<handler function="OnEchoClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
-				<label>Arpeggio mode</label>
+				<label>Arp modes</label>
 				<pos>144,144</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="asdff" member="yes">
-				<label>Vibrato rate</label>
+				<label>Transpose</label>
 				<pos>144,120</pos>
+				<enabled>0</enabled>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="MaxBend" member="yes">
 				<value>0</value>
-				<min>-30000</min>
-				<max>30000</max>
+				<min>-6000</min>
+				<max>6000</max>
 				<pos>232,96</pos>
 				<size>64,21</size>
 				<handler function="OnPitchBendChange" entry="EVT_SPINCTRL" />
@@ -320,62 +241,59 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="VibRate" member="yes">
 				<value>0</value>
-				<max>255</max>
+				<max>12</max>
 				<pos>232,120</pos>
 				<size>64,21</size>
+				<enabled>0</enabled>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText1" member="yes">
 				<label>Attack</label>
-				<pos>144,216</pos>
-			</object>
-			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
-				<label>Effects</label>
-				<pos>16,184</pos>
+				<pos>144,184</pos>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="ADSR" member="yes">
 				<label>ADSR</label>
-				<pos>88,216</pos>
+				<pos>88,184</pos>
 				<handler function="OnADSRClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="Attack" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,216</pos>
+				<pos>232,184</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="Decay" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,240</pos>
+				<pos>232,208</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Sustain" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,264</pos>
+				<pos>232,232</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="Release" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,288</pos>
+				<pos>232,256</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Decay</label>
-				<pos>144,240</pos>
+				<pos>144,208</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 				<label>Sustain</label>
-				<pos>144,264</pos>
+				<pos>144,232</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Release</label>
-				<pos>144,288</pos>
+				<pos>144,256</pos>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE1" variable="ArpMode" member="yes">
 				<content>
@@ -386,6 +304,15 @@
 					<item>m slow</item>
 					<item>m med</item>
 					<item>m fast</item>
+					<item>Vib 1 slow</item>
+					<item>Vib 1 med</item>
+					<item>Vib 1 fast</item>
+					<item>Oct slow</item>
+					<item>Oct med</item>
+					<item>Oct fast</item>
+					<item>Funk slo</item>
+					<item>Funk med</item>
+					<item>Funk fast</item>
 				</content>
 				<selection>0</selection>
 				<pos>232,145</pos>
@@ -393,34 +320,38 @@
 				<handler function="OnArpModeSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="Overdrive" member="yes">
-				<label>Overdrive X2</label>
-				<pos>16,264</pos>
+				<label>Distort X2</label>
+				<pos>16,232</pos>
+				<handler function="OnOverdriveClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="Kick" member="yes">
-				<label>Drum kick</label>
-				<pos>16,288</pos>
+				<label>Normalize to 50%</label>
+				<pos>16,256</pos>
+				<handler function="OnKickClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON7" variable="SavePatchBtn" member="yes">
 				<label>SAVE AS...</label>
-				<pos>8,328</pos>
+				<pos>8,288</pos>
 				<size>63,23</size>
 				<handler function="OnSavePatchBtnClick" entry="EVT_BUTTON" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON8" variable="LoadPatchBtn" member="yes">
 				<label>LOAD</label>
-				<pos>80,328</pos>
+				<pos>80,288</pos>
 				<size>63,23</size>
 				<handler function="OnLoadPatchBtnClick" entry="EVT_BUTTON" />
 			</object>
-			<object class="wxButton" name="ID_BUTTON9" variable="Button7" member="yes">
+			<object class="wxButton" name="ID_BUTTON9" variable="ExportCPatch" member="yes">
 				<label>EXPORT .C</label>
-				<pos>152,328</pos>
+				<pos>152,288</pos>
 				<size>63,23</size>
+				<handler function="OnExportCPatchClick" entry="EVT_BUTTON" />
 			</object>
 		</object>
 		<object class="wxPanel" name="ID_PANEL2" variable="Tracks" member="yes">
-			<pos>328,8</pos>
-			<size>480,608</size>
+			<pos>336,8</pos>
+			<size>480,610</size>
+			<bg>wxSYS_COLOUR_MENU</bg>
 			<style>wxSIMPLE_BORDER|wxTAB_TRAVERSAL</style>
 			<handler function="OnTracksKeyDown" entry="EVT_KEY_DOWN" />
 			<object class="wxGrid" name="ID_GRID1" variable="Grid" member="yes">
@@ -443,14 +374,68 @@
 				<celltext>
 					<item>--- 00</item>
 				</celltext>
-				<pos>0,0</pos>
-				<size>472,595</size>
+				<pos>4,32</pos>
+				<size>472,563</size>
 				<font>
 					<size>10</size>
 					<weight>bold</weight>
 					<family>teletype</family>
 				</font>
 				<handler function="OnGrid1CellLeftClick" entry="EVT_CMD_GRID_CELL_LEFT_CLICK" />
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL12" variable="Block1" member="yes">
+				<value>0</value>
+				<max>29</max>
+				<pos>112,8</pos>
+				<size>49,21</size>
+				<handler function="OnBlock1Change" entry="EVT_SPINCTRL" />
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL11" variable="Block2" member="yes">
+				<value>1</value>
+				<max>29</max>
+				<pos>264,8</pos>
+				<size>49,21</size>
+				<handler function="OnBlock2Change" entry="EVT_SPINCTRL" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT20" variable="StaticText14" member="yes">
+				<label>Block</label>
+				<pos>80,8</pos>
+				<style>wxALIGN_RIGHT</style>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT17" variable="StaticText11" member="yes">
+				<label>Block</label>
+				<pos>232,8</pos>
+				<style>wxALIGN_RIGHT</style>
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT14" variable="StaticText6" member="yes">
+				<label>Block</label>
+				<pos>376,8</pos>
+				<style>wxALIGN_RIGHT</style>
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX5" variable="Ch1" member="yes">
+				<label>ON</label>
+				<checked>1</checked>
+				<pos>32,16</pos>
+				<handler function="OnCh1Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX4" variable="Ch2" member="yes">
+				<label>ON</label>
+				<checked>1</checked>
+				<pos>176,16</pos>
+				<handler function="OnCh2Click" entry="EVT_CHECKBOX" />
+			</object>
+			<object class="wxSpinCtrl" name="ID_SPINCTRL19" variable="Block3" member="yes">
+				<value>2</value>
+				<max>29</max>
+				<pos>408,8</pos>
+				<size>49,21</size>
+				<handler function="OnBlock3Change" entry="EVT_SPINCTRL" />
+			</object>
+			<object class="wxCheckBox" name="ID_CHECKBOX6" variable="Ch3" member="yes">
+				<label>ON</label>
+				<checked>1</checked>
+				<pos>328,16</pos>
+				<handler function="OnCh3Click" entry="EVT_CHECKBOX" />
 			</object>
 		</object>
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
@@ -492,6 +477,25 @@
 			<message>Load patch</message>
 			<wildcard>Rbtracker patch | *.rbp;</wildcard>
 			<style>wxFD_DEFAULT_STYLE|wxFD_OPEN</style>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
+			<fields>1</fields>
+			<widths>-10</widths>
+			<styles>wxSB_NORMAL</styles>
+		</object>
+		<object class="wxMessageDialog" name="ID_MESSAGEDIALOG1" variable="NewSongDialog" member="yes">
+			<caption>New song</caption>
+			<message>Wipe current song and start a new one ?</message>
+		</object>
+		<object class="wxFileDialog" variable="ExportPatchDialog" member="yes">
+			<message>Export patch as .c file</message>
+			<wildcard>.C file | *.c;</wildcard>
+			<style>wxFD_SAVE|wxFD_OVERWRITE_PROMPT</style>
+		</object>
+		<object class="wxFileDialog" variable="ExportSongDialog" member="yes">
+			<message>Export song as .C file</message>
+			<wildcard>.C file | *.c;</wildcard>
+			<style>wxFD_SAVE|wxFD_OVERWRITE_PROMPT</style>
 		</object>
 	</object>
 </wxsmith>

@@ -1,4 +1,13 @@
-1) add possibility of multiple patterns
+1) add possibility of multiple patterns -OK
+1.1) putting patterns in seq. positions - OK
+1.2) storing sequence positions in file - OK
+1.3) reading sequence positions from file - OK
+
+Missing:
+-store and retrieve end and loop block info - OK
+-store patch 1 name as soon as it is written - OK
+-add version as a floating number - OK
+
 2) make storing song as C structure possible
 3) fix the missing support for tracks - OK
 4) make echo work - OK
@@ -7,7 +16,12 @@
 7) add drum kick feature
 8) make arpeggio work - OK
 9) pack options into options bits
-10) add transpose
-11) make notes different colour according to instrument
-12) add editable mode for pattern
-
+10) add transpose - OK
+11) make notes different colour according to instrument - NA
+12) add editable mode for pattern, copy paste etc - OK
+13) NEW song button - OK
+14) jump after entry - option - OK
+15) backspace move pattern -option - OK
+16) pgup pgdwn home - OK
+17) wipe on shift key must be removed - OK
+18) insert move track down - OK
