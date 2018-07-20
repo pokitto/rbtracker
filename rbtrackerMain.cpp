@@ -15,8 +15,8 @@
 #include <wx/icon.h>
 #include "led.h"
 #include "Synth.h"
-#include "oscillator.h"
 #include "utilities.h"
+#include "SimSound.h"
 
 //(*InternalHeaders(rbtrackerFrame)
 #include <wx/bitmap.h>
@@ -115,6 +115,8 @@ const long rbtrackerFrame::ID_CHECKBOX7 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON7 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON8 = wxNewId();
 const long rbtrackerFrame::ID_BUTTON9 = wxNewId();
+const long rbtrackerFrame::ID_STATICTEXT7 = wxNewId();
+const long rbtrackerFrame::ID_CHOICE2 = wxNewId();
 const long rbtrackerFrame::ID_PANEL1 = wxNewId();
 const long rbtrackerFrame::ID_GRID1 = wxNewId();
 const long rbtrackerFrame::ID_SPINCTRL12 = wxNewId();
@@ -147,7 +149,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     wxMenuBar* MenuBar1;
     wxMenu* Menu2;
 
-    Create(parent, wxID_ANY, _("Rboy Tracker - Copyright 2014 Jonne Valola"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+    Create(parent, wxID_ANY, _("Rboy Tracker - Copyright 2014-2018 Jonne Valola"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
     SetClientSize(wxSize(840,680));
     SetMinSize(wxSize(-1,-1));
     SetMaxSize(wxSize(-1,-1));
@@ -171,8 +173,8 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     StaticText15 = new wxStaticText(Panel1, ID_STATICTEXT15, _("ROW JUMPING"), wxPoint(144,248), wxDefaultSize, 0, _T("ID_STATICTEXT15"));
     RowJump = new wxSpinCtrl(Panel1, ID_SPINCTRL13, _T("0"), wxPoint(248,248), wxSize(49,21), 0, 0, 16, 0, _T("ID_SPINCTRL13"));
     RowJump->SetValue(_T("0"));
-    Tempo = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("230"), wxPoint(248,224), wxSize(49,21), 0, 1, 300, 230, _T("ID_SPINCTRL14"));
-    Tempo->SetValue(_T("230"));
+    Tempo = new wxSpinCtrl(Panel1, ID_SPINCTRL14, _T("120"), wxPoint(248,224), wxSize(49,21), 0, 1, 300, 120, _T("ID_SPINCTRL14"));
+    Tempo->SetValue(_T("120"));
     SaveSongBtn = new wxButton(Panel1, ID_BUTTON3, _("SAVE AS..."), wxPoint(10,128), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON3"));
     LoadSongBtn = new wxButton(Panel1, ID_BUTTON4, _("LOAD"), wxPoint(10,160), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON4"));
     NewSong = new wxButton(Panel1, ID_BUTTON13, _("NEW SONG"), wxPoint(10,208), wxSize(100,23), 0, wxDefaultValidator, _T("ID_BUTTON13"));
@@ -202,7 +204,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     };
     Wave = new wxRadioBox(Instrument, ID_RADIOBOX1, wxEmptyString, wxPoint(10,24), wxSize(128,151), 6, __wxRadioBoxChoices_1, 1, wxNO_BORDER, wxDefaultValidator, _T("ID_RADIOBOX1"));
     Wave->SetSelection(1);
-    BendRate = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,72), wxSize(64,21), 0, -1000, 1000, 0, _T("ID_SPINCTRL2"));
+    BendRate = new wxSpinCtrl(Instrument, ID_SPINCTRL2, _T("0"), wxPoint(232,64), wxSize(64,21), 0, -100, 100, 0, _T("ID_SPINCTRL2"));
     BendRate->SetValue(_T("0"));
     InstVol = new wxSpinCtrl(Instrument, ID_SPINCTRL3, _T("127"), wxPoint(232,40), wxSize(64,21), 0, 0, 300, 127, _T("ID_SPINCTRL3"));
     InstVol->SetValue(_T("127"));
@@ -210,37 +212,37 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Patch->SetValue(_T("1"));
     StaticText2 = new wxStaticText(Instrument, ID_STATICTEXT2, _("Patch #"), wxPoint(8,8), wxSize(64,24), 0, _T("ID_STATICTEXT2"));
     StaticText3 = new wxStaticText(Instrument, ID_STATICTEXT3, _("Volume"), wxPoint(144,40), wxSize(64,16), 0, _T("ID_STATICTEXT3"));
-    Pitchbendrate = new wxStaticText(Instrument, ID_STATICTEXT1, _("Pitch bend rate"), wxPoint(144,72), wxSize(87,16), 0, _T("ID_STATICTEXT1"));
+    Pitchbendrate = new wxStaticText(Instrument, ID_STATICTEXT1, _("Pitch bend rate"), wxPoint(144,64), wxSize(87,16), 0, _T("ID_STATICTEXT1"));
     InstName = new wxTextCtrl(Instrument, ID_TEXTCTRL1, _("Patchname"), wxPoint(144,8), wxSize(152,24), wxTE_NO_VSCROLL, wxDefaultValidator, _T("ID_TEXTCTRL1"));
     InstName->SetMaxLength(20);
-    Loop = new wxCheckBox(Instrument, ID_CHECKBOX1, _("Loop"), wxPoint(16,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
+    Loop = new wxCheckBox(Instrument, ID_CHECKBOX1, _("Loop"), wxPoint(16,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX1"));
     Loop->SetValue(false);
-    Echo = new wxCheckBox(Instrument, ID_CHECKBOX2, _("Echo"), wxPoint(16,208), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
+    Echo = new wxCheckBox(Instrument, ID_CHECKBOX2, _("Echo"), wxPoint(16,216), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX2"));
     Echo->SetValue(false);
-    StaticText12 = new wxStaticText(Instrument, ID_STATICTEXT12, _("Arp modes"), wxPoint(144,144), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
-    asdff = new wxStaticText(Instrument, ID_STATICTEXT5, _("Transpose"), wxPoint(144,120), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
+    StaticText12 = new wxStaticText(Instrument, ID_STATICTEXT12, _("Arp mode"), wxPoint(144,136), wxDefaultSize, 0, _T("ID_STATICTEXT12"));
+    asdff = new wxStaticText(Instrument, ID_STATICTEXT5, _("Transpose"), wxPoint(144,112), wxDefaultSize, 0, _T("ID_STATICTEXT5"));
     asdff->Disable();
-    MaxBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,96), wxSize(64,21), 0, -6000, 6000, 0, _T("ID_SPINCTRL5"));
+    MaxBend = new wxSpinCtrl(Instrument, ID_SPINCTRL5, _T("0"), wxPoint(232,88), wxSize(64,21), 0, -99, 199, 0, _T("ID_SPINCTRL5"));
     MaxBend->SetValue(_T("0"));
-    StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend max"), wxPoint(144,96), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
-    VibRate = new wxSpinCtrl(Instrument, ID_SPINCTRL6, _T("0"), wxPoint(232,120), wxSize(64,21), 0, 0, 12, 0, _T("ID_SPINCTRL6"));
+    StaticText21 = new wxStaticText(Instrument, ID_STATICTEXT21, _("Pitch bend max"), wxPoint(144,88), wxDefaultSize, 0, _T("ID_STATICTEXT21"));
+    VibRate = new wxSpinCtrl(Instrument, ID_SPINCTRL6, _T("0"), wxPoint(232,112), wxSize(64,21), 0, 0, 12, 0, _T("ID_SPINCTRL6"));
     VibRate->SetValue(_T("0"));
     VibRate->Disable();
-    StaticText1 = new wxStaticText(Instrument, ID_STATICTEXT4, _("Attack"), wxPoint(144,184), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
-    ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(88,184), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
+    StaticText1 = new wxStaticText(Instrument, ID_STATICTEXT4, _("Attack"), wxPoint(144,192), wxDefaultSize, 0, _T("ID_STATICTEXT4"));
+    ADSR = new wxCheckBox(Instrument, ID_CHECKBOX3, _("ADSR"), wxPoint(88,192), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX3"));
     ADSR->SetValue(false);
-    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,184), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
+    Attack = new wxSpinCtrl(Instrument, ID_SPINCTRL8, _T("0"), wxPoint(232,192), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL8"));
     Attack->SetValue(_T("0"));
-    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("0"), wxPoint(232,208), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL9"));
-    Decay->SetValue(_T("0"));
-    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("0"), wxPoint(232,232), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
+    Decay = new wxSpinCtrl(Instrument, ID_SPINCTRL9, _T("100"), wxPoint(232,216), wxSize(64,21), 0, 0, 255, 100, _T("ID_SPINCTRL9"));
+    Decay->SetValue(_T("100"));
+    Sustain = new wxSpinCtrl(Instrument, ID_SPINCTRL10, _T("0"), wxPoint(232,240), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL10"));
     Sustain->SetValue(_T("0"));
-    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("0"), wxPoint(232,256), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL7"));
+    Release = new wxSpinCtrl(Instrument, ID_SPINCTRL7, _T("0"), wxPoint(232,264), wxSize(64,21), 0, 0, 255, 0, _T("ID_SPINCTRL7"));
     Release->SetValue(_T("0"));
-    StaticText9 = new wxStaticText(Instrument, ID_STATICTEXT9, _("Decay"), wxPoint(144,208), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
-    StaticText10 = new wxStaticText(Instrument, ID_STATICTEXT10, _("Sustain"), wxPoint(144,232), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
-    StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(144,256), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
-    ArpMode = new wxChoice(Instrument, ID_CHOICE1, wxPoint(232,145), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
+    StaticText9 = new wxStaticText(Instrument, ID_STATICTEXT9, _("Decay"), wxPoint(144,216), wxDefaultSize, 0, _T("ID_STATICTEXT9"));
+    StaticText10 = new wxStaticText(Instrument, ID_STATICTEXT10, _("Sustain"), wxPoint(144,240), wxDefaultSize, 0, _T("ID_STATICTEXT10"));
+    StaticText8 = new wxStaticText(Instrument, ID_STATICTEXT8, _("Release"), wxPoint(144,264), wxDefaultSize, 0, _T("ID_STATICTEXT8"));
+    ArpMode = new wxChoice(Instrument, ID_CHOICE1, wxPoint(232,136), wxSize(64,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE1"));
     ArpMode->SetSelection( ArpMode->Append(_("OFF")) );
     ArpMode->Append(_("M slow"));
     ArpMode->Append(_("M med"));
@@ -257,18 +259,32 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     ArpMode->Append(_("Funk slo"));
     ArpMode->Append(_("Funk med"));
     ArpMode->Append(_("Funk fast"));
-    Overdrive = new wxCheckBox(Instrument, ID_CHECKBOX8, _("Distort X2"), wxPoint(16,232), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
+    Overdrive = new wxCheckBox(Instrument, ID_CHECKBOX8, _("Distort X2"), wxPoint(16,240), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX8"));
     Overdrive->SetValue(false);
-    Kick = new wxCheckBox(Instrument, ID_CHECKBOX7, _("Normalize to 50%"), wxPoint(16,256), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
+    Kick = new wxCheckBox(Instrument, ID_CHECKBOX7, _("Normalize to 50%"), wxPoint(16,264), wxDefaultSize, 0, wxDefaultValidator, _T("ID_CHECKBOX7"));
     Kick->SetValue(false);
     SavePatchBtn = new wxButton(Instrument, ID_BUTTON7, _("SAVE AS..."), wxPoint(8,288), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON7"));
     LoadPatchBtn = new wxButton(Instrument, ID_BUTTON8, _("LOAD"), wxPoint(80,288), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON8"));
     ExportCPatch = new wxButton(Instrument, ID_BUTTON9, _("EXPORT .C"), wxPoint(152,288), wxSize(63,23), 0, wxDefaultValidator, _T("ID_BUTTON9"));
+    StaticText7 = new wxStaticText(Instrument, ID_STATICTEXT7, _("Arp Key"), wxPoint(144,160), wxDefaultSize, 0, _T("ID_STATICTEXT7"));
+    ArpKey = new wxChoice(Instrument, ID_CHOICE2, wxPoint(232,160), wxSize(63,21), 0, 0, 0, wxDefaultValidator, _T("ID_CHOICE2"));
+    ArpKey->SetSelection( ArpKey->Append(_("C/Am")) );
+    ArpKey->Append(_("G/Em"));
+    ArpKey->Append(_("D/Bm"));
+    ArpKey->Append(_("A/F#m"));
+    ArpKey->Append(_("E/C#m"));
+    ArpKey->Append(_("B/G#m"));
+    ArpKey->Append(_("Gb/Ebm"));
+    ArpKey->Append(_("Db/Bbm"));
+    ArpKey->Append(_("Ab/Fm"));
+    ArpKey->Append(_("Eb/Cm"));
+    ArpKey->Append(_("Bb/Gm"));
+    ArpKey->Append(_("F/Dm"));
     Tracks = new wxPanel(this, ID_PANEL2, wxPoint(336,8), wxSize(480,610), wxSIMPLE_BORDER|wxTAB_TRAVERSAL, _T("ID_PANEL2"));
     Tracks->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_MENU));
     Grid = new wxGrid(Tracks, ID_GRID1, wxPoint(4,32), wxSize(472,563), 0, _T("ID_GRID1"));
     Grid->CreateGrid(64,3);
-    wxFont GridFont(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxBOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+    wxFont GridFont(10,wxFONTFAMILY_TELETYPE,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
     Grid->SetFont(GridFont);
     Grid->EnableEditing(true);
     Grid->EnableGridLines(true);
@@ -276,7 +292,7 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
     Grid->SetRowLabelSize(30);
     Grid->SetDefaultRowSize(17, true);
     Grid->SetDefaultColSize(140, true);
-    wxFont GridLabelFont_1(10,wxTELETYPE,wxFONTSTYLE_NORMAL,wxBOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+    wxFont GridLabelFont_1(10,wxFONTFAMILY_TELETYPE,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
     Grid->SetLabelFont(GridLabelFont_1);
     Grid->SetColLabelValue(0, _("Track 1"));
     Grid->SetColLabelValue(1, _("Track 2"));
@@ -395,9 +411,25 @@ rbtrackerFrame::rbtrackerFrame(wxWindow* parent,wxWindowID id)
 
     timer = new wxTimer(this, 1);
     Connect(wxEVT_TIMER, wxTimerEventHandler(rbtrackerFrame::OnTimer));
-    initSound();
-    startSound(); // sound is running all the time
+    soundInit();//initSound();
+    //startSound(); // sound is running all the time
     timer->Start(50);
+    // Clean up the song records
+    setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    setOSC(&osc3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+    playing=false;
+    emptySong();
+    emptyOscillators();
+    emptyBlocks();
+    emptyPatches();
+    playerpos=0; sequencepos =0;
+    for (int row =0; row<PATTERNLENGTH; row++) {
+        Grid->SetCellValue(row,0,wxString("--- 00 --"));
+        Grid->SetCellValue(row,1,wxString("--- 00 --"));
+        Grid->SetCellValue(row,2,wxString("--- 00 --"));
+    }
+    Grid->SelectRow(0,false);
 }
 
 rbtrackerFrame::~rbtrackerFrame()
@@ -411,7 +443,7 @@ rbtrackerFrame::~rbtrackerFrame()
 void rbtrackerFrame::OnQuit(wxCommandEvent& event)
 {
     timer->Stop();
-    terminateSound();
+    //terminateSound();
     Close();
 }
 
@@ -443,9 +475,9 @@ void rbtrackerFrame::OnTimer(wxTimerEvent& event)
             PlaySong->SetBackgroundColour(*wxGREEN);
         } else PlaySong->SetBackgroundColour(wxNullColour);
         wxString s;
-            s << "Notetick: " << notetick;
-            s << " Samples per tick: " << samplespertick;
-            s << " Stream time: " << getStreamTime() << " First sample time: " << getFirstSampleTime();
+            //s << "Notetick: " << notetick;
+            //s << " Samples per tick: " << samplespertick;
+            //s << " Stream time: " << getStreamTime() << " First sample time: " << getFirstSampleTime();
             SetStatusText(s);
 
         //timer->Start(-1,wxTIMER_ONE_SHOT);
@@ -454,15 +486,16 @@ void rbtrackerFrame::OnTimer(wxTimerEvent& event)
 void rbtrackerFrame::OnPlaySongClick(wxCommandEvent& event)
 {
     if (!playing) {
-        long per = 1000*60; // ms per minute was 1000*60
-        per /= Tempo->GetValue(); // beats per minute
-        per /= 4; // 4 ticks per beat
-        period = (uint16_t) per;
-        samplespertick = period*57;
+        samplespertick = (float)((60.0f/(float)Tempo->GetValue())*POK_AUD_FREQ)/16;
         samplesperpattern = samplespertick * 64;
         playerpos=0;
         sequencepos = Position->GetValue();
+        notetick = samplespertick; // Initiate samples per tick counter, force first SetOsc
+        //tick=3;
+        //instrumentsToPatches(); //load all instruments from wxwidgets to synth patches
+        //blocksetsToBlocks(); // DOES NOT WORK!!! check song blocks match those set in the wxwidgets
         playPtn();
+        playing = true;
 
     } else {
         // Zero all oscillators
@@ -778,11 +811,6 @@ void rbtrackerFrame::playPtn() {
     Grid->MakeCellVisible(0,0);
 }
 
-
-
-
-
-
 void rbtrackerFrame::OnNewSongClick(wxCommandEvent& event)
 {
     setOSC(&osc1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -805,4 +833,8 @@ void rbtrackerFrame::OnNewSongClick(wxCommandEvent& event)
     }
     Grid->SelectRow(0,false);
 
+}
+
+void rbtrackerFrame::OnTempoChange(wxSpinEvent& event)
+{
 }

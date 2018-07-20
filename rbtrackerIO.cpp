@@ -4,7 +4,7 @@
 #include <wx/filename.h>
 #include <wx/textfile.h>
 #include <wx/grid.h>
-#include "synth.h"
+#include "Synth.h"
 #include "utilities.h"
 
 void rbtrackerFrame::OnExportCSongClick(wxCommandEvent& event)
@@ -97,6 +97,8 @@ void rbtrackerFrame::OnExportCSongClick(wxCommandEvent& event)
 }
 
 
+
+
 void rbtrackerFrame::exportPatchToFile(wxTextFile &file)
 {
         file.AddLine(wxString::Format("%d, // Waveform ",Wave->GetSelection()));
@@ -130,6 +132,28 @@ void rbtrackerFrame::exportPatchToFile(wxTextFile &file)
         file.AddLine(wxString::Format("%d, // Sustain", Sustain->GetValue()));
         file.AddLine(wxString::Format("%d, // Release", Release->GetValue()));
 }
+
+void rbtrackerFrame::instrumentsToPatches()
+{
+   //make sure Synth song structure instruments match the wxwidgets values
+   for (int i=1; i<=15; i++) {
+                    Patch->SetValue(i);
+                    setPatch(i);
+                    //getPatch(i);
+  }
+}
+
+void rbtrackerFrame::blocksetsToBlocks()
+{
+   //make sure Synth song blocks match the wxwidgets values
+   for (int i=0; i<=10; i++) {
+                    Position->SetValue(i);
+                    song.block_sequence[0][i]=Block1->GetValue();
+                    song.block_sequence[1][i]=Block2->GetValue();
+                    song.block_sequence[2][i]=Block3->GetValue();
+  }
+}
+
 
 void rbtrackerFrame::OnSaveSongBtnClick(wxCommandEvent& event)
 {
@@ -389,10 +413,10 @@ void rbtrackerFrame::readBlocksFromFile(wxTextFile &file)
                     str = file.GetNextLine();
 
                     inst = wxAtoi(str.AfterLast((wxUniChar)','));
-                    block[i].instrument[j]=inst;
+                    block[i].instrument[j]=(uint8_t)inst;
                     str = str.BeforeLast((wxUniChar)','); //chop 1
                     val = wxAtoi(str.AfterLast((wxUniChar)','));
-                    block[i].notenumber[j]=val;
+                    block[i].notenumber[j]=(uint8_t)val;
                     str = str.BeforeLast((wxUniChar)','); //chop 2
             }
         }
@@ -416,6 +440,11 @@ void rbtrackerFrame::readPatternFromFile(wxTextFile &file)
 
             iText = "";
             if (val!=255) {
+                    if (val>88) {
+                        while(1){
+                            iText="";
+                        }; //error!
+                    }
                     iText.Append(NoteNames[val]);
                     iText.Append(" ");
                     if (inst<10) iText.Append(wxString::Format("0%d",inst));

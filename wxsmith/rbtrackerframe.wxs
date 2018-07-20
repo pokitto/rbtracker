@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<object class="wxFrame" name="rbtrackerFrame">
-		<title>Rboy Tracker - Copyright 2014 Jonne Valola</title>
+		<title>Rboy Tracker - Copyright 2014-2018 Jonne Valola</title>
 		<centered>1</centered>
 		<icon>aaa_rbticon.ico</icon>
 		<size>840,680</size>
@@ -61,7 +61,7 @@
 				<size>49,21</size>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL14" variable="Tempo" member="yes">
-				<value>230</value>
+				<value>120</value>
 				<min>1</min>
 				<max>300</max>
 				<pos>248,224</pos>
@@ -163,9 +163,8 @@
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL2" variable="BendRate" member="yes">
 				<value>0</value>
-				<min>-1000</min>
-				<max>1000</max>
-				<pos>232,72</pos>
+				<min>-100</min>
+				<pos>232,64</pos>
 				<size>64,21</size>
 				<handler function="OnInstTuneChange" entry="EVT_SPINCTRL" />
 			</object>
@@ -196,7 +195,7 @@
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT1" variable="Pitchbendrate" member="yes">
 				<label>Pitch bend rate</label>
-				<pos>144,72</pos>
+				<pos>144,64</pos>
 				<size>87,16</size>
 			</object>
 			<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="InstName" member="yes">
@@ -210,90 +209,90 @@
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX1" variable="Loop" member="yes">
 				<label>Loop</label>
-				<pos>16,184</pos>
+				<pos>16,192</pos>
 				<handler function="OnLoopClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX2" variable="Echo" member="yes">
 				<label>Echo</label>
-				<pos>16,208</pos>
+				<pos>16,216</pos>
 				<handler function="OnEchoClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT12" variable="StaticText12" member="yes">
-				<label>Arp modes</label>
-				<pos>144,144</pos>
+				<label>Arp mode</label>
+				<pos>144,136</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT5" variable="asdff" member="yes">
 				<label>Transpose</label>
-				<pos>144,120</pos>
+				<pos>144,112</pos>
 				<enabled>0</enabled>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL5" variable="MaxBend" member="yes">
 				<value>0</value>
-				<min>-6000</min>
-				<max>6000</max>
-				<pos>232,96</pos>
+				<min>-99</min>
+				<max>199</max>
+				<pos>232,88</pos>
 				<size>64,21</size>
 				<handler function="OnPitchBendChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT21" variable="StaticText21" member="yes">
 				<label>Pitch bend max</label>
-				<pos>144,96</pos>
+				<pos>144,88</pos>
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL6" variable="VibRate" member="yes">
 				<value>0</value>
 				<max>12</max>
-				<pos>232,120</pos>
+				<pos>232,112</pos>
 				<size>64,21</size>
 				<enabled>0</enabled>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT4" variable="StaticText1" member="yes">
 				<label>Attack</label>
-				<pos>144,184</pos>
+				<pos>144,192</pos>
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX3" variable="ADSR" member="yes">
 				<label>ADSR</label>
-				<pos>88,184</pos>
+				<pos>88,192</pos>
 				<handler function="OnADSRClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL8" variable="Attack" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,184</pos>
+				<pos>232,192</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL9" variable="Decay" member="yes">
-				<value>0</value>
+				<value>100</value>
 				<max>255</max>
-				<pos>232,208</pos>
+				<pos>232,216</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL10" variable="Sustain" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,232</pos>
+				<pos>232,240</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxSpinCtrl" name="ID_SPINCTRL7" variable="Release" member="yes">
 				<value>0</value>
 				<max>255</max>
-				<pos>232,256</pos>
+				<pos>232,264</pos>
 				<size>64,21</size>
 				<handler function="OnAttackChange" entry="EVT_SPINCTRL" />
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT9" variable="StaticText9" member="yes">
 				<label>Decay</label>
-				<pos>144,208</pos>
+				<pos>144,216</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT10" variable="StaticText10" member="yes">
 				<label>Sustain</label>
-				<pos>144,232</pos>
+				<pos>144,240</pos>
 			</object>
 			<object class="wxStaticText" name="ID_STATICTEXT8" variable="StaticText8" member="yes">
 				<label>Release</label>
-				<pos>144,256</pos>
+				<pos>144,264</pos>
 			</object>
 			<object class="wxChoice" name="ID_CHOICE1" variable="ArpMode" member="yes">
 				<content>
@@ -315,18 +314,18 @@
 					<item>Funk fast</item>
 				</content>
 				<selection>0</selection>
-				<pos>232,145</pos>
+				<pos>232,136</pos>
 				<size>64,21</size>
 				<handler function="OnArpModeSelect" entry="EVT_CHOICE" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX8" variable="Overdrive" member="yes">
 				<label>Distort X2</label>
-				<pos>16,232</pos>
+				<pos>16,240</pos>
 				<handler function="OnOverdriveClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxCheckBox" name="ID_CHECKBOX7" variable="Kick" member="yes">
 				<label>Normalize to 50%</label>
-				<pos>16,256</pos>
+				<pos>16,264</pos>
 				<handler function="OnKickClick" entry="EVT_CHECKBOX" />
 			</object>
 			<object class="wxButton" name="ID_BUTTON7" variable="SavePatchBtn" member="yes">
@@ -346,6 +345,29 @@
 				<pos>152,288</pos>
 				<size>63,23</size>
 				<handler function="OnExportCPatchClick" entry="EVT_BUTTON" />
+			</object>
+			<object class="wxStaticText" name="ID_STATICTEXT7" variable="StaticText7" member="yes">
+				<label>Arp Key</label>
+				<pos>144,160</pos>
+			</object>
+			<object class="wxChoice" name="ID_CHOICE2" variable="ArpKey" member="yes">
+				<content>
+					<item>C/Am</item>
+					<item>G/Em</item>
+					<item>D/Bm</item>
+					<item>A/F#m</item>
+					<item>E/C#m</item>
+					<item>B/G#m</item>
+					<item>Gb/Ebm</item>
+					<item>Db/Bbm</item>
+					<item>Ab/Fm</item>
+					<item>Eb/Cm</item>
+					<item>Bb/Gm</item>
+					<item>F/Dm</item>
+				</content>
+				<selection>0</selection>
+				<pos>232,160</pos>
+				<size>63,21</size>
 			</object>
 		</object>
 		<object class="wxPanel" name="ID_PANEL2" variable="Tracks" member="yes">

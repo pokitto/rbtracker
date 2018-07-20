@@ -6,6 +6,97 @@
 #include "synth.h"
 #include "Utilities.h"
 
+wxString NoteNames[] = {
+"B-0",  // 0 - NOTE_B0
+"C-1",  // 1 - NOTE_C1
+"C#1",  // 2 - NOTE_CS1
+"D-1",  // 3 - NOTE_D1
+"D#1",  // 4 - NOTE_DS1
+"E-1",  // 5 - NOTE_E1
+"F-1",  // 6 - NOTE_F1
+"F#1",  // 7 - NOTE_FS1
+"G-1",  // 8 - NOTE_G1
+"G#1",  // 9 - NOTE_GS1
+"A-1",  // 10 - NOTE_A1
+"A#1",  // 11 - NOTE_AS1
+"B-1",  // 12 - NOTE_B1
+"C-2",  // 13 - NOTE_C2
+"C#2",  // 14 - NOTE_CS2
+"D-2",  // 15 - NOTE_D2
+"D#2",  // 16 - NOTE_DS2
+"E-2",  // 17 - NOTE_E2
+"F-2",  // 18 - NOTE_F2
+"F#2",  // 19 - NOTE_FS2
+"G-2",  // 20 - NOTE_G2
+"G#2",  // 21 - NOTE_GS2
+"A-2",  // 22 - NOTE_A2
+"A#2",  // 23 - NOTE_AS2
+"B-2",  // 24 - NOTE_B2
+"C-3",  // 25 - NOTE_C3
+"C#3",  // 26 - NOTE_CS3
+"D-3",  // 27 - NOTE_D3
+"D#3",  // 28 - NOTE_DS3
+"E-3",  // 29 - NOTE_E3
+"F-3",  // 30 - NOTE_F3
+"F#3",  // 31 - NOTE_FS3
+"G-3",  // 32 - NOTE_G3
+"G#3",  // 33 - NOTE_GS3
+"A-3",  // 34 - NOTE_A3
+"A#3",  // 35 - NOTE_AS3
+"B-3",  // 36 - NOTE_B3
+"C-4",  // 37 - NOTE_C4
+"C#4",  // 38 - NOTE_CS4
+"D-4",  // 39 - NOTE_D4
+"D#4",  // 40 - NOTE_DS4
+"E-4",  // 41 - NOTE_E4
+"F-4",  // 42 - NOTE_F4
+"F#4",  // 43 - NOTE_FS4
+"G-4",  // 44 - NOTE_G4
+"G#4",  // 45 - NOTE_GS4
+"A-4",  // 46 - NOTE_A4
+"A#4",  // 47 - NOTE_AS4
+"B-4",  // 48 - NOTE_B4
+"C-5",  // 49 - NOTE_C5
+"C#5",  // 50 - NOTE_CS5
+"D-5",  // 51 - NOTE_D5
+"D#5",  // 52 - NOTE_DS5
+"E-5",  // 53 - NOTE_E5
+"F-5",  // 54 - NOTE_F5
+"F#5",  // 55 - NOTE_FS5
+"G-5",  // 56 - NOTE_G5
+"G#5",  // 57 - NOTE_GS5
+"A-5",  // 58 - NOTE_A5
+"A#5",  // 59 - NOTE_AS5
+"B-5",  // 60 - NOTE_B5
+"C-6",  // 61 - NOTE_C6
+"C#6",  // 62 - NOTE_CS6
+"D-6",  // 63 - NOTE_D6
+"D#6",  // 64 - NOTE_DS6
+"E-6",  // 65 - NOTE_E6
+"F-6",  // 66 - NOTE_F6
+"F#6",  // 67 - NOTE_FS6
+"G-6",  // 68 - NOTE_G6
+"G#6",  // 69 - NOTE_GS6
+"A-6",  // 70 - NOTE_A6
+"A#6",  // 71 - NOTE_AS6
+"B-6",  // 72 - NOTE_B6
+"C-7",  // 73 - NOTE_C7
+"C#7",  // 74 - NOTE_CS7
+"D-7",  // 75 - NOTE_D7
+"D#7",  // 76 - NOTE_DS7
+"E-7",  // 77 - NOTE_E7
+"F-7",  // 78 - NOTE_F7
+"F#7",  // 79 - NOTE_FS7
+"G-7",  // 80 - NOTE_G7
+"G#7",  // 81 - NOTE_GS7
+"A-7",  // 82 - NOTE_A7
+"A#7",  // 83 - NOTE_AS7
+"B-7",  // 84 - NOTE_B7
+"C-8",  // 85 - NOTE_C8
+"C#8",  // 86 - NOTE_CS8
+"D-8",  // 87 - NOTE_D8
+"D#8"  // 88 - NOTE_DS8
+};
 
 void rbtrackerFrame::copyToClipboard(int tc,int tr, int bc, int br)
 {

@@ -30,12 +30,13 @@
 
 #include <wx/timer.h>
 #include <wx/textfile.h>
-#include "oscillator.h"
+#include "Synth.h"
 
 extern wxString iNames[16];
 extern uint16_t instedited;
 extern BLOCK clipboard[3];
 extern int clipwidth, clipheight, cliprow, clipcol;
+extern wxString NoteNames[];
 
 class rbtrackerFrame: public wxFrame
 {
@@ -60,6 +61,8 @@ class rbtrackerFrame: public wxFrame
         void pasteFromClipboard(int,int);
         void transposeSelection(int);
         void exportPatchToFile(wxTextFile &);
+        void instrumentsToPatches();
+        void blocksetsToBlocks();
 
     private:
 
@@ -111,6 +114,7 @@ class rbtrackerFrame: public wxFrame
         void OnKickClick(wxCommandEvent& event);
         void OnExportCPatchClick(wxCommandEvent& event);
         void OnExportCSongClick(wxCommandEvent& event);
+        void OnTempoChange(wxSpinEvent& event);
         //*)
 
         //(*Identifiers(rbtrackerFrame)
@@ -167,6 +171,8 @@ class rbtrackerFrame: public wxFrame
         static const long ID_BUTTON7;
         static const long ID_BUTTON8;
         static const long ID_BUTTON9;
+        static const long ID_STATICTEXT7;
+        static const long ID_CHOICE2;
         static const long ID_PANEL1;
         static const long ID_GRID1;
         static const long ID_SPINCTRL12;
@@ -223,10 +229,12 @@ class rbtrackerFrame: public wxFrame
         wxButton* SavePatchBtn;
         wxSpinCtrl* NumInstruments;
         wxSpinCtrl* Patch;
+        wxChoice* ArpKey;
         wxSpinCtrl* Decay;
         wxCheckBox* Ch1;
         wxSpinCtrl* Block3;
         wxStaticText* StaticText5;
+        wxStaticText* StaticText7;
         wxButton* LoadPatchBtn;
         wxCheckBox* Kick;
         wxSpinCtrl* InstVol;

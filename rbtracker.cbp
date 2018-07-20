@@ -57,23 +57,39 @@
 			<Add option="-D__WXMSW__" />
 			<Add option="-DWXUSINGDLL" />
 			<Add option="-DwxUSE_UNICODE" />
+			<Add option="-DPOK_SIM" />
 			<Add directory="C:/wxWidgets/include" />
-			<Add directory="C:/dev/portaudio/include" />
+			<Add directory="C:/Pokittodev/rbtracker/Synth" />
+			<Add directory="SDL2/include" />
 		</Compiler>
 		<ResourceCompiler>
 			<Add directory="C:/wxWidgets-3.0.2/include" />
 		</ResourceCompiler>
 		<Linker>
-			<Add option="-mthreads" />
-			<Add library="C:/dev/portaudio/lib/.libs/libportaudio.dll.a" />
+			<Add library="SDLmain" />
+			<Add library="SDL2.dll" />
+			<Add library="user32" />
+			<Add library="gdi32" />
+			<Add directory="SDL2/lib" />
 			<Add directory="C:/wxWidgets/lib/gcc_dll" />
 		</Linker>
-		<Unit filename="Synth.cpp" />
-		<Unit filename="Synth.h" />
+		<Unit filename="My_settings.h" />
+		<Unit filename="SimSound.cpp" />
+		<Unit filename="SimSound.h" />
+		<Unit filename="Synth/Synth.cpp" />
+		<Unit filename="Synth/Synth.h" />
+		<Unit filename="Synth/Synth_envfuncs.cpp" />
+		<Unit filename="Synth/Synth_helpers.cpp" />
+		<Unit filename="Synth/Synth_mixfuncs.cpp" />
+		<Unit filename="Synth/Synth_osc.h" />
+		<Unit filename="Synth/Synth_oscfuncs.cpp" />
+		<Unit filename="Synth/Synth_song.h" />
+		<Unit filename="Synth/Synth_songfuncs.cpp" />
+		<Unit filename="Synth/Synth_wavefuncs.cpp" />
 		<Unit filename="UsefulCodeSnippets.txt" />
 		<Unit filename="fastdiv.cpp" />
 		<Unit filename="fastdiv.h" />
-		<Unit filename="oscillator.h" />
+		<Unit filename="notes.h" />
 		<Unit filename="rbtrackerApp.cpp" />
 		<Unit filename="rbtrackerApp.h" />
 		<Unit filename="rbtrackerIO.cpp" />
@@ -85,8 +101,7 @@
 			<Option compilerVar="WINDRES" />
 		</Unit>
 		<Unit filename="todo.txt" />
-		<Unit filename="utilities.cpp" />
-		<Unit filename="utilities.h" />
+		<Unit filename="utils.cpp" />
 		<Unit filename="wxKeyEventExample.txt" />
 		<Unit filename="wxTextFile example.txt" />
 		<Unit filename="wxsmith/rbtrackerframe.wxs" />
